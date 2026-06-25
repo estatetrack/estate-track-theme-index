@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .et-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: center; }
+  @media (min-width: 861px) { .et-media-left { order: -1; } }
+  .et-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-header > div { padding-top: 34px !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+    .et-team-grid { grid-template-columns: 1fr 1fr 1fr !important; }
+    .et-grid-3 { grid-template-columns: 1fr 1fr !important; }
+    .et-leaders { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 860px) { .et-split { grid-template-columns: 1fr !important; gap: var(--space-8) !important; } }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-team-grid { grid-template-columns: 1fr 1fr !important; gap: var(--space-4) !important; }
+    .et-grid-3 { grid-template-columns: 1fr !important; }
+    .et-join { flex-direction: column !important; align-items: flex-start !important; padding: var(--space-8) !important; }
+    .et-cta { flex-direction: column !important; align-items: flex-start !important; padding: var(--space-10) !important; }
+  }
+  /* ===== MOBILE STYLE GUIDE — titles + spacing ===== */
+  @media (max-width: 680px) {
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+    .et-tight-top { padding-top: var(--space-10) !important; }
+  }
+  /* mobile pass: sticky bottom CTA */
+  .et-mobile-cta { display: none; }
+  .et-cta-spacer { display: none; }
+  @media (max-width: 860px) {
+    .et-mobile-cta { display: flex !important; }
+    .et-cta-spacer { display: block; height: 80px; background: var(--color-primary); }
+  }
+  /* ===== transparent overlay header (opaque + sticky on scroll) ===== */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <!-- ============ TOPBAR ============ -->
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative;">
+            <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+              {{ branch }} branch
+              <span style="{{ branchChevronStyle }}">▾</span>
+            </button>
+            <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                  <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                    <span>{{ b.name }}</span>
+                    <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <span style="color: var(--color-border);">|</span>
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+        <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="#" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <div style="position: relative;" onMouseEnter="{{ openBuy }}" onMouseLeave="{{ closeBuy }}">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy<span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></a>
+          <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: 100%; left: 0; padding-top: 16px; z-index: 70;">
+              <div style="width: 660px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-8);">
+                <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ buyMega.kicker }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8);">
+                  <sc-for list="{{ buyMega.columns }}" as="col" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeBuy }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <a href="#" onClick="{{ closeBuy }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                    <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                    <div style="position: relative; padding: var(--space-5);">
+                      <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ buyMega.feature.tag }}</div>
+                      <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ buyMega.feature.title }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+        <a href="News Listings.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="Book a Valuation.dc.html" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+
+        <!-- DESKTOP MEGA MENU -->
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; display: flex; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="width: 600px; padding: var(--space-8); border-right: 1px solid var(--color-border); background: var(--color-bg);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ mega.kicker }}</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8); align-items: stretch;">
+                <sc-for list="{{ mega.columns }}" as="col" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <a href="#" onClick="{{ closeMenu }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 210px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                  <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                  <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                  <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                  <div style="position: relative; padding: var(--space-5);">
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ mega.feature.tag }}</div>
+                    <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ mega.feature.title }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div style="width: 280px; padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="7">
+                <a href="#" onMouseEnter="{{ it.onEnter }}" onClick="{{ it.onClick }}" style="{{ it.style }}">
+                  <span>{{ it.label }}</span>
+                  <sc-if value="{{ it.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></sc-if>
+                </a>
+              </sc-for>
+              <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+                <a href="tel:01242000000" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileItems }}" as="mi" hint-placeholder-count="7">
+          <div style="border-bottom: 1px solid var(--color-border);">
+            <sc-if value="{{ mi.simple }}" hint-placeholder-val="{{ true }}">
+              <a href="#" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+            </sc-if>
+            <sc-if value="{{ mi.dot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ mi.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; cursor: pointer; color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">
+                <span style="display: inline-flex; align-items: center; gap: 11px;">{{ mi.label }}<span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span></span>
+                <span style="font-size: var(--text-xl); color: var(--color-muted); font-family: var(--font-body);">+</span>
+              </button>
+              <sc-if value="{{ mi.open }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-5) var(--space-4);">
+                  <sc-for list="{{ mi.links }}" as="ml" hint-placeholder-count="5"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-base); color: var(--color-secondary); text-decoration: none;">{{ ml }}</a></sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+        <a href="tel:01242000000" style="color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+      </div>
+      <a href="Book a Valuation.dc.html" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 42%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 150px var(--space-8) var(--space-16); display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-16); flex-wrap: wrap;">
+      <div style="flex: 1 1 460px; min-width: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7; margin-bottom: var(--space-3);">{{ svc.breadcrumb }}</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); color: var(--color-on-primary); margin: 0 0 var(--space-4); line-height: var(--leading-tight); max-width: 18ch;">{{ svc.title }}</h1>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0; max-width: 56ch; line-height: var(--leading-body);">{{ svc.intro }}</p>
+      </div>
+      <!-- Hero stats (open, white) -->
+      <div class="et-hero-stats" style="flex: 0 0 auto; display: flex; gap: var(--space-10);">
+        <div style="max-width: 12ch;">
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: 56px; line-height: 0.95; color: var(--color-on-primary);">{{ svc.stat1num }}</div>
+          <div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.74; margin-top: 6px;">{{ svc.stat1label }}</div>
+        </div>
+        <div style="width: 1px; background: rgba(255,255,255,0.18);"></div>
+        <div style="max-width: 12ch;">
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: 56px; line-height: 0.95; color: var(--color-on-primary);">{{ svc.stat2num }}</div>
+          <div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.74; margin-top: 6px;">{{ svc.stat2label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE-DETAIL : intro split ============ -->
+  <section class="et-section et-tight-top et-tight-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-16) var(--space-8) var(--space-12);">
+    <div class="et-split">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-4);">{{ svc.detailKicker }}</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-5);">{{ svc.detailHeading }}</h2>
+        <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6); max-width: 52ch;">{{ svc.detailBody }}</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-8);">
+          <sc-for list="{{ svc.bullets }}" as="b" hint-placeholder-count="3">
+            <div style="display: flex; align-items: flex-start; gap: var(--space-3);"><span style="flex: none; margin-top: 3px; width: 22px; height: 22px; border-radius: var(--radius-full); background: color-mix(in oklch, var(--color-accent) 16%, transparent); display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-text);"><strong style="font-weight: 600;">{{ b.lead }}</strong> {{ b.rest }}</span></div>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+          <a href="{{ svc.primaryHref }}" style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 14px 28px; text-decoration: none; min-height: 48px;" style-hover="background: var(--color-accent-hover);">{{ svc.primaryLabel }}</a>
+          <a href="Branch Contact.dc.html" style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-primary); border-radius: var(--radius-full); padding: 13px 28px; text-decoration: none; min-height: 48px;" style-hover="background: var(--color-primary); color: var(--color-on-primary);">Talk to the team</a>
+        </div>
+      </div>
+      <div class="et-ph et-media-left" style="position: relative; min-height: 480px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+        <span style="position: absolute; bottom: var(--space-4); right: var(--space-5); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">{{ svc.mediaLabel }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE-DETAIL : secondary split (text left, image right, no buttons) ============ -->
+  <section class="et-section et-tight-top et-tight-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8) var(--space-16);">
+    <div class="et-split">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-4);">{{ svc.d2Kicker }}</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-5);">{{ svc.d2Heading }}</h2>
+        <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6); max-width: 52ch;">{{ svc.d2Body }}</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <sc-for list="{{ svc.d2Bullets }}" as="b" hint-placeholder-count="3">
+            <div style="display: flex; align-items: flex-start; gap: var(--space-3);"><span style="flex: none; margin-top: 3px; width: 22px; height: 22px; border-radius: var(--radius-full); background: color-mix(in oklch, var(--color-accent) 16%, transparent); display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-text);"><strong style="font-weight: 600;">{{ b.lead }}</strong> {{ b.rest }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+      <div class="et-ph" style="position: relative; min-height: 480px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+        <span style="position: absolute; bottom: var(--space-4); right: var(--space-5); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">{{ svc.d2Media }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE-DETAIL : how it works ============ -->
+  <section style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+      <div style="max-width: 60ch; margin-bottom: var(--space-12);">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">How it works</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">{{ svc.stepsHeading }}</h2>
+      </div>
+      <div class="et-grid-3">
+        <sc-for list="{{ svc.steps }}" as="s" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; height: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-sm);">
+            <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: 1; color: var(--color-accent); margin-bottom: var(--space-5);">{{ s.n }}</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.15; margin: 0 0 var(--space-3);">{{ s.title }}</h3>
+            <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted); margin: 0;">{{ s.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE-DETAIL : ways to get started (anti dead-end CTAs) ============ -->
+  <section class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+    <div style="max-width: 60ch; margin-bottom: var(--space-10);">
+      <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Get started</div>
+      <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">Three easy ways to take the next step</h2>
+    </div>
+    <div class="et-grid-3">
+
+      <div style="display: flex; flex-direction: column; height: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-sm);">
+        <span style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface-alt); display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-5); color: var(--color-accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="13" width="4" height="7"></rect><rect x="10" y="9" width="4" height="11"></rect><rect x="16" y="5" width="4" height="15"></rect></svg></span>
+        <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.15; margin: 0 0 var(--space-3);">Get a valuation</h3>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6);">Free and no obligation — an instant online estimate or an in-person appraisal from a local expert.</p>
+        <a href="Book a Valuation.dc.html" style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;">Book a valuation <span style="font-family: var(--font-heading);">&rarr;</span></a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; height: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-sm);">
+        <span style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface-alt); display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-5); color: var(--color-accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg></span>
+        <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.15; margin: 0 0 var(--space-3);">Register with us</h3>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6);">Tell us what you're looking for and we'll be in touch as soon as the right opportunity comes up.</p>
+        <a href="#" style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;">Register requirements <span style="font-family: var(--font-heading);">&rarr;</span></a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; height: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); box-shadow: var(--shadow-sm);">
+        <span style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface-alt); display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-5); color: var(--color-accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+        <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.15; margin: 0 0 var(--space-3);">Make an enquiry</h3>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6);">Got a question? Speak to your local branch and a friendly expert will point you in the right direction.</p>
+        <a href="Branch Contact.dc.html" style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;">Contact a branch <span style="font-family: var(--font-heading);">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA-BANNER ============ -->
+  <section class="et-section" style="max-width: var(--container); margin: 0 auto; padding: 0 var(--space-8) var(--space-16);">
+    <div class="et-cta" style="background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-16); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; overflow: hidden; position: relative;">
+      <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.5;"></div>
+      <div style="position: relative; max-width: 56ch;">
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); color: var(--color-on-primary); margin: 0 0 var(--space-3);">{{ svc.ctaHeading }}</h2>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0;">{{ svc.ctaBody }}</p>
+      </div>
+      <div style="position: relative; display: flex; gap: var(--space-3); flex-wrap: wrap;">
+        <a href="{{ svc.primaryHref }}" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px 32px; text-decoration: none;" style-hover="background: var(--color-accent-hover);">{{ svc.primaryLabel }}</a>
+        <a href="Branch Contact.dc.html" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); background: transparent; border: 1.5px solid rgba(255,255,255,0.4); border-radius: var(--radius-full); padding: 16px 30px; text-decoration: none;" style-hover="background: rgba(255,255,255,0.1);">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Conveyancing</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Land &amp; development</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Auctions</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our branches</a>
+            <a href="Meet the Team.dc.html" style="color: var(--color-accent); opacity: 1; text-decoration: none; font-weight: 600;">Meet the team</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Reviews</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="tel:01242000000" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">01242 000 000</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="Book a Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our offices</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Complaints</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="et-cta-spacer"></div>
+  <sc-if value="{{ ctaShow }}" hint-placeholder-val="{{ true }}">
+  <div class="et-mobile-cta" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; align-items: center; gap: var(--space-3); background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -6px 24px rgba(20,24,33,0.10); padding: 10px var(--space-5);">
+    <div style="position: relative; flex: none;">
+      <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Call a branch" onClick="{{ togglePhonePopup }}" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: var(--text-lg); cursor: pointer;">☎</button>
+        <sc-if value="{{ phonePopup }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: calc(100% + 12px); left: 0; z-index: 80; min-width: 250px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-3);">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); padding: 4px 10px 8px;">Call a branch</div>
+            <sc-for list="{{ branchPhones }}" as="bp" hint-placeholder-count="3">
+              <a href="{{ bp.tel }}" onClick="{{ bp.onPick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; padding: 10px; border-radius: var(--radius); color: var(--color-text);" style-hover="background: var(--color-surface-alt);">
+                <span style="font-weight: 600; font-size: var(--text-sm);">{{ bp.name }}</span>
+                <span style="font-size: var(--text-sm); color: var(--color-accent); font-weight: 600;">{{ bp.phone }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ selectedTel }}" aria-label="Call us" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);">☎</a>
+      </sc-if>
+    </div>
+    <a href="Book a Valuation.dc.html" style="flex: 1; text-align: center; background: var(--color-accent); color: var(--color-on-accent); border-radius: var(--radius-full); padding: 15px; font-weight: 600; font-size: var(--text-base); text-decoration: none; min-height: 52px; display: flex; align-items: center; justify-content: center;">Book a Valuation</a>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, activeMega: 'default', openSection: null, navBuyOpen: false, branchOpen: false, branch: 'Cheltenham', phonePopup: false, scrolled: false };
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  get accreditations() { return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA']; }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk' }
+    ];
+  }
+
+  // Shared roster — keep in sync with Single Team Member.dc.html
+  get team() {
+    return [
+      { slug: 'david-hart', name: 'David Hart', role: 'Managing Director', department: 'Management', branch: 'Cheltenham' },
+      { slug: 'sarah-whitmore', name: 'Sarah Whitmore', role: 'Head of Sales', department: 'Sales', branch: 'Cheltenham' },
+      { slug: 'emma-coles', name: 'Emma Coles', role: 'Valuations Manager', department: 'Valuations', branch: 'Cheltenham' },
+      { slug: 'james-pemberton', name: 'James Pemberton', role: 'Senior Sales Negotiator', department: 'Sales', branch: 'Cheltenham' },
+      { slug: 'priya-anand', name: 'Priya Anand', role: 'Head of Lettings', department: 'Lettings', branch: 'Cheltenham' },
+      { slug: 'george-adeyemi', name: 'George Adeyemi', role: 'Mortgage Adviser', department: 'Mortgages', branch: 'Cheltenham' },
+      { slug: 'michael-osei', name: 'Michael Osei', role: 'Branch Manager', department: 'Management', branch: 'Tewkesbury' },
+      { slug: 'charlotte-reeve', name: 'Charlotte Reeve', role: 'Senior Negotiator', department: 'Sales', branch: 'Tewkesbury' },
+      { slug: 'daniel-brooks', name: 'Daniel Brooks', role: 'Lettings Manager', department: 'Lettings', branch: 'Tewkesbury' },
+      { slug: 'olivia-grant', name: 'Olivia Grant', role: 'Sales Negotiator', department: 'Sales', branch: 'Tewkesbury' },
+      { slug: 'rachel-nwosu', name: 'Rachel Nwosu', role: 'Branch Manager', department: 'Management', branch: 'Gloucester' },
+      { slug: 'tom-fletcher', name: 'Tom Fletcher', role: 'Sales Negotiator', department: 'Sales', branch: 'Gloucester' },
+      { slug: 'sophie-bennett', name: 'Sophie Bennett', role: 'Lettings Negotiator', department: 'Lettings', branch: 'Gloucester' },
+      { slug: 'hannah-clarke', name: 'Hannah Clarke', role: 'Property Manager', department: 'Lettings', branch: 'Gloucester' },
+      { slug: 'laura-pennington', name: 'Laura Pennington', role: 'Marketing Manager', department: 'Marketing', branch: 'Cheltenham' }
+    ];
+  }
+
+  get serviceData() {
+    return {
+      selling: {
+        breadcrumb: 'Home \u203a Services \u203a Selling', title: 'Selling your home',
+        intro: 'Accurate pricing, standout marketing and a dedicated team that manages your sale from first viewing to completion.',
+        stat1num: '28', stat1label: 'avg. days to agree a sale', stat2num: '98%', stat2label: 'of asking price achieved',
+        detailKicker: 'Selling with us', detailHeading: 'A sale handled properly, start to finish',
+        detailBody: "We price your home on real local evidence, present it beautifully and negotiate hard on your behalf \u2014 then keep the chain moving so completion day arrives without surprises.",
+        bullets: [
+          { lead: 'Accurate, evidenced valuations', rest: '\u2014 based on local sold prices, never guesswork to win your instruction.' },
+          { lead: 'Professional photography & floorplans', rest: 'included as standard, with portal-wide exposure.' },
+          { lead: 'Dedicated sales progression', rest: "\u2014 one person chasing solicitors and the chain so you don't have to." }
+        ],
+        mediaLabel: '[ for-sale board / property photo ]', stepsHeading: 'Selling in three steps',
+        steps: [
+          { n: '01', title: 'Book a valuation', body: 'A local expert visits, reviews comparable sales and agrees an achievable asking price with you.' },
+          { n: '02', title: 'Launch to market', body: 'We photograph, floorplan and list your home across Rightmove, Zoopla and our own buyer database.' },
+          { n: '03', title: 'Offers & completion', body: 'We qualify buyers, negotiate the best price and manage the chain through to the keys.' }
+        ],
+        primaryLabel: 'Book a free valuation', primaryHref: 'Book a Valuation.dc.html',
+        ctaHeading: 'Find out what your home is worth', ctaBody: 'Book a free, no-obligation valuation with a local expert who knows your street.'
+      },
+      lettings: {
+        breadcrumb: 'Home \u203a Services \u203a Lettings', title: 'Lettings & management',
+        intro: 'Full-service letting and management for landlords \u2014 from finding the right tenant to staying compliant, all from one named manager.',
+        stat1num: '3,000+', stat1label: 'landlords let with us', stat2num: '14 days', stat2label: 'average time to let',
+        detailKicker: 'For landlords', detailHeading: 'Hands-off letting, done right',
+        detailBody: "Whether it's a single buy-to-let or a growing portfolio, we find quality tenants, protect your income and keep you on the right side of ever-changing legislation.",
+        bullets: [
+          { lead: 'Tenant find & referencing', rest: '\u2014 marketing, accompanied viewings and thorough vetting.' },
+          { lead: 'Full management', rest: '\u2014 rent collection, maintenance and inspections from one point of contact.' },
+          { lead: 'Compliance handled', rest: '\u2014 deposits, gas, EICR, EPC and right-to-rent kept up to date.' }
+        ],
+        mediaLabel: '[ rental property / keys photo ]', stepsHeading: 'Letting in three steps',
+        steps: [
+          { n: '01', title: 'Free rental valuation', body: "We assess your property's rental value and advise on works that lift the achievable rent." },
+          { n: '02', title: 'Find & vet tenants', body: 'We market the property, accompany viewings and fully reference every applicant.' },
+          { n: '03', title: 'Manage & protect', body: 'We collect rent, handle maintenance and keep your tenancy fully compliant.' }
+        ],
+        primaryLabel: 'Get a rental valuation', primaryHref: 'Book a Valuation.dc.html',
+        ctaHeading: 'Thinking of letting your property?', ctaBody: 'Get a free rental valuation and see how our managed service can take the work off your hands.'
+      },
+      buying: {
+        breadcrumb: 'Home \u203a Services \u203a Buying', title: 'Buying a home',
+        intro: 'Register your search and let our local team line up the right homes \u2014 often before they hit the portals.',
+        stat1num: '1,200+', stat1label: 'buyers on our books', stat2num: '1 in 5', stat2label: 'homes sold off-market',
+        detailKicker: 'For buyers', detailHeading: 'Find the right home, sooner',
+        detailBody: "Tell us what you're after and we'll match you to suitable properties as they come to market \u2014 with honest local advice on areas, value and the buying process.",
+        bullets: [
+          { lead: 'Priority alerts', rest: '\u2014 be first to know about new and off-market listings.' },
+          { lead: 'Local knowledge', rest: "\u2014 catchments, transport, parking and the things portals don't show." },
+          { lead: 'Support to completion', rest: '\u2014 mortgage and conveyancing introductions when you need them.' }
+        ],
+        mediaLabel: '[ buyers viewing a home ]', stepsHeading: 'Buying in three steps',
+        steps: [
+          { n: '01', title: 'Register your search', body: 'Tell us your budget, area and must-haves so we can match you accurately.' },
+          { n: '02', title: 'View the right homes', body: 'We arrange viewings on properties that genuinely fit \u2014 including off-market ones.' },
+          { n: '03', title: 'Offer & complete', body: 'We help you make a strong offer and introduce trusted mortgage and legal support.' }
+        ],
+        primaryLabel: 'Browse properties', primaryHref: 'Property Listings.dc.html',
+        ctaHeading: 'Looking for your next home?', ctaBody: "Register your requirements and we'll alert you the moment the right property comes to market."
+      },
+      valuations: {
+        breadcrumb: 'Home \u203a Services \u203a Valuations', title: 'Property valuations',
+        intro: 'Free, accurate valuations \u2014 an instant online estimate or an in-person market appraisal from a local expert.',
+        stat1num: 'Free', stat1label: 'every valuation, no obligation', stat2num: '60 sec', stat2label: 'for an instant estimate',
+        detailKicker: 'Know your value', detailHeading: 'Two ways to value your property',
+        detailBody: 'Start with an instant online estimate for a quick guide, then book an in-person appraisal for an accurate, evidence-based figure tailored to your home and the current market.',
+        bullets: [
+          { lead: 'Instant online estimate', rest: '\u2014 a ballpark figure in under a minute, free.' },
+          { lead: 'In-person market appraisal', rest: '\u2014 a precise valuation backed by local sold evidence.' },
+          { lead: 'No obligation', rest: '\u2014 honest advice whether you sell with us or not.' }
+        ],
+        mediaLabel: '[ valuer at front door ]', stepsHeading: 'Valuing in three steps',
+        steps: [
+          { n: '01', title: 'Get an instant estimate', body: 'Enter your address for an immediate online guide price.' },
+          { n: '02', title: 'Book an appraisal', body: 'A local expert visits to assess your home in detail.' },
+          { n: '03', title: 'Receive your figure', body: 'We talk you through an achievable price and your options.' }
+        ],
+        primaryLabel: 'Book a free valuation', primaryHref: 'Book a Valuation.dc.html',
+        ctaHeading: "What's your property worth?", ctaBody: 'Get a free valuation \u2014 instant online or in person with a local expert.'
+      },
+      mortgages: {
+        breadcrumb: 'Home \u203a Services \u203a Mortgages', title: 'Mortgage advice',
+        intro: 'Whole-of-market mortgage advice from independent advisers \u2014 for first-time buyers, movers, landlords and remortgages.',
+        stat1num: '90+', stat1label: 'lenders compared', stat2num: 'Fee-free', stat2label: 'advice on most cases',
+        detailKicker: 'Funding your move', detailHeading: 'The right mortgage, clearly explained',
+        detailBody: 'Our independent advisers search the whole market to find a deal that fits your circumstances \u2014 then handle the paperwork and keep things moving alongside your purchase.',
+        bullets: [
+          { lead: 'Whole-of-market search', rest: '\u2014 access to deals across 90+ lenders.' },
+          { lead: 'Specialist cases welcome', rest: '\u2014 first-time buyers, buy-to-let, self-employed and more.' },
+          { lead: 'End-to-end support', rest: '\u2014 application to offer, in step with your sale or purchase.' }
+        ],
+        mediaLabel: '[ adviser meeting / paperwork ]', stepsHeading: 'Getting a mortgage in three steps',
+        steps: [
+          { n: '01', title: 'Free consultation', body: "We review your finances and what you're trying to achieve." },
+          { n: '02', title: 'Compare the market', body: 'We search 90+ lenders for the most suitable deal.' },
+          { n: '03', title: 'Apply & complete', body: 'We manage the application through to mortgage offer.' }
+        ],
+        primaryLabel: 'Speak to an adviser', primaryHref: 'Branch Contact.dc.html',
+        ctaHeading: 'Need a mortgage you can rely on?', ctaBody: 'Book a free, no-obligation chat with an independent adviser.'
+      },
+      conveyancing: {
+        breadcrumb: 'Home \u203a Services \u203a Conveyancing', title: 'Conveyancing',
+        intro: 'Fixed-fee residential conveyancing through trusted local solicitors \u2014 clear pricing and no hidden surprises.',
+        stat1num: 'Fixed fee', stat1label: 'quoted up front', stat2num: 'No sale,', stat2label: 'no fee on most cases',
+        detailKicker: 'The legal side', detailHeading: 'Move with legal expertise on your side',
+        detailBody: 'We introduce you to experienced conveyancers who handle the contracts, searches and enquiries \u2014 keeping your transaction legally sound and moving toward completion.',
+        bullets: [
+          { lead: 'Fixed-fee quotes', rest: '\u2014 know the cost before you instruct.' },
+          { lead: 'Searches & contracts', rest: '\u2014 handled thoroughly and explained in plain English.' },
+          { lead: 'Joined-up with your sale', rest: '\u2014 your agent and solicitor working together.' }
+        ],
+        mediaLabel: '[ contract signing / documents ]', stepsHeading: 'Conveyancing in three steps',
+        steps: [
+          { n: '01', title: 'Get a quote', body: 'Receive a clear, fixed-fee quote with no hidden extras.' },
+          { n: '02', title: 'Searches & enquiries', body: 'Your solicitor handles contracts, searches and legal enquiries.' },
+          { n: '03', title: 'Exchange & complete', body: 'We coordinate exchange and completion across the chain.' }
+        ],
+        primaryLabel: 'Get a quote', primaryHref: 'Branch Contact.dc.html',
+        ctaHeading: 'Need conveyancing for your move?', ctaBody: 'Get a fixed-fee quote from a trusted local solicitor.'
+      },
+      land: {
+        breadcrumb: 'Home \u203a Services \u203a Land & development', title: 'Land & development',
+        intro: 'Specialist advice for landowners and developers \u2014 from appraising a single plot to marketing a multi-unit scheme.',
+        stat1num: '30+ yrs', stat1label: 'local market experience', stat2num: 'Off-plan', stat2label: 'and completed sales',
+        detailKicker: 'For landowners & developers', detailHeading: 'Unlock the value in land',
+        detailBody: 'We advise on value, planning context and buyer demand, then bring new homes and development opportunities to market \u2014 connecting you with the right investors and buyers.',
+        bullets: [
+          { lead: 'Site appraisals', rest: '\u2014 realistic value and demand assessment.' },
+          { lead: 'Planning context', rest: "\u2014 local insight on what's achievable." },
+          { lead: 'New-homes marketing', rest: '\u2014 off-plan and completed sales to our buyer network.' }
+        ],
+        mediaLabel: '[ development site / new homes ]', stepsHeading: 'Working with us in three steps',
+        steps: [
+          { n: '01', title: 'Site consultation', body: "We assess the site's value, demand and planning context." },
+          { n: '02', title: 'Strategy & marketing', body: 'We agree a sales strategy and prepare the scheme for market.' },
+          { n: '03', title: 'Sell the scheme', body: 'We market to investors and buyers, off-plan and on completion.' }
+        ],
+        primaryLabel: 'Arrange a consultation', primaryHref: 'Branch Contact.dc.html',
+        ctaHeading: 'Got land or a development to sell?', ctaBody: 'Arrange a consultation with our specialist land team.'
+      }
+    };
+  }
+
+  renderVals() {
+    // ===== chrome: mega menus =====
+    const activeMega = this.state.activeMega || 'default';
+    const megaData = {
+      buy: { kicker: 'Buying with Harvell & Co', columns: [ { heading: 'Find a home', links: ['Property for sale', 'Property to rent', 'New homes', 'Shared ownership', 'Auctions'] }, { heading: 'Help & advice', links: ['Mortgage advice', 'Conveyancing', 'RICS surveyors', 'First-time buyers', 'Investment services'] } ], feature: { tag: 'New homes', title: 'Cotswold Gate — 3 & 4 bed homes now selling' } },
+      sell: { kicker: 'Selling with Harvell & Co', columns: [ { heading: 'Sell your home', links: ['Book a valuation', 'Instant valuation', 'Selling at auction', 'Probate valuation', 'Land & development'] }, { heading: 'Seller guides', links: ['How to sell your home', 'Preparing to sell', 'Choosing an agent', 'Our fees explained'] } ], feature: { tag: 'Free valuation', title: 'Find out what your home is worth today' } },
+      let: { kicker: 'Landlords & tenants', columns: [ { heading: 'Landlords', links: ['Let your property', 'Landlord services', 'Free rental valuation', 'Buy-to-let mortgages', 'Landlord insurance'] }, { heading: 'Tenants', links: ['Property to rent', 'Register requirements', 'Tenant guides', 'Deposit & fees'] } ], feature: { tag: 'Landlords', title: 'Full management from one point of contact' } },
+      default: { kicker: 'About Harvell & Co', columns: [ { heading: 'Our firm', links: ['About us', 'Meet the team', 'Our branches', 'Reviews', 'Careers'] }, { heading: 'Quick links', links: ['Book a valuation', 'Register requirements', 'Area guides', 'Contact us'] } ], feature: { tag: 'Meet the team', title: 'Local experts across three branches' } }
+    };
+    const itemDefs = [ { label: 'Buy', key: 'buy', dot: true }, { label: 'Sell', key: 'sell', dot: true }, { label: 'Let', key: 'let', dot: true }, { label: 'Valuations', key: null, dot: false }, { label: 'About', key: null, dot: false }, { label: 'News', key: null, dot: false }, { label: 'Contact', key: null, dot: false } ];
+    const itemBase = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 'var(--radius)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, cursor: 'pointer', transition: 'all .15s ease' };
+    const items = itemDefs.map(d => ({
+      label: d.label, dot: d.dot,
+      onEnter: () => this.setState({ activeMega: d.key || 'default' }),
+      onClick: () => this.setState({ menuOpen: false }),
+      style: Object.assign({}, itemBase, (d.key && d.key === activeMega) ? { background: 'var(--color-surface-alt)', color: 'var(--color-accent)' } : { background: 'transparent', color: 'var(--color-text)' })
+    }));
+    const mobileItems = itemDefs.map(d => ({
+      label: d.label, dot: d.dot, simple: !d.dot,
+      links: d.dot ? megaData[d.key].columns.reduce((a, c) => a.concat(c.links), []) : [],
+      open: this.state.openSection === d.key,
+      onToggle: () => this.setState(s => ({ openSection: s.openSection === d.key ? null : d.key }))
+    }));
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+
+    // ===== resolve service from ?service= =====
+    const params = new URLSearchParams(typeof location !== 'undefined' ? location.search : '');
+    const raw = (params.get('service') || 'selling').toLowerCase().trim();
+    const alias = { sell: 'selling', selling: 'selling', let: 'lettings', lettings: 'lettings', 'lettings-management': 'lettings', buy: 'buying', buying: 'buying', valuation: 'valuations', valuations: 'valuations', mortgage: 'mortgages', mortgages: 'mortgages', conveyancing: 'conveyancing', legal: 'conveyancing', land: 'land', 'land-development': 'land', development: 'land' };
+    const data = this.serviceData;
+    const svcKey = alias[raw] || 'selling';
+    const svc = data[svcKey] || data.selling;
+    const detail2Map = {
+      selling: { kicker: 'Marketing that works', heading: 'Seen by the right buyers, everywhere', body: 'Great photography is only the start. We put your home in front of active, qualified buyers across the major portals, social media and our own database \u2014 presented to look its very best.', mediaLabel: '[ marketing brochure / listing ]', bullets: [ { lead: 'Premium portal listings', rest: 'on Rightmove, Zoopla and OnTheMarket.' }, { lead: 'Social & email campaigns', rest: 'to our registered buyer database.' }, { lead: 'Accompanied viewings', rest: 'handled by people who know your home.' } ] },
+      lettings: { kicker: 'Peace of mind', heading: 'Your investment, properly protected', body: 'From watertight tenancy agreements to proactive maintenance, we look after your property as if it were our own \u2014 keeping good tenants happy and your returns secure.', mediaLabel: '[ property inspection photo ]', bullets: [ { lead: 'Rent guarantee options', rest: 'to safeguard your income.' }, { lead: 'Vetted contractors', rest: 'for fast, fair-priced repairs.' }, { lead: 'Regular inspections', rest: 'with clear written reports.' } ] },
+      buying: { kicker: 'On your side', heading: 'Guidance through every stage', body: 'Buying a home is a big step. We help you understand each area, judge true value and move quickly when the right place appears \u2014 with trusted introductions when you need them.', mediaLabel: '[ happy buyers / new keys ]', bullets: [ { lead: 'Honest area advice', rest: 'on the places that suit you.' }, { lead: 'Negotiation support', rest: 'to secure the best price.' }, { lead: 'Trusted introductions', rest: 'to mortgage and legal experts.' } ] },
+      valuations: { kicker: 'Backed by evidence', heading: 'A figure you can actually trust', body: 'Our valuations are built on real, recent local sales and current buyer demand \u2014 not optimistic guesses. You get an honest, achievable price and clear advice on your next move.', mediaLabel: '[ valuation report / charts ]', bullets: [ { lead: 'Local sold comparables', rest: 'underpin every figure.' }, { lead: 'Current market demand', rest: 'factored into the price.' }, { lead: 'Clear, honest advice', rest: 'on timing and next steps.' } ] },
+      mortgages: { kicker: 'Independent & impartial', heading: 'Advice that puts you first', body: "Because we search the whole market, our recommendation is based on what's right for you \u2014 not a limited panel. We explain every option in plain English and stay with you to completion.", mediaLabel: '[ adviser with clients ]', bullets: [ { lead: 'No tied lenders', rest: '\u2014 genuinely whole-of-market.' }, { lead: 'Protection advice', rest: 'to keep your home secure.' }, { lead: 'One point of contact', rest: 'from decision to offer.' } ] },
+      conveyancing: { kicker: 'Kept moving', heading: 'No surprises, no jargon', body: 'Property law can be slow and confusing \u2014 we keep it clear. Your solicitor explains each step, flags issues early and works hand-in-hand with your agent to avoid delays.', mediaLabel: '[ solicitor / signing documents ]', bullets: [ { lead: 'Plain-English updates', rest: 'at every milestone.' }, { lead: 'Early issue spotting', rest: 'to prevent fall-throughs.' }, { lead: 'Agent & solicitor aligned', rest: 'for a smoother chain.' } ] },
+      land: { kicker: 'The full picture', heading: 'From appraisal to sold scheme', body: 'We combine local market knowledge with development experience to maximise value \u2014 advising on phasing, specification and pricing, then marketing each unit to the right audience.', mediaLabel: '[ site plan / show home ]', bullets: [ { lead: 'Phasing & pricing advice', rest: 'to optimise returns.' }, { lead: 'Specification guidance', rest: 'on what buyers want.' }, { lead: 'Targeted unit marketing', rest: 'to investors and buyers.' } ] }
+    };
+    const d2 = detail2Map[svcKey] || detail2Map.selling;
+    svc.d2Kicker = d2.kicker; svc.d2Heading = d2.heading; svc.d2Body = d2.body; svc.d2Media = d2.mediaLabel; svc.d2Bullets = d2.bullets;
+
+    return {
+      svc,
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      // chrome
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen, activeMega: !s.menuOpen ? 'default' : s.activeMega, openSection: null })),
+      closeMenu: () => this.setState({ menuOpen: false, openSection: null }),
+      ctaShow: !this.state.menuOpen,
+      items, mobileItems, mega: megaData[activeMega] || megaData.default,
+      buyOpen: this.state.navBuyOpen,
+      openBuy: () => this.setState({ navBuyOpen: true }),
+      closeBuy: () => this.setState({ navBuyOpen: false }),
+      buyMega: megaData.buy,
+      branch: this.state.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      multiBranch: branchList.length > 1,
+      singleBranch: branchList.length <= 1,
+      selectedPhone: selectedBranch.phone,
+      selectedEmail: selectedBranch.email,
+      selectedTel: telFmt(selectedBranch.phone),
+      phonePopup: this.state.phonePopup,
+      togglePhonePopup: () => this.setState(s => ({ phonePopup: !s.phonePopup })),
+      branchPhones: branchList.map(b => ({ name: b.name, phone: b.phone, tel: telFmt(b.phone), onPick: () => this.setState({ phonePopup: false }) })),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === this.state.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === this.state.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+      accreditations: this.accreditations,
+      year: new Date().getFullYear()
+    };
+  }
+}
+</script>
+</body>
+</html>

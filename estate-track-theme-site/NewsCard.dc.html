@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95);
+    --font-heading: "Newsreader", Georgia, serif; --font-body: "Hanken Grotesk", system-ui, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-xl: 1.375rem;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.10);
+    --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 8px, transparent 8px 16px); background-color: var(--color-surface-alt); }
+</style>
+</helmet>
+
+<a href="{{ href }}" style="display: flex; flex-direction: column; height: 100%; text-decoration: none; color: var(--color-text); font-family: var(--font-body); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease;" style-hover="box-shadow: var(--shadow-md); transform: translateY(-3px);">
+  <div class="et-ph" style="position: relative; height: 200px; overflow: hidden;">
+    <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ photo }}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"></sc-if>
+    <span style="position: absolute; top: var(--space-3); left: var(--space-3); font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 5px 14px;">{{ category }}</span>
+    <sc-if value="{{ showPhotoLabel }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; bottom: var(--space-3); right: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); opacity: 0.8;">[ {{ photoLabel }} ]</span></sc-if>
+  </div>
+  <div style="padding: var(--space-6); display: flex; flex-direction: column; flex: 1;">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-bottom: var(--space-3); letter-spacing: 0.04em;">{{ meta }}</div>
+    <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); line-height: 1.25; margin: 0 0 var(--space-3);">{{ title }}</h3>
+    <p style="font-size: var(--text-sm); line-height: 1.6; color: var(--color-muted); margin: 0 0 var(--space-5);">{{ excerpt }}</p>
+    <span style="font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); margin-top: auto;">Read more →</span>
+  </div>
+</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:380,&quot;height&quot;:410},&quot;category&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Guides&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;date&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;3rd June 2026&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Which home changes require planning permission&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;excerpt&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;A clear, practical guide to what you can and can't do to your home without applying for planning permission.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;readingTime&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;tsType&quot;:&quot;number&quot;},&quot;photo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;photoLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;article image&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;href&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props || {};
+    const rt = parseInt(p.readingTime, 10);
+    const meta = [p.date || '', isNaN(rt) ? '' : rt + ' min read'].filter(Boolean).join('  ·  ');
+    const hasPhoto = !!(p.photo && String(p.photo).length);
+    return {
+      photo: p.photo || '', hasPhoto, showPhotoLabel: !hasPhoto,
+      category: p.category || 'News',
+      date: p.date || '',
+      meta,
+      title: p.title || '',
+      excerpt: p.excerpt || '',
+      photoLabel: p.photoLabel || 'article image',
+      href: p.href || '#'
+    };
+  }
+}
+</script>
+</body>
+</html>

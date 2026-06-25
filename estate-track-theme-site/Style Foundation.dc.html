@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ESTATE TRACK — TEMPLATE TOKEN LAYER
+     Re-skin a client by overriding ONLY these values.
+     Sections never hard-code colours/fonts — they read var(--…).
+     ============================================================ */
+  :root {
+    /* Colour */
+    --color-bg:            oklch(0.984 0.004 95);   /* page background, warm off-white */
+    --color-surface:       oklch(1 0 0);            /* cards / panels */
+    --color-surface-alt:   oklch(0.963 0.005 95);   /* subtle alt fill */
+    --color-primary:       oklch(0.31 0.018 255);   /* deep slate — dark bands, headings */
+    --color-primary-hover: oklch(0.255 0.018 255);
+    --color-on-primary:    oklch(0.985 0.004 95);   /* text on primary */
+    --color-secondary:     oklch(0.46 0.02 255);
+    --color-accent:        oklch(0.66 0.105 232);   /* muted steel-blue — CTAs */
+    --color-accent-hover:  oklch(0.60 0.105 232);
+    --color-on-accent:     oklch(0.99 0.003 232);
+    --color-text:          oklch(0.24 0.012 260);   /* body text */
+    --color-muted:         oklch(0.53 0.012 260);   /* secondary text */
+    --color-border:        oklch(0.905 0.005 95);
+    --color-success:       oklch(0.62 0.10 155);    /* SSTC / status */
+
+    /* Typography */
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif;
+    --font-body:    "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+    --font-mono:    ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.375rem;
+    --text-2xl:  1.75rem;
+    --text-3xl:  2.25rem;
+    --text-4xl:  3rem;
+    --text-5xl:  4rem;
+    --leading-tight: 1.12;
+    --leading-snug:  1.3;
+    --leading-body:  1.6;
+    --tracking-kicker: 0.16em;
+
+    /* Spacing scale (4px base) */
+    --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+    --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+    --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+
+    /* Shape */
+    --radius-sm:   6px;
+    --radius:      10px;
+    --radius-lg:   18px;
+    --radius-full: 999px;
+
+    /* Depth */
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05);
+    --shadow-md: 0 6px 18px rgba(20,24,33,0.08);
+    --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+
+    /* Layout */
+    --container: 1200px;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .et-ph {
+    background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 8px, transparent 8px 16px);
+    background-color: var(--color-surface-alt);
+  }
+
+  /* ============================================================
+     LAYOUT & RESPONSIVE UTILITIES
+     Canonical copy — paste this block into every page <style> so
+     section rhythm and the card/carousel behaviour stay identical.
+     ============================================================ */
+
+  /* SECTION RHYTHM
+     Standard band = var(--space-24) top & bottom (set inline per section).
+     When two same-background sections stack, the gap doubles — add
+     et-tight-top / et-tight-bottom to the second/first to halve it.
+     The reduced values only kick in on mobile (see media query); on
+     desktop, reduce a stacked gap by lowering the inline padding to
+     ~var(--space-10)/var(--space-6) directly. */
+  .et-tight-top { }
+  .et-tight-bottom { }
+
+  /* THREE-UP CARD ROW  →  MOBILE SWIPE CAROUSEL
+     Equal-height 3-col grid on desktop; horizontal scroll-snap carousel
+     on mobile. Wrap EACH card in its own <div> so the heights match.
+     Use for any "panel of three": video reviews, testimonials, news. */
+  .et-cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .et-cards3 > * { display: flex; }            /* stretch wrapper to row height */
+  .et-cards3 > * > * { width: 100%; }          /* card fills wrapper → equal height */
+
+  /* ALWAYS-ON SWIPE ROW (e.g. featured properties, 4+ items, fixed 340px). */
+  .et-scroll { display: flex; gap: var(--space-6); overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: var(--space-3); }
+  .et-scroll > * { flex: 0 0 340px; scroll-snap-align: start; }
+  .et-scroll::-webkit-scrollbar { height: 8px; }
+  .et-scroll::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+  .et-scroll::-webkit-scrollbar-track { background: transparent; }
+
+  /* CAROUSEL HEADER CONTROLS
+     Header = title (left) + et-feat-ctrls (right). Inside ctrls put the
+     desktop text link (et-feat-toplink) AND the arrow pair (et-feat-arrows).
+     A bottom link (et-feat-botlink) sits under the row. On desktop only the
+     top link shows; on mobile the arrows + bottom link show instead. */
+  .et-feat-arrows { display: none; gap: var(--space-2); }
+  .et-feat-botlink { display: none; }
+
+  @media (max-width: 680px) {
+    /* sections: tighter, near-full-bleed horizontal padding */
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-tight-top { padding-top: var(--space-6) !important; }
+    .et-tight-bottom { padding-bottom: var(--space-12) !important; }
+
+    /* 3-up grid → swipe carousel (cards ~86% wide, peek of the next) */
+    .et-cards3 { display: flex; grid-template-columns: none; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: var(--space-4); margin: 0 -20px; padding: 0 20px var(--space-3); }
+    .et-cards3 > * { flex: 0 0 86%; scroll-snap-align: center; }
+    .et-scroll > * { flex: 0 0 86%; }
+
+    /* carousel controls: hide desktop link, show arrows + bottom link */
+    .et-feat-toplink { display: none !important; }
+    .et-feat-arrows { display: flex !important; }
+    .et-feat-botlink { display: flex !important; justify-content: center; margin-top: var(--space-6); }
+    .et-feat-head { margin-bottom: var(--space-6) !important; flex-wrap: nowrap !important; align-items: center !important; gap: var(--space-4) !important; }
+    .et-feat-titles { flex: 1 1 auto; min-width: 0; }
+    .et-feat-ctrls { flex: none; }
+  }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); min-height: 100vh; -webkit-font-smoothing: antialiased;">
+
+  <!-- ================= MASTHEAD ================= -->
+  <header style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-5);">Estate Track · Template Foundation</div>
+    <h1 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-5xl); line-height: var(--leading-tight); letter-spacing: -0.01em; margin: 0 0 var(--space-5); max-width: 18ch;">Style foundation &amp; token layer</h1>
+    <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); max-width: 62ch; margin: 0;">Every section in this template is built against the design tokens below — never hard-coded colours or font names. To re-skin for a client, duplicate the project and override the token values only; layout and sections stay identical. Placeholder values are intentionally neutral.</p>
+  </header>
+
+  <!-- ================= COLOUR TOKENS ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-8);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">01 · Colour</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--space-5);">
+
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-primary);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Primary</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-primary</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-secondary);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Secondary</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-secondary</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-accent);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Accent</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-accent</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-success);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Status / Success</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-success</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-bg); border-bottom: 1px solid var(--color-border);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Background</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-bg</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Surface alt</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-surface-alt</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-text);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Text</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-text</div></div>
+      </div>
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-surface);">
+        <div style="height: 96px; background: var(--color-muted);"></div>
+        <div style="padding: var(--space-4);"><div style="font-weight: 600; font-size: var(--text-sm);">Muted</div><div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px;">--color-muted</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TYPOGRAPHY ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-8); padding-top: var(--space-16);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">02 · Typography</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12);">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-bottom: var(--space-3);">--font-heading · Newsreader</div>
+        <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: var(--leading-tight); margin-bottom: var(--space-2);">Find the home that fits your life</div>
+        <div style="font-family: var(--font-heading); font-size: var(--text-base); color: var(--color-muted);">Serif display for headings &amp; statements · 400 / 500 / 600</div>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-bottom: var(--space-3);">--font-body · Hanken Grotesk</div>
+        <div style="font-size: var(--text-lg); line-height: var(--leading-body); margin-bottom: var(--space-2);">Clean grotesque for body copy, navigation, labels and UI. Highly legible at small sizes and comfortable in long paragraphs.</div>
+        <div style="font-size: var(--text-base); color: var(--color-muted);">Body · 400 / 500 / 600 / 700</div>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--space-12); display: flex; flex-direction: column; gap: var(--space-4); border-top: 1px solid var(--color-border); padding-top: var(--space-8);">
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">5xl / 64</span><span style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-5xl); line-height: 1;">Aa</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">4xl / 48</span><span style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: 1;">Aa Heading</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">3xl / 36</span><span style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: 1;">Section heading</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">2xl / 28</span><span style="font-family: var(--font-heading); font-size: var(--text-2xl); line-height: 1;">Subheading</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">lg / 18</span><span style="font-size: var(--text-lg);">Large body &amp; lead paragraphs</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">base / 16</span><span style="font-size: var(--text-base);">Default body text</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">sm / 14</span><span style="font-size: var(--text-sm);">Captions, meta, form labels</span></div>
+      <div style="display: flex; align-items: baseline; gap: var(--space-6);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); width: 90px; flex: none;">xs / 12</span><span style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase;">Kicker / overline</span></div>
+    </div>
+  </section>
+
+  <!-- ================= SHAPE, SPACE & DEPTH ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-8); padding-top: var(--space-16);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">03 · Radius · Spacing · Depth</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-12);">
+
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-5); color: var(--color-muted);">Radius</div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-sm);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--radius-sm · 6</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--radius · 10</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--radius-lg · 18</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--radius-full · pill</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-5); color: var(--color-muted);">Spacing (4px base)</div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: var(--space-4); height: 14px; background: var(--color-accent);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">4 · 8 · 12 · 16</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: var(--space-8); height: 14px; background: var(--color-accent);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">20 · 24 · 32 · 40</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: var(--space-16); height: 14px; background: var(--color-accent);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">48 · 64 · 80 · 96</span></div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); margin-top: var(--space-2);">--space-1 … --space-24</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-5); color: var(--color-muted);">Depth</div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-sm);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--shadow-sm</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-md);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--shadow-md</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-4);"><div style="width: 56px; height: 40px; background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-lg);"></div><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">--shadow-lg</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BUTTONS / LINKS / INPUTS ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-8); padding-top: var(--space-16);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">04 · Buttons · Links · Inputs</div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-bottom: var(--space-8);">
+      <button style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 14px 28px; cursor: pointer; min-height: 48px;" style-hover="background: var(--color-accent-hover);">Book a Valuation</button>
+      <button style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); background: var(--color-primary); border: none; border-radius: var(--radius-full); padding: 14px 28px; cursor: pointer; min-height: 48px;" style-hover="background: var(--color-primary-hover);">Primary action</button>
+      <button style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-primary); border-radius: var(--radius-full); padding: 14px 28px; cursor: pointer; min-height: 48px;" style-hover="background: var(--color-primary); color: var(--color-on-primary);">Outline</button>
+      <a href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Text link <span style="font-family: var(--font-heading);">→</span></a>
+    </div>
+
+    <div style="font-size: var(--text-sm); font-weight: 600; margin: 0 0 var(--space-5); color: var(--color-muted);">Containers — circles, pills, dots</div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-bottom: var(--space-5);">
+      <div style="display: flex; align-items: center; gap: var(--space-3);">
+        <button aria-label="Previous" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">←</button>
+        <button aria-label="Next" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">→</button>
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">slider / carousel arrows</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-3);">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface-alt); color: var(--color-secondary);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10"></path><path d="M3 14h18"></path><path d="M7 10h4"></path></svg></span>
+        <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">icon in circle</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-bottom: var(--space-6);">
+      <span style="font-family: var(--font-body); font-size: var(--text-sm); font-weight: 700; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 8px 16px;">Chain free</span>
+      <span style="font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: #fff; background: rgba(31,36,46,0.72); border-radius: var(--radius-full); padding: 6px 14px;">3 / 24</span>
+      <span style="font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-secondary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 6px 15px;">Detached house</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);"><span style="width: 9px; height: 9px; border-radius: var(--radius-full); border: 1.5px solid var(--color-accent); background: transparent; display: inline-block;"></span>inactive</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);"><span style="width: 9px; height: 9px; border-radius: var(--radius-full); border: 1.5px solid var(--color-accent); background: var(--color-accent); display: inline-block;"></span>active / open dot</span>
+    </div>
+    <p style="font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-secondary); max-width: 72ch; margin: 0 0 var(--space-8);"><strong>Circles</strong> (radius-full, 46px, surface fill + border) contain single arrows, icons or counts. <strong>Pills</strong> (radius-full) carry status / availability (accent), photo counts (dark) and category labels (surface-alt). <strong>Dots</strong> (9px accent — hollow when inactive, filled when active) mark slider pagination and expandable accordions. Directional arrows are always <strong>←</strong> / <strong>→</strong> for carousels &amp; sliders, and <strong>→</strong> for inline text links — never ‹ › or chevrons.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); max-width: 640px;">
+      <div>
+        <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Input field</label>
+        <input type="text" placeholder="e.g. Cheltenham or GL50" style="width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 16px; min-height: 48px;" />
+      </div>
+      <div>
+        <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Select</label>
+        <select style="width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 16px; min-height: 48px;"><option>Property type</option><option>House</option><option>Flat</option></select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STYLING SAMPLE ================= -->
+  <section style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border); margin-top: var(--space-20); padding: var(--space-20) 0;">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 0 var(--space-8);">
+      <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Styling sample</div>
+      <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-snug); margin: 0 0 var(--space-3);">The tokens, applied</h2>
+      <p style="font-size: var(--text-lg); color: var(--color-muted); max-width: 60ch; margin: 0 0 var(--space-12);">A preview of how sections from the library will look on this foundation — adapted from the reference layout. Imagery is shown as placeholders.</p>
+
+      <!-- Sample: hero-home (variant A) -->
+      <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); margin-bottom: var(--space-12);">
+        <div class="et-ph" style="position: relative; min-height: 460px; display: flex; align-items: center; background-color: var(--color-primary);">
+          <div style="position: absolute; inset: 0; background: linear-gradient(105deg, var(--color-primary) 36%, transparent 92%);"></div>
+          <div style="position: absolute; top: var(--space-5); right: var(--space-6); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.6;">[ hero video / image ]</div>
+          <div style="position: relative; padding: var(--space-16); max-width: 620px;">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.75; margin-bottom: var(--space-5);">Trusted local agents · 30+ years</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: var(--leading-tight); color: var(--color-on-primary); margin: 0 0 var(--space-5);">From sales to lets, we know your market best</h3>
+            <div style="display: flex; gap: var(--space-2); background: var(--color-surface); border-radius: var(--radius-full); padding: 7px; max-width: 460px; box-shadow: var(--shadow-md);">
+              <input type="text" placeholder="Search a town or postcode" style="flex: 1; border: none; background: transparent; font-family: var(--font-body); font-size: var(--text-base); padding: 10px 16px; color: var(--color-text); outline: none;" />
+              <button style="font-family: var(--font-body); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 12px 26px; cursor: pointer;">Search</button>
+            </div>
+            <div style="display: inline-flex; align-items: center; gap: var(--space-3); margin-top: var(--space-6); background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-full); padding: 8px 16px;">
+              <span style="color: var(--color-on-primary); font-weight: 700; font-size: var(--text-sm);">★★★★★</span>
+              <span style="color: var(--color-on-primary); font-size: var(--text-sm);"><strong>4.9/5</strong> · 451 reviews</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample: featured property cards -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-12);">
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div class="et-ph" style="position: relative; height: 180px; display: flex; align-items: flex-end; padding: var(--space-3);">
+            <span style="font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-sm); padding: 5px 10px;">For Sale</span>
+            <span style="position: absolute; top: var(--space-3); right: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">[ photo ]</span>
+          </div>
+          <div style="padding: var(--space-5);">
+            <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: 4px;">£475,000</div>
+            <div style="font-size: var(--text-base); margin-bottom: var(--space-3);">4 bed detached house</div>
+            <div style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-4);">Charlton Kings, Cheltenham</div>
+            <div style="display: flex; gap: var(--space-5); font-size: var(--text-sm); color: var(--color-secondary); border-top: 1px solid var(--color-border); padding-top: var(--space-4);"><span>4 beds</span><span>2 baths</span><span>2 recep</span></div>
+          </div>
+        </div>
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div class="et-ph" style="position: relative; height: 180px; display: flex; align-items: flex-end; padding: var(--space-3);">
+            <span style="font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-primary); background: var(--color-secondary); border-radius: var(--radius-sm); padding: 5px 10px;">To Let</span>
+            <span style="position: absolute; top: var(--space-3); right: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">[ photo ]</span>
+          </div>
+          <div style="padding: var(--space-5);">
+            <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: 4px;">£1,450 pcm</div>
+            <div style="font-size: var(--text-base); margin-bottom: var(--space-3);">2 bed apartment</div>
+            <div style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-4);">Montpellier, Cheltenham</div>
+            <div style="display: flex; gap: var(--space-5); font-size: var(--text-sm); color: var(--color-secondary); border-top: 1px solid var(--color-border); padding-top: var(--space-4);"><span>2 beds</span><span>1 bath</span><span>1 recep</span></div>
+          </div>
+        </div>
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div class="et-ph" style="position: relative; height: 180px; display: flex; align-items: flex-end; padding: var(--space-3);">
+            <span style="font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-primary); background: var(--color-success); border-radius: var(--radius-sm); padding: 5px 10px;">SSTC</span>
+            <span style="position: absolute; top: var(--space-3); right: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">[ photo ]</span>
+          </div>
+          <div style="padding: var(--space-5);">
+            <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: 4px;">£625,000</div>
+            <div style="font-size: var(--text-base); margin-bottom: var(--space-3);">5 bed period home</div>
+            <div style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-4);">Leckhampton, Cheltenham</div>
+            <div style="display: flex; gap: var(--space-5); font-size: var(--text-sm); color: var(--color-secondary); border-top: 1px solid var(--color-border); padding-top: var(--space-4);"><span>5 beds</span><span>3 baths</span><span>3 recep</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample: cta-banner -->
+      <div style="background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-12); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap;">
+        <div style="max-width: 60ch;">
+          <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); color: var(--color-on-primary); margin: 0 0 var(--space-2);">Thinking of selling or letting?</h3>
+          <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.78; margin: 0;">Book a free, no-obligation valuation with a local expert.</p>
+        </div>
+        <button style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 16px 32px; cursor: pointer; flex: none;">Book a Valuation</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MOBILE NOTE ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">05 · Mobile is a separate pass</div>
+    <div style="display: grid; grid-template-columns: 280px 1fr; gap: var(--space-12); align-items: start;">
+      <div style="width: 240px; border: 10px solid var(--color-primary); border-radius: 32px; overflow: hidden; box-shadow: var(--shadow-lg);">
+        <div class="et-ph" style="position: relative; height: 420px; background-color: var(--color-primary); display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-5);">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 30%, transparent 80%);"></div>
+          <div style="position: absolute; top: var(--space-4); left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-size: 10px; color: var(--color-on-primary); opacity: 0.6;">[ portrait 9:16 video / poster ]</div>
+          <div style="position: relative;">
+            <h4 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-xl); color: var(--color-on-primary); margin: 0 0 var(--space-3);">We know your market best</h4>
+            <button style="width: 100%; font-family: var(--font-body); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 13px; min-height: 48px;">Search properties</button>
+          </div>
+        </div>
+      </div>
+      <div style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary);">
+        <p style="margin: 0 0 var(--space-4);">Every page gets a dedicated mobile pass at ~390px — not just reflow. Art-directed media is handled inside each section: the video hero swaps to a <strong>portrait 9:16 crop with poster fallback</strong>; nav collapses to a hamburger with a sticky CTA; topbar utilities move into the menu; footer columns become accordions; property search toggles between full-screen map and list.</p>
+        <p style="margin: 0;">Touch targets stay ≥44px and the primary CTA stays thumb-reachable. These treatments will be applied per section as each page is built.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAYOUT UTILITIES ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-8);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">06 · Layout &amp; responsive utilities</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); margin-bottom: var(--space-12);">
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Section rhythm</div>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0;">Each band is <strong>var(--space-24)</strong> top &amp; bottom. Where two <em>same-background</em> sections stack, the gap doubles — add <code style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent);">et-tight-top</code> / <code style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent);">et-tight-bottom</code> (or lower the inline padding to ~space-10 / space-6) so the seam reads as one rhythm, not a void.</p>
+      </div>
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Three-up → mobile carousel</div>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0;"><code style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent);">et-cards3</code> renders an equal-height 3-column grid on desktop and a swipe carousel on mobile. Pair it with the <code style="font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-accent);">et-feat-head</code> controls: a text link on desktop, arrows + a “view all” link on mobile. Used by video reviews, testimonials and news.</p>
+      </div>
+    </div>
+
+    <!-- Live demo: et-feat-head + et-cards3 -->
+    <div class="et-feat-head" style="display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-8); flex-wrap: wrap;">
+      <div class="et-feat-titles">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Pattern preview</div>
+        <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">A panel of three</h2>
+      </div>
+      <div class="et-feat-ctrls" style="display: flex; align-items: center; gap: var(--space-3);">
+        <a class="et-feat-toplink" href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">View all <span style="font-family: var(--font-heading);">→</span></a>
+        <div class="et-feat-arrows" style="gap: var(--space-2);">
+          <button aria-label="Previous" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);">←</button>
+          <button aria-label="Next" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="et-cards3">
+      <div><div style="width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-6); display: flex; flex-direction: column;"><div class="et-ph" style="height: 120px; border-radius: var(--radius); margin-bottom: var(--space-5);"></div><div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin-bottom: var(--space-2);">Card one</div><div style="font-size: var(--text-sm); color: var(--color-muted);">Equal height across the row.</div></div></div>
+      <div><div style="width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-6); display: flex; flex-direction: column;"><div class="et-ph" style="height: 120px; border-radius: var(--radius); margin-bottom: var(--space-5);"></div><div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin-bottom: var(--space-2);">Card two</div><div style="font-size: var(--text-sm); color: var(--color-muted);">On mobile these become a swipe carousel with snap.</div></div></div>
+      <div><div style="width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-6); display: flex; flex-direction: column;"><div class="et-ph" style="height: 120px; border-radius: var(--radius); margin-bottom: var(--space-5);"></div><div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin-bottom: var(--space-2);">Card three</div><div style="font-size: var(--text-sm); color: var(--color-muted);">Arrows + “view all” show only on mobile.</div></div></div>
+    </div>
+    <a class="et-feat-botlink" href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; align-items: center; gap: 6px;">View all <span style="font-family: var(--font-heading);">→</span></a>
+  </section>
+
+  <!-- ================= CONVENTIONS ================= -->
+  <section style="max-width: var(--container); margin: 0 auto; padding: var(--space-8) var(--space-8) var(--space-20);">
+    <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">07 · Interaction conventions</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12);">
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">No toggle arrows on expandable controls</div>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0;">We do <strong>not</strong> add a chevron / toggle arrow to controls that expand a panel (e.g. the AI search assistant pill on the listings filter bar). Clicking the control itself reveals the panel — the arrow is redundant and removed everywhere. This applies to any expand-in-place pattern (what we call the “R4 Expanded” treatment).</p>
+      </div>
+      <div>
+        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Label the action, not the affordance</div>
+        <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0;">Lead an expandable trigger with a meaningful icon (e.g. a sparkle/AI mark for the AI search assistant) and a clear text label. Avoid generic disclosure widgets that only signal “there is more” without saying what.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="background: var(--color-primary); color: var(--color-on-primary); text-align: center; padding: var(--space-12) var(--space-8); font-size: var(--text-sm);">
+    <span style="opacity: 0.75;">Approve these tokens &amp; this direction, then we build pages one at a time from the section library.</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

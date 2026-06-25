@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-faq-layout { display: grid; grid-template-columns: 248px 1fr; gap: var(--space-16); align-items: start; }
+  .et-faq-nav { position: sticky; top: 116px; }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-header > div { padding-top: 34px !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 860px) {
+    .et-faq-layout { grid-template-columns: 1fr !important; gap: var(--space-8) !important; }
+    .et-faq-nav { position: static !important; top: auto !important; }
+  }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-cta { flex-direction: column !important; align-items: flex-start !important; padding: var(--space-10) !important; }
+  }
+  /* ===== MOBILE STYLE GUIDE — titles + spacing ===== */
+  @media (max-width: 680px) {
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+    .et-tight-top { padding-top: var(--space-10) !important; }
+  }
+  /* mobile pass: sticky bottom CTA */
+  .et-mobile-cta { display: none; }
+  .et-cta-spacer { display: none; }
+  @media (max-width: 860px) {
+    .et-mobile-cta { display: flex !important; }
+    .et-cta-spacer { display: block; height: 80px; background: var(--color-primary); }
+  }
+  /* ===== transparent overlay header (opaque + sticky on scroll) ===== */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <!-- ============ TOPBAR ============ -->
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative;">
+            <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+              {{ branch }} branch
+              <span style="{{ branchChevronStyle }}">▾</span>
+            </button>
+            <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                  <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                    <span>{{ b.name }}</span>
+                    <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <span style="color: var(--color-border);">|</span>
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+        <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="Register.dc.html" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <div style="position: relative;" onMouseEnter="{{ openBuy }}" onMouseLeave="{{ closeBuy }}">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy<span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></a>
+          <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: 100%; left: 0; padding-top: 16px; z-index: 70;">
+              <div style="width: 660px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-8);">
+                <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ buyMega.kicker }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8);">
+                  <sc-for list="{{ buyMega.columns }}" as="col" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeBuy }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <a href="#" onClick="{{ closeBuy }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                    <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                    <div style="position: relative; padding: var(--space-5);">
+                      <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ buyMega.feature.tag }}</div>
+                      <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ buyMega.feature.title }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="About.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+        <a href="News Listings.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="General Enquiries.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="Book a Valuation.dc.html" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+
+        <!-- DESKTOP MEGA MENU -->
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; display: flex; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="width: 600px; padding: var(--space-8); border-right: 1px solid var(--color-border); background: var(--color-bg);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ mega.kicker }}</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8); align-items: stretch;">
+                <sc-for list="{{ mega.columns }}" as="col" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <a href="#" onClick="{{ closeMenu }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 210px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                  <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                  <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                  <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                  <div style="position: relative; padding: var(--space-5);">
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ mega.feature.tag }}</div>
+                    <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ mega.feature.title }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div style="width: 280px; padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="7">
+                <a href="#" onMouseEnter="{{ it.onEnter }}" onClick="{{ it.onClick }}" style="{{ it.style }}">
+                  <span>{{ it.label }}</span>
+                  <sc-if value="{{ it.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></sc-if>
+                </a>
+              </sc-for>
+              <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+                <a href="Register.dc.html" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+                <a href="tel:01242000000" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileItems }}" as="mi" hint-placeholder-count="7">
+          <div style="border-bottom: 1px solid var(--color-border);">
+            <sc-if value="{{ mi.simple }}" hint-placeholder-val="{{ true }}">
+              <a href="#" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+            </sc-if>
+            <sc-if value="{{ mi.dot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ mi.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; cursor: pointer; color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">
+                <span style="display: inline-flex; align-items: center; gap: 11px;">{{ mi.label }}<span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span></span>
+                <span style="font-size: var(--text-xl); color: var(--color-muted); font-family: var(--font-body);">+</span>
+              </button>
+              <sc-if value="{{ mi.open }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-5) var(--space-4);">
+                  <sc-for list="{{ mi.links }}" as="ml" hint-placeholder-count="5"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-base); color: var(--color-secondary); text-decoration: none;">{{ ml }}</a></sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+        <a href="Register.dc.html" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+        <a href="tel:01242000000" style="color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+      </div>
+      <a href="Book a Valuation.dc.html" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 42%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 150px var(--space-8) var(--space-16); display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-16); flex-wrap: wrap;">
+      <div style="flex: 1 1 460px; min-width: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7; margin-bottom: var(--space-3);">{{ doc.crumb }}</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); color: var(--color-on-primary); margin: 0 0 var(--space-4); line-height: var(--leading-tight); max-width: 18ch;">{{ doc.title }}</h1>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0; max-width: 60ch; line-height: var(--leading-body);">{{ doc.intro }}</p>
+      </div>
+      <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: var(--space-2); width: 280px; max-width: 100%;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.6;">Last updated</div>
+        <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-on-primary); line-height: 1.1;">{{ doc.updated }}</div>
+        <div style="height: 1px; background: rgba(255,255,255,0.18); margin: var(--space-3) 0;"></div>
+        <div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.74; line-height: var(--leading-body);">{{ doc.heroNote }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RICH-TEXT (legal document) ============ -->
+  <section class="et-section et-tight-top" style="max-width: var(--container); margin: 0 auto; padding: var(--space-16) var(--space-8) var(--space-20);">
+
+    <!-- document switcher -->
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-1); padding: 6px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); margin: 0 auto var(--space-16); width: fit-content; max-width: 100%;">
+      <sc-for list="{{ docTabs }}" as="t" hint-placeholder-count="3">
+        <button onClick="{{ t.onSelect }}" style="{{ t.style }}">{{ t.label }}</button>
+      </sc-for>
+    </div>
+
+    <div class="et-faq-layout">
+
+      <!-- table of contents -->
+      <aside class="et-faq-nav">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-4);">On this page</div>
+        <nav style="display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--color-border); padding-left: var(--space-2);">
+          <sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="8">
+            <a href="{{ s.anchor }}" style="display: flex; align-items: baseline; gap: var(--space-3); font-size: var(--text-base); color: var(--color-secondary); text-decoration: none; padding: 9px var(--space-3); border-radius: var(--radius-sm);" style-hover="color: var(--color-accent); background: var(--color-surface-alt);"><span style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; color: var(--color-accent);">{{ s.num }}</span><span>{{ s.title }}</span></a>
+          </sc-for>
+        </nav>
+        <a href="General Enquiries.dc.html" style="display: inline-flex; align-items: center; gap: 7px; margin-top: var(--space-6); padding: 11px var(--space-4); font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); text-decoration: none;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">Questions? Contact us &rarr;</a>
+      </aside>
+
+      <!-- document body -->
+      <article style="min-width: 0; max-width: 72ch;">
+        <p style="font-size: var(--text-lg); color: var(--color-muted); line-height: var(--leading-body); margin: 0 0 var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);">{{ doc.lede }}</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-12);">
+          <sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="8">
+            <section id="{{ s.id }}" style="scroll-margin-top: 116px;">
+              <div style="display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-5);">
+                <span style="font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 600; color: var(--color-accent);">{{ s.num }}</span>
+                <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-2xl); line-height: var(--leading-tight); margin: 0; color: var(--color-text);">{{ s.title }}</h2>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+                <sc-for list="{{ s.blocks }}" as="b" hint-placeholder-count="2">
+                  <sc-if value="{{ b.isPara }}" hint-placeholder-val="{{ true }}">
+                    <p style="font-size: var(--text-base); color: var(--color-text); line-height: var(--leading-body); margin: 0;">{{ b.text }}</p>
+                  </sc-if>
+                  <sc-if value="{{ b.isSub }}" hint-placeholder-val="{{ false }}">
+                    <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); color: var(--color-text); margin: var(--space-1) 0 0;">{{ b.text }}</h3>
+                  </sc-if>
+                  <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+                    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ b.items }}" as="li" hint-placeholder-count="3">
+                        <li style="display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-base); color: var(--color-text); line-height: var(--leading-body);">
+                          <span style="flex: none; margin-top: 9px; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--color-accent);"></span>
+                          <span>{{ li }}</span>
+                        </li>
+                      </sc-for>
+                    </ul>
+                  </sc-if>
+                </sc-for>
+              </div>
+            </section>
+          </sc-for>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Conveyancing</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Land &amp; development</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Auctions</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="About.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our branches</a>
+            <a href="Meet the Team.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Meet the team</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="FAQs.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">FAQs</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="tel:01242000000" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">01242 000 000</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="Book a Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="Register.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our offices</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="Legal.dc.html" onClick="{{ goPrivacy }}" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="Legal.dc.html" onClick="{{ goTerms }}" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="Legal.dc.html" onClick="{{ goCookies }}" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Complaints</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="et-cta-spacer"></div>
+  <sc-if value="{{ ctaShow }}" hint-placeholder-val="{{ true }}">
+  <div class="et-mobile-cta" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; align-items: center; gap: var(--space-3); background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -6px 24px rgba(20,24,33,0.10); padding: 10px var(--space-5);">
+    <div style="position: relative; flex: none;">
+      <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Call a branch" onClick="{{ togglePhonePopup }}" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: var(--text-lg); cursor: pointer;">☎</button>
+        <sc-if value="{{ phonePopup }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: calc(100% + 12px); left: 0; z-index: 80; min-width: 250px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-3);">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); padding: 4px 10px 8px;">Call a branch</div>
+            <sc-for list="{{ branchPhones }}" as="bp" hint-placeholder-count="3">
+              <a href="{{ bp.tel }}" onClick="{{ bp.onPick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; padding: 10px; border-radius: var(--radius); color: var(--color-text);" style-hover="background: var(--color-surface-alt);">
+                <span style="font-weight: 600; font-size: var(--text-sm);">{{ bp.name }}</span>
+                <span style="font-size: var(--text-sm); color: var(--color-accent); font-weight: 600;">{{ bp.phone }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ selectedTel }}" aria-label="Call us" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);">☎</a>
+      </sc-if>
+    </div>
+    <a href="Book a Valuation.dc.html" style="flex: 1; text-align: center; background: var(--color-accent); color: var(--color-on-accent); border-radius: var(--radius-full); padding: 15px; font-weight: 600; font-size: var(--text-base); text-decoration: none; min-height: 52px; display: flex; align-items: center; justify-content: center;">Book a Valuation</a>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, activeMega: 'default', openSection: null, navBuyOpen: false, branchOpen: false, branch: 'Cheltenham', phonePopup: false, scrolled: false, activeDoc: 'privacy' };
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+    try {
+      const q = new URLSearchParams(window.location.search).get('doc');
+      if (q && this.legalDocs.some(d => d.key === q)) this.setState({ activeDoc: q });
+    } catch (e) {}
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  _setDoc = (key) => { this.setState({ activeDoc: key }); try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); } };
+
+  get accreditations() { return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA']; }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk' }
+    ];
+  }
+
+  // ===== the legal documents — Privacy / Terms / Cookies =====
+  get legalDocs() {
+    return [
+      {
+        key: 'privacy', tab: 'Privacy Policy',
+        crumb: 'Home \u203A Legal \u203A Privacy Policy',
+        title: 'Privacy Policy',
+        intro: 'How Harvell & Co collects, uses and protects your personal information when you use our website and services.',
+        updated: '14 January 2026',
+        heroNote: 'We are the data controller for the information described here. This policy is written to comply with the UK GDPR and the Data Protection Act 2018.',
+        lede: 'Your privacy matters to us. This policy explains what personal data we hold, why we hold it, how we keep it safe, and the rights you have over it. It applies to visitors to our website, buyers, sellers, landlords, tenants and anyone who contacts us.',
+        sections: [
+          { title: 'Who we are', blocks: [
+            { p: 'Harvell & Co is an estate and lettings agency operating across Cheltenham, Tewkesbury and Gloucester. For the purposes of data protection law, we are the \u201Cdata controller\u201D of the personal information you provide to us.' },
+            { p: 'If you have any questions about this policy or how we handle your data, you can contact our data protection lead at the registered office address below, or by email at privacy@example.co.uk.' }
+          ] },
+          { title: 'Information we collect', blocks: [
+            { p: 'We only collect information that we need to provide our services and to run our business responsibly. Depending on how you interact with us, this may include:' },
+            { ul: [
+              'Contact details such as your name, email address, postal address and telephone number.',
+              'Property details \u2014 the address, type and information about a property you are buying, selling, letting or renting.',
+              'Financial and identity information needed for anti-money-laundering checks, referencing and Right to Rent verification.',
+              'Records of your communications with us, including emails, call notes and enquiry forms.',
+              'Technical information such as your IP address, browser type and how you use our website (see our Cookie Policy).'
+            ] }
+          ] },
+          { title: 'How we use your information', blocks: [
+            { p: 'We use your personal data to deliver and improve our services, including to:' },
+            { ul: [
+              'Respond to your enquiries and arrange valuations, viewings and appointments.',
+              'Market and manage the sale or letting of property, and progress transactions through to completion.',
+              'Carry out legal and regulatory checks, including identity and anti-money-laundering verification.',
+              'Send you relevant property alerts and updates where you have asked us to, or where we are permitted to do so.',
+              'Maintain our records and meet our legal, accounting and reporting obligations.'
+            ] }
+          ] },
+          { title: 'Our legal bases for processing', blocks: [
+            { p: 'Data protection law requires us to have a valid \u201Clegal basis\u201D for using your information. We rely on the following:' },
+            { ul: [
+              'Contract \u2014 where processing is necessary to provide a service you have asked for.',
+              'Legal obligation \u2014 where we must process data to comply with the law, such as money-laundering regulations.',
+              'Legitimate interests \u2014 where processing is needed to run our business effectively, balanced against your rights.',
+              'Consent \u2014 for certain marketing communications, which you can withdraw at any time.'
+            ] }
+          ] },
+          { title: 'Sharing your information', blocks: [
+            { p: 'We never sell your personal data. We only share it where it is necessary to provide our services or where the law requires it. This may include:' },
+            { ul: [
+              'Solicitors, conveyancers, surveyors and mortgage advisers involved in your transaction.',
+              'Referencing agencies, deposit schemes and credit-check providers for lettings.',
+              'Trusted service providers who help us run our website, CRM and marketing, under strict contracts.',
+              'Regulators, law enforcement and other authorities where we are legally obliged to disclose information.'
+            ] }
+          ] },
+          { title: 'How long we keep it', blocks: [
+            { p: 'We keep personal data only for as long as we need it for the purposes set out in this policy, and to meet our legal and regulatory obligations. Anti-money-laundering records, for example, are generally retained for five years after a transaction ends. When data is no longer needed, we securely delete or anonymise it.' }
+          ] },
+          { title: 'Your rights', blocks: [
+            { p: 'Under UK data protection law you have a number of rights over your personal data. You can ask us to:' },
+            { ul: [
+              'Access a copy of the information we hold about you.',
+              'Correct any information that is inaccurate or incomplete.',
+              'Delete your data where there is no longer a valid reason for us to keep it.',
+              'Restrict or object to certain types of processing, including direct marketing.',
+              'Receive your data in a portable format, where applicable.'
+            ] },
+            { p: 'To exercise any of these rights, contact privacy@example.co.uk. You also have the right to complain to the Information Commissioner\u2019s Office (ICO) at ico.org.uk if you are unhappy with how we have handled your data.' }
+          ] },
+          { title: 'Changes & contact', blocks: [
+            { p: 'We may update this policy from time to time to reflect changes in our practices or the law. Any updates will be posted on this page with a revised \u201Clast updated\u201D date.' },
+            { p: 'If you have any questions or wish to exercise your rights, please write to us at: Harvell & Co, 1 Example House, Cheltenham GL50 0AA, or email privacy@example.co.uk.' }
+          ] }
+        ]
+      },
+      {
+        key: 'terms', tab: 'Terms & Conditions',
+        crumb: 'Home \u203A Legal \u203A Terms & Conditions',
+        title: 'Terms & Conditions',
+        intro: 'The terms that govern your use of the Harvell & Co website and the information published on it.',
+        updated: '14 January 2026',
+        heroNote: 'By using this website you agree to these terms. They do not affect your statutory rights as a consumer, and they are governed by the laws of England and Wales.',
+        lede: 'These terms and conditions explain the rules for using our website. Please read them carefully. If you do not agree with any part of them, please do not use the site. They are separate from any agency agreement you may sign with us for selling or letting a property.',
+        sections: [
+          { title: 'About these terms', blocks: [
+            { p: 'This website is operated by Harvell & Co. By accessing or using the site, you confirm that you accept these terms and agree to comply with them. If you are using the site on behalf of an organisation, you confirm you have authority to bind that organisation.' }
+          ] },
+          { title: 'Using our website', blocks: [
+            { p: 'You may use this website for lawful purposes only. You agree not to:' },
+            { ul: [
+              'Use the site in any way that breaches applicable law or regulation.',
+              'Attempt to gain unauthorised access to our systems or interfere with the site\u2019s operation.',
+              'Copy, reproduce or republish material from the site without our written permission.',
+              'Use any automated system to scrape, harvest or extract data from the site.'
+            ] }
+          ] },
+          { title: 'Property information & accuracy', blocks: [
+            { p: 'Property particulars, photographs, floorplans and descriptions are provided in good faith and for general guidance only. They do not form part of any offer or contract and should not be relied upon as statements of fact.' },
+            { p: 'Measurements are approximate, and the presence of fixtures, fittings, services and appliances has not necessarily been tested. Prospective buyers and tenants should satisfy themselves through inspection and professional advice before committing to a transaction.' }
+          ] },
+          { title: 'Valuations & estimates', blocks: [
+            { p: 'Any online valuation, price guide or estimate provided through this website is an automated, indicative figure only. It is not a formal valuation and should not be relied upon for mortgage, tax, legal or financial decisions. For an accurate assessment, please book a free in-person valuation with one of our agents.' }
+          ] },
+          { title: 'Intellectual property', blocks: [
+            { p: 'All content on this website \u2014 including text, graphics, logos, photographs and the Harvell & Co name and branding \u2014 is owned by or licensed to us and is protected by copyright and other intellectual property laws. You may view and print pages for your own personal, non-commercial use only.' }
+          ] },
+          { title: 'Links to third-party sites', blocks: [
+            { p: 'Our website may contain links to third-party websites, such as property portals, mortgage providers or mapping services. These links are provided for convenience only. We have no control over the content of those sites and accept no responsibility for them or for any loss arising from your use of them.' }
+          ] },
+          { title: 'Our liability', blocks: [
+            { p: 'We make every effort to keep the information on this website accurate and up to date, but we do not guarantee that it is complete, current or error-free, and the site is provided on an \u201Cas is\u201D basis.' },
+            { p: 'To the extent permitted by law, we exclude liability for any loss or damage arising from your use of, or inability to use, this website. Nothing in these terms limits our liability for death or personal injury caused by negligence, or for fraud, where it would be unlawful to do so.' }
+          ] },
+          { title: 'Complaints', blocks: [
+            { p: 'We are committed to providing a professional service. If something goes wrong, please contact your local branch in the first instance. We operate a formal complaints procedure and are members of The Property Ombudsman, which provides independent redress. Full details are available on request.' }
+          ] },
+          { title: 'Governing law', blocks: [
+            { p: 'These terms are governed by and construed in accordance with the laws of England and Wales, and any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales. We may revise these terms at any time by updating this page.' }
+          ] }
+        ]
+      },
+      {
+        key: 'cookies', tab: 'Cookie Policy',
+        crumb: 'Home \u203A Legal \u203A Cookie Policy',
+        title: 'Cookie Policy',
+        intro: 'What cookies are, how Harvell & Co uses them on this website, and how you can control them.',
+        updated: '14 January 2026',
+        heroNote: 'You can accept or reject non-essential cookies at any time through the cookie banner or your browser settings. Essential cookies are always required for the site to work.',
+        lede: 'This policy explains how we use cookies and similar technologies on our website. It should be read alongside our Privacy Policy, which sets out how we handle the personal data those technologies may collect.',
+        sections: [
+          { title: 'What are cookies?', blocks: [
+            { p: 'Cookies are small text files placed on your device when you visit a website. They are widely used to make websites work, to remember your preferences and to provide information to site owners. Similar technologies such as pixels and local storage work in comparable ways, and we refer to all of them as \u201Ccookies\u201D in this policy.' }
+          ] },
+          { title: 'How we use cookies', blocks: [
+            { p: 'We use cookies to keep the site secure and working properly, to remember choices you make, and to understand how visitors use the site so we can improve it. We also use them to show you relevant property content. We only set non-essential cookies once you have given consent.' }
+          ] },
+          { title: 'Types of cookies we use', blocks: [
+            { sub: 'Strictly necessary' },
+            { p: 'These cookies are essential for the website to function, such as remembering items you have saved and keeping the site secure. They cannot be switched off in our systems.' },
+            { sub: 'Performance & analytics' },
+            { p: 'These help us understand how visitors interact with the site \u2014 which pages are most popular and where people experience difficulties \u2014 so we can improve it. The information is aggregated and anonymous.' },
+            { sub: 'Functional' },
+            { p: 'These remember choices you make, such as your selected branch or saved properties, to give you a more personalised experience.' },
+            { sub: 'Marketing' },
+            { p: 'These are used to make advertising more relevant to you and to measure the effectiveness of our campaigns. They are only set with your consent.' }
+          ] },
+          { title: 'Third-party cookies', blocks: [
+            { p: 'Some cookies are set by third-party services that appear on our pages, such as embedded maps, video players and property portals. We do not control these cookies, and you should review the relevant provider\u2019s own privacy and cookie policies for more information.' }
+          ] },
+          { title: 'Managing cookies', blocks: [
+            { p: 'You are in control of the cookies we set. You can:' },
+            { ul: [
+              'Use our cookie banner to accept or reject non-essential cookies when you first visit.',
+              'Change your preferences at any time via the cookie settings link in the footer.',
+              'Adjust your browser settings to block or delete cookies \u2014 though some parts of the site may not work properly as a result.'
+            ] }
+          ] },
+          { title: 'Changes to this policy', blocks: [
+            { p: 'We may update this Cookie Policy from time to time to reflect changes in the technologies we use or in the law. Any changes will be posted on this page with an updated date at the top.' }
+          ] }
+        ]
+      }
+    ];
+  }
+
+  renderVals() {
+    // ===== chrome: mega menus =====
+    const activeMega = this.state.activeMega || 'default';
+    const megaData = {
+      buy: { kicker: 'Buying with Harvell & Co', columns: [ { heading: 'Find a home', links: ['Property for sale', 'Property to rent', 'New homes', 'Shared ownership', 'Auctions'] }, { heading: 'Help & advice', links: ['Mortgage advice', 'Conveyancing', 'RICS surveyors', 'First-time buyers', 'Investment services'] } ], feature: { tag: 'New homes', title: 'Cotswold Gate \u2014 3 & 4 bed homes now selling' } },
+      sell: { kicker: 'Selling with Harvell & Co', columns: [ { heading: 'Sell your home', links: ['Book a valuation', 'Instant valuation', 'Selling at auction', 'Probate valuation', 'Land & development'] }, { heading: 'Seller guides', links: ['How to sell your home', 'Preparing to sell', 'Choosing an agent', 'Our fees explained'] } ], feature: { tag: 'Free valuation', title: 'Find out what your home is worth today' } },
+      let: { kicker: 'Landlords & tenants', columns: [ { heading: 'Landlords', links: ['Let your property', 'Landlord services', 'Free rental valuation', 'Buy-to-let mortgages', 'Landlord insurance'] }, { heading: 'Tenants', links: ['Property to rent', 'Register requirements', 'Tenant guides', 'Deposit & fees'] } ], feature: { tag: 'Landlords', title: 'Full management from one point of contact' } },
+      default: { kicker: 'About Harvell & Co', columns: [ { heading: 'Our firm', links: ['About us', 'Meet the team', 'Our branches', 'Reviews', 'Careers'] }, { heading: 'Quick links', links: ['Book a valuation', 'Register requirements', 'Area guides', 'Contact us'] } ], feature: { tag: 'Meet the team', title: 'Local experts across three branches' } }
+    };
+    const itemDefs = [ { label: 'Buy', key: 'buy', dot: true }, { label: 'Sell', key: 'sell', dot: true }, { label: 'Let', key: 'let', dot: true }, { label: 'Valuations', key: null, dot: false }, { label: 'About', key: null, dot: false }, { label: 'News', key: null, dot: false }, { label: 'Contact', key: null, dot: false } ];
+    const itemBase = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 'var(--radius)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, cursor: 'pointer', transition: 'all .15s ease' };
+    const items = itemDefs.map(d => ({
+      label: d.label, dot: d.dot,
+      onEnter: () => this.setState({ activeMega: d.key || 'default' }),
+      onClick: () => this.setState({ menuOpen: false }),
+      style: Object.assign({}, itemBase, (d.key && d.key === activeMega) ? { background: 'var(--color-surface-alt)', color: 'var(--color-accent)' } : { background: 'transparent', color: 'var(--color-text)' })
+    }));
+    const mobileItems = itemDefs.map(d => ({
+      label: d.label, dot: d.dot, simple: !d.dot,
+      links: d.dot ? megaData[d.key].columns.reduce((a, c) => a.concat(c.links), []) : [],
+      open: this.state.openSection === d.key,
+      onToggle: () => this.setState(s => ({ openSection: s.openSection === d.key ? null : d.key }))
+    }));
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+
+    // ===== legal document switcher =====
+    const docs = this.legalDocs;
+    const activeKey = docs.some(d => d.key === this.state.activeDoc) ? this.state.activeDoc : 'privacy';
+    const tabBase = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, border: 'none', borderRadius: 'var(--radius-full)', padding: '11px 22px', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all .15s ease' };
+    const docTabs = docs.map(d => ({
+      label: d.tab,
+      onSelect: () => this._setDoc(d.key),
+      style: Object.assign({}, tabBase, d.key === activeKey
+        ? { background: 'var(--color-primary)', color: 'var(--color-on-primary)', boxShadow: 'var(--shadow-sm)' }
+        : { background: 'transparent', color: 'var(--color-secondary)' })
+    }));
+
+    const active = docs.find(d => d.key === activeKey);
+    const doc = {
+      crumb: active.crumb, title: active.title, intro: active.intro, updated: active.updated, heroNote: active.heroNote, lede: active.lede,
+      sections: active.sections.map((s, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        const id = activeKey + '-s' + (i + 1);
+        const blocks = s.blocks.map(b => ({
+          isPara: 'p' in b, isSub: 'sub' in b, isList: 'ul' in b,
+          text: b.p || b.sub || '', items: b.ul || []
+        }));
+        return { id, anchor: '#' + id, num, title: s.title, blocks };
+      })
+    };
+
+    return {
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      // chrome
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '\u2715' : '\u2630',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen, activeMega: !s.menuOpen ? 'default' : s.activeMega, openSection: null })),
+      closeMenu: () => this.setState({ menuOpen: false, openSection: null }),
+      ctaShow: !this.state.menuOpen,
+      items, mobileItems, mega: megaData[activeMega] || megaData.default,
+      buyOpen: this.state.navBuyOpen,
+      openBuy: () => this.setState({ navBuyOpen: true }),
+      closeBuy: () => this.setState({ navBuyOpen: false }),
+      buyMega: megaData.buy,
+      branch: this.state.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      multiBranch: branchList.length > 1,
+      singleBranch: branchList.length <= 1,
+      selectedPhone: selectedBranch.phone,
+      selectedEmail: selectedBranch.email,
+      selectedTel: telFmt(selectedBranch.phone),
+      phonePopup: this.state.phonePopup,
+      togglePhonePopup: () => this.setState(s => ({ phonePopup: !s.phonePopup })),
+      branchPhones: branchList.map(b => ({ name: b.name, phone: b.phone, tel: telFmt(b.phone), onPick: () => this.setState({ phonePopup: false }) })),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === this.state.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === this.state.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+      accreditations: this.accreditations,
+      year: new Date().getFullYear(),
+      goPrivacy: (e) => { if (e && e.preventDefault) e.preventDefault(); this._setDoc('privacy'); },
+      goTerms: (e) => { if (e && e.preventDefault) e.preventDefault(); this._setDoc('terms'); },
+      goCookies: (e) => { if (e && e.preventDefault) e.preventDefault(); this._setDoc('cookies'); },
+      // legal
+      docTabs, doc
+    };
+  }
+}
+</script>
+</body>
+</html>

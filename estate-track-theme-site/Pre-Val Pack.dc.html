@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1140px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  /* Pre-Val layouts */
+  .et-pv-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--space-12); align-items: center; }
+  .et-pv-grid-top { align-items: start; }
+  .et-stats4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .et-stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .et-survey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  .et-survey-full { grid-column: 1 / -1; }
+  .et-pv-in { width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 15px; min-height: 48px; }
+  .et-pv-in:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 18%, transparent); }
+  /* Builder */
+  .et-builder-fab { position: fixed; right: var(--space-6); bottom: var(--space-6); z-index: 80; }
+  .et-builder-panel { position: fixed; right: var(--space-6); bottom: calc(var(--space-6) + 64px); z-index: 81; width: 340px; max-height: 72vh; overflow-y: auto; }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+    .et-pv-grid { grid-template-columns: 1fr !important; gap: var(--space-8) !important; }
+    .et-stats4 { grid-template-columns: 1fr 1fr !important; }
+    .et-hero-grid { flex-direction: column !important; align-items: stretch !important; gap: var(--space-10) !important; }
+    .et-hero-textcol { flex-basis: 100% !important; }
+    .et-appt-card { width: 100% !important; }
+  }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-stats4 { grid-template-columns: 1fr !important; }
+    .et-stats3 { grid-template-columns: 1fr !important; }
+    .et-survey-grid { grid-template-columns: 1fr !important; }
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 116px !important; padding-bottom: var(--space-12) !important; }
+    .et-builder-fab, .et-builder-panel { display: none !important; }
+    .et-tight-top { padding-top: var(--space-10) !important; }
+  }
+  /* sticky overlay header */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <span style="display: inline-flex; align-items: center; gap: 7px; font-weight: 600; color: var(--color-secondary);">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+          {{ valuerBranch }} branch
+        </span>
+        <span style="color: var(--color-border);">|</span>
+        <a href="{{ valuerTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ valuerPhone }}</a>
+        <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+        <span class="et-topbar-hide" style="color: var(--color-secondary);">Your personal pre-valuation pack</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="#preval-survey" style="color: var(--color-secondary); text-decoration: none;">Pre-visit survey</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none;">Reschedule</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+        <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+          <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy</a>
+          <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+          <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+          <a href="Valuation Overview.dc.html" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">Valuations</a>
+          <a href="About.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+          <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+        </nav>
+        <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <a href="{{ valuerTel }}" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Call your valuer</a>
+          <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+            <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-5) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileNav }}" as="mi" hint-placeholder-count="6">
+          <a href="{{ mi.href }}" onClick="{{ closeMenu }}" style="border-bottom: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+        </sc-for>
+      </nav>
+      <a href="{{ valuerTel }}" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Call {{ valuerFirst }} · {{ valuerPhone }}</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ PREVAL-HERO (always on) ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 46%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal et-hero-grid" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 150px var(--space-8) var(--space-20); display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-16); flex-wrap: wrap;">
+      <div class="et-hero-textcol" style="flex: 0 1 600px; min-width: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-5);">Your pre-valuation pack · Prepared for {{ owner }}</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-5xl); color: var(--color-on-primary); margin: 0 0 var(--space-4); line-height: var(--leading-tight); letter-spacing: -0.01em;">{{ address1 }}</h1>
+        <p style="font-size: var(--text-xl); color: var(--color-on-primary); opacity: 0.86; margin: 0 0 var(--space-8); font-family: var(--font-heading);">{{ address2 }} · {{ postcode }}</p>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.78; margin: 0; max-width: 52ch; line-height: var(--leading-body);">Everything you need before {{ valuerFirst }} visits — who you'll meet, what your local market is doing, and how the appointment will run. Have a read at your leisure.</p>
+      </div>
+
+      <!-- Appointment card -->
+      <div class="et-appt-card" style="flex: 0 0 360px; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+        <div style="background: var(--color-accent); color: var(--color-on-accent); padding: var(--space-4) var(--space-6); display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"></rect><path d="M3 9.5h18"></path><path d="M8 2.5v4"></path><path d="M16 2.5v4"></path></svg>
+          <span style="font-weight: 700; font-size: var(--text-sm); letter-spacing: 0.02em;">Your appointment is confirmed</span>
+        </div>
+        <div style="padding: var(--space-6);">
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-3xl); line-height: 1.1; color: var(--color-text); margin-bottom: 2px;">{{ apptDay }}</div>
+          <div style="font-family: var(--font-heading); font-size: var(--text-xl); color: var(--color-secondary); margin-bottom: var(--space-5);">{{ apptDate }} · {{ apptTime }}</div>
+          <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-5);">
+            <span style="flex: none; width: 44px; height: 44px; border-radius: var(--radius-full); background: var(--color-primary); color: var(--color-on-primary); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 600; font-size: var(--text-base);">{{ valuerInitials }}</span>
+            <div>
+              <div style="font-weight: 600; font-size: var(--text-base); color: var(--color-text);">{{ valuerName }}</div>
+              <div style="font-size: var(--text-sm); color: var(--color-muted);">{{ valuerRole }}</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" style="flex: 1; text-align: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-primary); background: var(--color-primary); border-radius: var(--radius-full); padding: 12px; text-decoration: none;" style-hover="background: var(--color-primary-hover);">Add to calendar</a>
+            <a href="#" style="flex: 1; text-align: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-border); border-radius: var(--radius-full); padding: 12px; text-decoration: none;" style-hover="border-color: var(--color-secondary);">Reschedule</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REORDERABLE / TOGGLEABLE SECTIONS ============ -->
+  <div style="display: flex; flex-direction: column;">
+
+    <!-- ===== preval-valuer ===== -->
+    <div style="order: {{ sec.valuer.order }}; display: {{ sec.valuer.display }};">
+    <section id="preval-valuer" class="et-section" style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border);">
+      <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div style="max-width: 60ch; margin: 0 0 var(--space-12);">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Meet your valuer</div>
+          <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">The person who'll be coming to your home</h2>
+        </div>
+        <div class="et-pv-grid" style="align-items: stretch;">
+          <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-8);">
+            <div style="display: flex; align-items: center; gap: var(--space-5); margin-bottom: var(--space-6);">
+              <span style="flex: none; width: 84px; height: 84px; border-radius: var(--radius-full); background: var(--color-primary); color: var(--color-on-primary); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 600; font-size: var(--text-3xl);">{{ valuerInitials }}</span>
+              <div>
+                <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.1;">{{ valuerName }}</div>
+                <div style="font-size: var(--text-base); color: var(--color-muted); margin-top: 2px;">{{ valuerRole }}</div>
+              </div>
+            </div>
+            <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0 0 var(--space-6);">{{ valuerBio }}</p>
+            <div style="display: flex; flex-direction: column; gap: var(--space-3); border-top: 1px solid var(--color-border); padding-top: var(--space-5);">
+              <div style="display: flex; align-items: center; gap: 11px; font-size: var(--text-base);">
+                <span style="flex: none; color: var(--color-accent);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg></span>
+                <span><strong>{{ valuerYears }} years</strong> valuing homes in {{ valuerArea }}</span>
+              </div>
+              <a href="{{ valuerTel }}" style="display: flex; align-items: center; gap: 11px; font-size: var(--text-base); color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">
+                <span style="flex: none; color: var(--color-accent);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"></path></svg></span>
+                <span>Direct line · <strong>{{ valuerPhone }}</strong></span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Optional intro video -->
+          <div style="display: flex;">
+            <a href="#" style="position: relative; display: flex; flex-direction: column; width: 100%; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); text-decoration: none;">
+              <div class="et-ph" style="flex: 1; min-height: 300px;"></div>
+              <span style="position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">[ valuer intro video ]</span>
+              <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                <span style="width: 70px; height: 70px; border-radius: var(--radius-full); background: rgba(255,255,255,0.92); box-shadow: var(--shadow-lg); display: inline-flex; align-items: center; justify-content: center; color: var(--color-primary);">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+                </span>
+              </span>
+              <span style="position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-6); background: linear-gradient(to top, var(--color-primary) 6%, transparent 90%);">
+                <span style="display: block; font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); color: var(--color-on-primary);">A quick hello from {{ valuerFirst }}</span>
+                <span style="display: block; font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.8; margin-top: 2px;">1 min · what to expect from your appointment</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- ===== preval-local-market ===== -->
+    <div style="order: {{ sec.market.order }}; display: {{ sec.market.display }};">
+    <section id="preval-local-market" class="et-section" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+      <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div style="max-width: 62ch; margin: 0 0 var(--space-12);">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Your local market · {{ postcode }}</div>
+          <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-4);">What homes near you are doing right now</h2>
+          <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0;">A snapshot of {{ valuerArea }} over the last 12 months, so you've got context before we talk numbers on the day.</p>
+        </div>
+        <div class="et-stats3">
+          <sc-for list="{{ marketStats }}" as="m" hint-placeholder-count="3">
+            <div style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-4);">{{ m.label }}</div>
+              <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-5xl); line-height: 1; color: var(--color-primary); margin-bottom: var(--space-3);">{{ m.value }}</div>
+              <div style="font-size: var(--text-sm); color: var(--color-secondary);">{{ m.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-size: var(--text-sm); color: var(--color-muted); margin: var(--space-6) 0 0; display: flex; align-items: center; gap: 8px;">
+          <span style="flex: none; width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent);"></span>
+          {{ marketSource }}
+        </p>
+      </div>
+    </section>
+    </div>
+
+    <!-- ===== preval-why-instruct ===== -->
+    <div style="order: {{ sec.why.order }}; display: {{ sec.why.display }};">
+    <section id="preval-why-instruct" class="et-section" style="background: var(--color-primary); position: relative; overflow: hidden;">
+      <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.3;"></div>
+      <div style="position: relative; max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div style="max-width: 60ch; margin: 0 0 var(--space-12);">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Why homeowners instruct us</div>
+          <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); color: var(--color-on-primary); margin: 0;">The numbers behind the recommendation</h2>
+        </div>
+        <div class="et-stats4" style="margin-bottom: var(--space-12);">
+          <sc-for list="{{ whyStats }}" as="w" hint-placeholder-count="4">
+            <div style="border-top: 2px solid var(--color-accent); padding-top: var(--space-5);">
+              <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: 1; color: var(--color-on-primary); margin-bottom: var(--space-3);">{{ w.value }}</div>
+              <div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.78; line-height: var(--leading-body);">{{ w.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <figure style="margin: 0; max-width: 60ch; border-left: 3px solid var(--color-accent); padding-left: var(--space-6);">
+          <blockquote style="margin: 0 0 var(--space-4); font-family: var(--font-heading); font-weight: 400; font-style: italic; font-size: var(--text-2xl); line-height: var(--leading-snug, 1.3); color: var(--color-on-primary);">"{{ testimonialQuote }}"</blockquote>
+          <figcaption style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.7;">{{ testimonialName }} · {{ testimonialMeta }}</figcaption>
+        </figure>
+      </div>
+    </section>
+    </div>
+
+    <!-- ===== preval-agency ===== -->
+    <div style="order: {{ sec.agency.order }}; display: {{ sec.agency.display }};">
+    <section id="preval-agency" class="et-section" style="background: var(--color-bg); border-top: 1px solid var(--color-border);">
+      <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div class="et-pv-grid">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">About Harvell &amp; Co</div>
+            <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-5);">A local agency, on your street since 1994</h2>
+            <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-secondary); margin: 0 0 var(--space-4);">{{ agencyP1 }}</p>
+            <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-8);">{{ agencyP2 }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-8);">
+              <sc-for list="{{ agencyFacts }}" as="f" hint-placeholder-count="3">
+                <div>
+                  <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary);">{{ f.value }}</div>
+                  <div style="font-size: var(--text-sm); color: var(--color-muted);">{{ f.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+            <div class="et-ph" style="aspect-ratio: 4 / 3;"></div>
+            <span style="position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">[ branch / team photo ]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- ===== preval-on-the-day ===== -->
+    <div style="order: {{ sec.ontheday.order }}; display: {{ sec.ontheday.display }};">
+    <section id="preval-on-the-day" class="et-section" style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border);">
+      <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div class="et-pv-grid et-pv-grid-top">
+          <div style="position: sticky; top: 120px;">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">On the day</div>
+            <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-5);">How the appointment will run</h2>
+            <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-6);">It's relaxed and takes around 45 minutes. No need to prepare anything — though it helps to have a think about your timescale and any questions.</p>
+            <div style="display: inline-flex; align-items: center; gap: 10px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; font-size: var(--text-sm); color: var(--color-secondary);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+              Allow around 45 minutes
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+              <div style="display: flex; gap: var(--space-5); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-6);">
+                <span style="flex: none; width: 38px; height: 38px; border-radius: var(--radius-full); background: var(--color-primary); color: var(--color-on-primary); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg);">{{ s.n }}</span>
+                <div>
+                  <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin-bottom: 4px;">{{ s.title }}</div>
+                  <div style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted);">{{ s.body }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- ===== preval-survey ===== -->
+    <div style="order: {{ sec.survey.order }}; display: {{ sec.survey.display }};">
+    <section id="preval-survey" class="et-section" style="background: var(--color-bg); border-top: 1px solid var(--color-border);">
+      <div style="max-width: 880px; margin: 0 auto; padding: var(--space-20) var(--space-8);">
+        <div style="max-width: 60ch; margin: 0 0 var(--space-10);">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Before we visit</div>
+          <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-4);">A few questions for {{ valuerFirst }}</h2>
+          <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0;">Optional, but the more we know in advance, the more useful your appointment will be. Takes about two minutes.</p>
+        </div>
+
+        <sc-if value="{{ surveySent }}" hint-placeholder-val="{{ false }}">
+          <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-12); text-align: center;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-full); background: color-mix(in oklch, var(--color-success) 16%, transparent); color: var(--color-success); margin-bottom: var(--space-5);"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+            <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin: 0 0 var(--space-3);">Thank you — that's been sent to {{ valuerFirst }}</h3>
+            <p style="font-size: var(--text-base); color: var(--color-muted); margin: 0 auto; max-width: 46ch;">{{ valuerFirst }} will read it before your appointment on {{ apptDay }}. If anything changes, just call {{ valuerPhone }}.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ surveyOpen }}" hint-placeholder-val="{{ true }}">
+        <div onSubmit="{{ submitSurvey }}" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-8);">
+          <div class="et-survey-grid">
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">What's prompting the move?</label>
+              <dc-import name="FilterSelect" options="{{ moveOpts }}" placeholder="Please choose…" value="{{ surveyMove }}" on-change="{{ onSurveyMove }}" hint-size="100%,50px"></dc-import>
+            </div>
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Is the property currently tenanted?</label>
+              <dc-import name="FilterSelect" options="{{ tenantedOpts }}" placeholder="Please choose…" value="{{ surveyTenanted }}" on-change="{{ onSurveyTenanted }}" hint-size="100%,50px"></dc-import>
+            </div>
+            <div class="et-survey-full">
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Any improvements or works since you bought it?</label>
+              <textarea rows="3" placeholder="e.g. new kitchen 2023, extension, re-wired, new boiler…" class="et-pv-in" style="resize: vertical; min-height: 84px;"></textarea>
+            </div>
+            <div class="et-survey-full">
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Anything you'd like {{ valuerFirst }} to focus on?</label>
+              <textarea rows="3" placeholder="Questions about pricing, marketing, fees, or anything on your mind." class="et-pv-in" style="resize: vertical; min-height: 84px;"></textarea>
+            </div>
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Best contact number on the day</label>
+              <input type="tel" placeholder="Mobile or landline" class="et-pv-in" />
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); margin-top: var(--space-8);">
+            <button type="button" onClick="{{ submitSurvey }}" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 15px 32px; min-height: 50px; cursor: pointer;" style-hover="background: var(--color-accent-hover);">Send to {{ valuerFirst }}</button>
+            <span style="font-size: var(--text-sm); color: var(--color-muted); max-width: 40ch;">Your details are only used to prepare for your valuation. No marketing, ever.</span>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+    </section>
+    </div>
+
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Valuations</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="Book a Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+            <a href="Instant Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="Virtual Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Virtual valuation</a>
+            <a href="Valuation Overview.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Why value with us</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="About.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="Meet the Team.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Meet the team</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="Testimonials Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Reviews</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="{{ valuerTel }}" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">{{ valuerPhone }}</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="#preval-survey" style="color: var(--color-accent); opacity: 1; text-decoration: none; font-weight: 600;">Complete pre-visit survey</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ SECTION BUILDER (template demo) ============ -->
+  <button class="et-builder-fab" onClick="{{ toggleBuilder }}" style="display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-primary); background: var(--color-primary); border: 1px solid var(--color-primary); border-radius: var(--radius-full); padding: 13px 20px; min-height: 50px; cursor: pointer; box-shadow: var(--shadow-lg);" style-hover="background: var(--color-primary-hover);">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path><circle cx="9" cy="6" r="2" fill="var(--color-primary)"></circle><circle cx="15" cy="12" r="2" fill="var(--color-primary)"></circle><circle cx="9" cy="18" r="2" fill="var(--color-primary)"></circle></svg>
+    {{ builderLabel }}
+  </button>
+
+  <sc-if value="{{ builderOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-builder-panel" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+      <div style="padding: var(--space-5) var(--space-5) var(--space-4); border-bottom: 1px solid var(--color-border);">
+        <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg);">Build this pack</div>
+        <div style="font-size: var(--text-sm); color: var(--color-muted); margin-top: 2px;">Toggle sections on or off and drag the order. The hero always stays.</div>
+      </div>
+      <div style="padding: var(--space-3);">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: var(--radius); background: var(--color-surface-alt); margin-bottom: var(--space-2);">
+          <span style="flex: none; width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span>
+          <span style="flex: 1; font-size: var(--text-sm); font-weight: 600;">Pre-val pack header</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted);">always on</span>
+        </div>
+        <sc-for list="{{ builderItems }}" as="b" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; gap: var(--space-3); padding: 9px 12px; border-radius: var(--radius);" style-hover="background: var(--color-surface-alt);">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <button aria-label="Move up" onClick="{{ b.onUp }}" style="{{ b.upStyle }}">▲</button>
+              <button aria-label="Move down" onClick="{{ b.onDown }}" style="{{ b.downStyle }}">▼</button>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: var(--text-sm); font-weight: 600; color: var(--color-text);">{{ b.label }}</div>
+              <div style="font-size: var(--text-xs); color: var(--color-muted);">{{ b.sub }}</div>
+            </div>
+            <button role="switch" aria-checked="{{ b.on }}" onClick="{{ b.onToggle }}" style="{{ b.trackStyle }}">
+              <span style="{{ b.knobStyle }}"></span>
+            </button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    menuOpen: false, scrolled: false, builderOpen: false, surveySent: false,
+    surveyMove: '', surveyTenanted: '',
+    sections: [
+      { key: 'valuer',   label: 'Your valuer',        sub: 'Photo, bio, phone & intro video', on: true },
+      { key: 'market',   label: 'Local market',       sub: 'Avg price, 12-mo change, days to sell', on: true },
+      { key: 'why',      label: 'Why instruct us',    sub: 'USP stats + a testimonial', on: true },
+      { key: 'agency',   label: 'About the agency',   sub: 'Who we are', on: true },
+      { key: 'ontheday', label: 'On the day',         sub: 'How the appointment runs', on: true },
+      { key: 'survey',   label: 'Pre-visit survey',   sub: 'Questions for the owner', on: true }
+    ]
+  };
+
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  get pack() {
+    return {
+      owner: 'Mr & Mrs Hartley',
+      address1: '14 Brookfield Road',
+      address2: 'Charlton Kings, Cheltenham',
+      postcode: 'GL52 6XQ',
+      area: 'Charlton Kings',
+      valuer: { name: 'Daniel Hart', first: 'Daniel', initials: 'DH', role: 'Senior Valuer & Branch Partner', years: 16, phone: '01242 000 014', branch: 'Cheltenham',
+        bio: "Daniel has lived and worked in Cheltenham his whole career and has valued more homes in Charlton Kings than anyone on the team. He's straight-talking, never pushy, and would rather give you an honest figure than the highest one." },
+      appt: { day: 'Thursday', date: '3 July 2026', time: '2:30 pm' }
+    };
+  }
+
+  get marketStats() {
+    return [
+      { label: 'Average sold price', value: '£565,000', note: 'Detached & semi-detached homes' },
+      { label: '12-month change', value: '+4.2%', note: 'Up from £542,000 a year ago' },
+      { label: 'Average days to sell', value: '31', note: 'From listing to agreed sale' }
+    ];
+  }
+
+  get whyStats() {
+    return [
+      { value: '98.7%', label: 'Average of asking price achieved across our sales' },
+      { value: '24 days', label: 'Average time to find a buyer last year' },
+      { value: '310+', label: 'Homes sold across the county in the last 12 months' },
+      { value: '4.9/5', label: 'Rated on Google from 451 verified reviews' }
+    ];
+  }
+
+  get agencyFacts() {
+    return [
+      { value: 'Est. 1994', label: 'Independently owned' },
+      { value: '3 branches', label: 'Across Gloucestershire' },
+      { value: '11,000+', label: 'Homes moved' }
+    ];
+  }
+
+  get steps() {
+    return [
+      { title: 'A look round, inside and out', body: "Daniel will walk through each room with you and view the garden, frontage and any outbuildings. No need to tidy on our account." },
+      { title: 'Measurements & key features', body: 'We note room sizes, the layout and the features buyers in Charlton Kings pay a premium for.' },
+      { title: 'Your plans & timescale', body: "Tell us where you're moving to and when. It shapes the strategy we'd recommend." },
+      { title: 'The local market & comparable sales', body: "We'll show you what's recently sold nearby and how your home compares." },
+      { title: 'A realistic figure & a clear plan', body: "You'll get an honest valuation and exactly how we'd market your home to achieve it — no obligation to go ahead." }
+    ];
+  }
+
+  get accreditations() { return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA']; }
+
+  _move(i, dir) {
+    this.setState(st => {
+      const arr = st.sections.slice();
+      const j = i + dir;
+      if (j < 0 || j >= arr.length) return null;
+      const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+      return { sections: arr };
+    });
+  }
+  _toggle(key) {
+    this.setState(st => ({ sections: st.sections.map(s => s.key === key ? Object.assign({}, s, { on: !s.on }) : s) }));
+  }
+
+  renderVals() {
+    const p = this.pack;
+    const v = p.valuer;
+    const telFmt = (x) => 'tel:' + x.replace(/\s+/g, '');
+
+    // section order/display map
+    const sec = {};
+    this.state.sections.forEach((s, i) => { sec[s.key] = { order: i, display: s.on ? 'block' : 'none' }; });
+
+    const arrowBase = { width: '22px', height: '18px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', background: 'var(--color-surface-alt)', border: '1px solid var(--color-border)', borderRadius: '5px', color: 'var(--color-secondary)', cursor: 'pointer', lineHeight: 1 };
+    const arrowOff = Object.assign({}, arrowBase, { opacity: 0.35, cursor: 'default' });
+
+    const len = this.state.sections.length;
+    const builderItems = this.state.sections.map((s, i) => {
+      const trackOn = s.on;
+      return {
+        key: s.key, label: s.label, sub: s.sub, on: s.on,
+        onToggle: () => this._toggle(s.key),
+        onUp: i > 0 ? () => this._move(i, -1) : () => {},
+        onDown: i < len - 1 ? () => this._move(i, 1) : () => {},
+        upStyle: i > 0 ? arrowBase : arrowOff,
+        downStyle: i < len - 1 ? arrowBase : arrowOff,
+        trackStyle: { flex: 'none', width: '42px', height: '24px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer', position: 'relative', transition: 'background .18s ease', background: trackOn ? 'var(--color-accent)' : 'var(--color-border)' },
+        knobStyle: { position: 'absolute', top: '3px', left: trackOn ? '21px' : '3px', width: '18px', height: '18px', borderRadius: 'var(--radius-full)', background: '#fff', boxShadow: '0 1px 2px rgba(0,0,0,0.25)', transition: 'left .18s ease', display: 'block' }
+      };
+    });
+
+    return {
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      mobileNav: [
+        { label: 'Buy', href: '#' }, { label: 'Sell', href: '#' }, { label: 'Let', href: '#' },
+        { label: 'Valuations', href: 'Valuation Overview.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: '#' }
+      ],
+
+      // pack
+      owner: p.owner, address1: p.address1, address2: p.address2, postcode: p.postcode,
+      valuerName: v.name, valuerFirst: v.first, valuerInitials: v.initials, valuerRole: v.role,
+      valuerYears: v.years, valuerArea: p.area, valuerPhone: v.phone, valuerTel: telFmt(v.phone),
+      valuerBranch: v.branch, valuerBio: v.bio,
+      apptDay: p.appt.day, apptDate: p.appt.date, apptTime: p.appt.time,
+
+      // sections
+      sec,
+      marketStats: this.marketStats,
+      marketSource: 'Based on ' + '42 sold prices recorded in GL52 over the 12 months to June 2026 · Land Registry',
+      whyStats: this.whyStats,
+      testimonialQuote: "Daniel valued our place honestly when two other agents had over-promised. We listed at his figure and had three viewings booked before the photos were even live.",
+      testimonialName: 'Rachel & Tom Ellery',
+      testimonialMeta: 'Sold in Charlton Kings, 2025',
+      agencyP1: "We're an independent agency that has only ever worked one patch — Cheltenham and the villages around it. No call centres, no head office in another county. The person who values your home is the person who'll sell it.",
+      agencyP2: 'Three branches, a team who mostly grew up here, and three decades of knowing which streets buyers ask for by name. That local knowledge is the difference between a guess and a valuation you can trust.',
+      agencyFacts: this.agencyFacts,
+      steps: this.steps.map((s, i) => ({ n: i + 1, title: s.title, body: s.body })),
+      accreditations: this.accreditations,
+      year: new Date().getFullYear(),
+
+      // survey
+      surveySent: this.state.surveySent,
+      surveyOpen: !this.state.surveySent,
+      moveOpts: ['Upsizing', 'Downsizing', 'Relocating for work', 'Buying a first home together', 'Investment / let', 'Just curious about value', 'Other'],
+      tenantedOpts: ['No — owner occupied', 'Yes — let to tenants', 'Vacant'],
+      surveyMove: this.state.surveyMove,
+      surveyTenanted: this.state.surveyTenanted,
+      onSurveyMove: (v) => this.setState({ surveyMove: v }),
+      onSurveyTenanted: (v) => this.setState({ surveyTenanted: v }),
+      submitSurvey: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ surveySent: true }); },
+
+      // builder
+      builderOpen: this.state.builderOpen,
+      builderLabel: this.state.builderOpen ? 'Done' : 'Build this pack',
+      toggleBuilder: () => this.setState(s => ({ builderOpen: !s.builderOpen })),
+      builderItems
+    };
+  }
+}
+</script>
+</body>
+</html>

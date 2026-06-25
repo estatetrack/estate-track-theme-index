@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155); --color-star: oklch(0.78 0.16 85);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-form-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: var(--space-12); align-items: start; }
+  .et-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+    .et-form-grid { grid-template-columns: 1fr !important; gap: var(--space-8) !important; }
+    .et-aside { order: -1; }
+  }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-two { grid-template-columns: 1fr !important; }
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+  }
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-field { width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 15px; min-height: 50px; outline: none; transition: border-color .15s ease, box-shadow .15s ease; }
+  .et-field:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 18%, transparent); }
+  select.et-field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; padding-right: 38px; cursor: pointer; }
+  textarea.et-field { resize: vertical; min-height: 150px; line-height: var(--leading-body); }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <div style="position: relative;">
+          <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+            {{ branch }} branch
+            <span style="{{ branchChevronStyle }}">▾</span>
+          </button>
+          <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+              <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                  <span>{{ b.name }}</span>
+                  <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <span style="color: var(--color-border);">|</span>
+        <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+        <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+        <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="Register.dc.html" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="About.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+        <a href="News Listings.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="General Enquiries.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="Book a Valuation.dc.html" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; width: 300px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+            <sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="7">
+              <a href="{{ m.href }}" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; border-radius: var(--radius); text-decoration: none; font-size: var(--text-base); font-weight: 500; color: var(--color-text);" style-hover="background: var(--color-surface-alt); color: var(--color-accent);">{{ m.label }}</a>
+            </sc-for>
+            <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+              <a href="Register.dc.html" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+              <a href="{{ selectedTel }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">{{ selectedPhone }}</a>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="7">
+          <a href="{{ m.href }}" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ m.label }}</a>
+        </sc-for>
+      </nav>
+      <a href="Book a Valuation.dc.html" onClick="{{ closeMenu }}" style="margin-top: var(--space-8); text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 42%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 150px var(--space-8) var(--space-12);">
+      <div style="max-width: 62ch;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7; margin-bottom: var(--space-3);">Home › Reviews › Leave a review</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); color: var(--color-on-primary); margin: 0 0 var(--space-4); line-height: var(--leading-tight); max-width: 20ch;">Leave us a review</h1>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0; max-width: 60ch; line-height: var(--leading-body);">Worked with us recently? We'd love to hear how it went. No Google account needed — just share your experience here and help others choose with confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEW-FORM ============ -->
+  <section class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-10) var(--space-8) var(--space-20);">
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width: 640px; margin: 0 auto; text-align: center; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-16) var(--space-12);">
+        <div style="width: 64px; height: 64px; border-radius: var(--radius-full); background: color-mix(in oklch, var(--color-success) 16%, transparent); display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-6);"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+        <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-4);">Thank you for your review</h2>
+        <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0 0 var(--space-8);">We really appreciate you taking the time. Your feedback helps us keep improving and helps others choose Harvell &amp; Co with confidence.</p>
+        <a href="Testimonials Listings.dc.html" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 14px 28px; text-decoration: none;" style-hover="background: var(--color-accent-hover);">Read other reviews</a>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+    <div class="et-form-grid">
+      <!-- FORM -->
+      <form onSubmit="{{ onSubmit }}" style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-12);">
+        <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin: 0 0 var(--space-6);">Your review</h3>
+
+        <!-- star rating -->
+        <div style="margin-bottom: var(--space-8);">
+          <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Overall rating <span style="color: var(--color-accent);">*</span></label>
+          <div style="display: flex; align-items: center; gap: var(--space-4);">
+            <div style="display: flex; gap: 4px;" onMouseLeave="{{ onStarLeave }}">
+              <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5">
+                <button type="button" aria-label="{{ st.aria }}" onClick="{{ st.onClick }}" onMouseEnter="{{ st.onHover }}" style="background: transparent; border: none; padding: 2px; cursor: pointer; line-height: 0;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="{{ st.fill }}" stroke="{{ st.stroke }}" stroke-width="1.4" stroke-linejoin="round" style="transition: transform .12s ease; transform: {{ st.scale }};"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+              </sc-for>
+            </div>
+            <span style="font-size: var(--text-base); font-weight: 600; color: {{ ratingColor }};">{{ ratingLabel }}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+          <div class="et-two">
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Your name <span style="color: var(--color-accent);">*</span></label>
+              <input class="et-field" type="text" required="{{ true }}" placeholder="Full name" />
+            </div>
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Email (not published)</label>
+              <input class="et-field" type="email" placeholder="you@example.co.uk" />
+            </div>
+          </div>
+          <div class="et-two">
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Which branch? <span style="color: var(--color-accent);">*</span></label>
+              <dc-import name="FilterSelect" options="{{ branchNames }}" value="{{ branch }}" on-change="{{ onBranchChange }}" hint-size="100%,50px"></dc-import>
+            </div>
+            <div>
+              <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Service you used <span style="color: var(--color-accent);">*</span></label>
+              <dc-import name="FilterSelect" options="{{ serviceTypes }}" placeholder="Please choose…" value="{{ serviceValue }}" on-change="{{ onServiceChange }}" hint-size="100%,50px"></dc-import>
+            </div>
+          </div>
+          <div>
+            <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Who looked after you? (optional)</label>
+            <input class="et-field" type="text" placeholder="Name of the agent or team member" />
+          </div>
+          <div>
+            <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: 7px;">Your review <span style="color: var(--color-accent);">*</span></label>
+            <textarea class="et-field" required="{{ true }}" placeholder="Tell us about your experience — what went well, and anything we could do better."></textarea>
+          </div>
+        </div>
+
+        <label style="display: flex; align-items: flex-start; gap: 12px; margin-top: var(--space-6); cursor: pointer;">
+          <input type="checkbox" required="{{ true }}" style="margin-top: 2px; width: 18px; height: 18px; accent-color: var(--color-accent); flex: none; cursor: pointer;" />
+          <span style="font-size: var(--text-sm); color: var(--color-muted); line-height: var(--leading-body);">I'm happy for Harvell &amp; Co to publish my review and first name on its website and marketing.</span>
+        </label>
+
+        <button type="submit" style="margin-top: var(--space-8); width: 100%; font-family: var(--font-body); font-size: var(--text-lg); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 17px; min-height: 56px; cursor: pointer;" style-hover="background: var(--color-accent-hover);">Submit review</button>
+      </form>
+
+      <!-- ASIDE -->
+      <aside class="et-aside" style="display: flex; flex-direction: column; gap: var(--space-6); position: sticky; top: 110px;">
+        <div style="background: var(--color-primary); color: var(--color-on-primary); border-radius: var(--radius-lg); padding: var(--space-8); position: relative; overflow: hidden;">
+          <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+          <div style="position: relative;">
+            <div style="display: flex; gap: 3px; margin-bottom: var(--space-4); color: var(--color-star);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: 1; margin-bottom: var(--space-2);">4.9 / 5</div>
+            <p style="font-size: var(--text-base); line-height: var(--leading-body); opacity: 0.82; margin: 0;">Rated by over 600 clients across our three branches.</p>
+          </div>
+        </div>
+        <div style="background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8);">
+          <h4 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin: 0 0 var(--space-3);">Have a Google account?</h4>
+          <p style="font-size: var(--text-base); color: var(--color-muted); line-height: var(--leading-body); margin: 0 0 var(--space-5);">You can also leave your review on Google — it only takes a moment and helps us enormously.</p>
+          <a href="#" style="display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;">Review us on Google <span style="font-family: var(--font-heading);">→</span></a>
+        </div>
+      </aside>
+    </div>
+    </sc-if>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="Services.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="Services.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="Services.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="Services.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="About.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="Meet the Team.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Meet the team</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="Leave a Review.dc.html" style="color: var(--color-accent); opacity: 1; text-decoration: none; font-weight: 600;">Reviews</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="{{ selectedTel }}" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">{{ selectedPhone }}</a>
+            <a href="General Enquiries.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">General enquiries</a>
+            <a href="Register.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="Book a Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.14); margin-top: var(--space-16); padding-top: var(--space-6); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, branchOpen: false, branch: 'Cheltenham', scrolled: false, submitted: false, rating: 0, hover: 0, service: '' };
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk' }
+    ];
+  }
+
+  renderVals() {
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+    const menuLinks = [
+      { label: 'Buy', href: 'Property Listings.dc.html' },
+      { label: 'Sell', href: 'Services.dc.html' },
+      { label: 'Let', href: 'Services.dc.html' },
+      { label: 'Valuations', href: 'Book a Valuation.dc.html' },
+      { label: 'About', href: 'About.dc.html' },
+      { label: 'News', href: 'News Listings.dc.html' },
+      { label: 'Contact', href: 'General Enquiries.dc.html' }
+    ];
+
+    const active = this.state.hover || this.state.rating;
+    const labels = { 0: 'Tap to rate', 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Very good', 5: 'Excellent' };
+    const stars = [1, 2, 3, 4, 5].map(n => {
+      const lit = n <= active;
+      return {
+        aria: n + ' star' + (n > 1 ? 's' : ''),
+        fill: lit ? 'var(--color-star)' : 'none',
+        stroke: lit ? 'var(--color-star)' : 'var(--color-border)',
+        scale: (this.state.hover && n <= this.state.hover) ? 'scale(1.12)' : 'scale(1)',
+        onClick: () => this.setState({ rating: n }),
+        onHover: () => this.setState({ hover: n })
+      };
+    });
+
+    return {
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuLinks,
+      branch: this.state.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      branchNames: branchList.map(b => b.name),
+      onBranchChange: (v) => this.setState({ branch: v }),
+      serviceValue: this.state.service,
+      onServiceChange: (v) => this.setState({ service: v }),
+      selectedPhone: selectedBranch.phone,
+      selectedEmail: selectedBranch.email,
+      selectedTel: telFmt(selectedBranch.phone),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === this.state.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === this.state.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+
+      // review form
+      stars,
+      onStarLeave: () => this.setState({ hover: 0 }),
+      ratingLabel: labels[active],
+      ratingColor: active ? 'var(--color-text)' : 'var(--color-muted)',
+      serviceTypes: [
+        'Selling my home',
+        'Buying a home',
+        'Letting my property (landlord)',
+        'Renting a property (tenant)',
+        'Property valuation',
+        'Mortgage or conveyancing',
+        'Other'
+      ],
+      submitted: this.state.submitted,
+      showForm: !this.state.submitted,
+      onSubmit: (e) => { e.preventDefault(); this.setState({ submitted: true }); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      year: new Date().getFullYear()
+    };
+  }
+}
+</script>
+</body>
+</html>

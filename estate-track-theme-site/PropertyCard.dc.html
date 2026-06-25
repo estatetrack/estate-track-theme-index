@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, serif; --font-body: "Hanken Grotesk", system-ui, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-2xl: 1.75rem;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.10);
+    --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 8px, transparent 8px 16px); background-color: var(--color-surface-alt); }
+  .pc-media { aspect-ratio: 3 / 2; }
+  .pc-row { flex-direction: row !important; min-height: 250px; }
+  .pc-row .pc-media { aspect-ratio: auto; width: 360px; flex: none; align-self: stretch; }
+  .pc-row .pc-body { flex: 1; }
+  @media (max-width: 640px) { .pc-row { flex-direction: column !important; } .pc-row .pc-media { width: auto; aspect-ratio: 3 / 2; } }
+</style>
+</helmet>
+
+<article class="{{ cardClass }}" style="position: relative; display: flex; flex-direction: column; height: 100%; font-family: var(--font-body); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease;" style-hover="box-shadow: var(--shadow-md); transform: translateY(-3px);">
+  <div class="pc-media" style="position: relative; overflow: hidden;">
+    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+    <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ photo }}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"></sc-if>
+    <sc-if value="{{ offMarket }}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(31,36,46,0.28);"></div></sc-if>
+    <sc-if value="{{ showPhotoLabel }}" hint-placeholder-val="{{ true }}"><span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); opacity: 0.85;">[ {{ photoLabel }} ]</span></sc-if>
+
+    <span style="position: absolute; bottom: var(--space-3); left: var(--space-3); font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.02em; color: {{ statusFg }}; background: {{ statusBg }}; border-radius: var(--radius-full); padding: 5px 14px;">{{ status }}</span>
+
+    <sc-if value="{{ added }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: var(--space-3); left: var(--space-3); font-family: var(--font-body); font-size: var(--text-xs); font-weight: 600; color: var(--color-primary); background: rgba(255,255,255,0.92); border-radius: var(--radius-full); padding: 5px 12px;">{{ added }}</span></sc-if>
+
+    <button aria-label="Save" onClick="{{ toggleSave }}" style="position: absolute; top: var(--space-3); right: var(--space-3); width: 38px; height: 38px; border-radius: var(--radius-full); border: none; background: rgba(255,255,255,0.92); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);"><svg width="17" height="17" viewBox="0 0 24 24" fill="{{ heartFill }}" stroke="{{ heartStroke }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></button>
+
+    <sc-if value="{{ showVideo }}" hint-placeholder-val="{{ false }}"><button aria-label="Watch video" style="position: absolute; bottom: var(--space-3); right: var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: none; background: rgba(31,36,46,0.78); color: #fff; font-family: var(--font-body); font-size: var(--text-xs); font-weight: 600; border-radius: var(--radius-full); padding: 6px 12px; cursor: pointer;"><span style="font-size: 9px;">▶</span> Video</button></sc-if>
+  </div>
+
+  <sc-if value="{{ offMarket }}" hint-placeholder-val="{{ false }}">
+    <div class="pc-body" style="padding: var(--space-5); display: flex; flex-direction: column; flex: 1;">
+      <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.1; margin-bottom: 6px;">Off-market property</div>
+      <div style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-5);">A discreet sale. Register to view the full address, photos and price.</div>
+      <a href="{{ href }}" style="margin-top: auto; align-self: flex-start; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 20px; text-decoration: none;">Click for details →</a>
+    </div>
+  </sc-if>
+  <sc-if value="{{ showDetails }}" hint-placeholder-val="{{ true }}">
+    <a href="{{ href }}" class="pc-body" style="padding: var(--space-5); display: flex; flex-direction: column; flex: 1; text-decoration: none; color: var(--color-text);">
+      <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1.1; margin-bottom: 4px;">{{ price }}</div>
+      <div style="font-size: var(--text-base); font-weight: 500; margin-bottom: 4px;">{{ title }}</div>
+      <div style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-4);">{{ address }}</div>
+      <div style="margin-top: auto; display: flex; gap: var(--space-5); font-size: var(--text-sm); color: var(--color-secondary); border-top: 1px solid var(--color-border); padding-top: var(--space-4);">
+        <sc-for list="{{ specs }}" as="spec" hint-placeholder-count="3"><span>{{ spec }}</span></sc-for>
+      </div>
+    </a>
+  </sc-if>
+</article>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:360},&quot;status&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;For Sale&quot;,&quot;To Let&quot;,&quot;SSTC&quot;,&quot;Sold&quot;,&quot;Let Agreed&quot;,&quot;New&quot;],&quot;default&quot;:&quot;For Sale&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;price&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;£475,000&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;4 bed detached house&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;address&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Charlton Kings, Cheltenham&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;beds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;tsType&quot;:&quot;number&quot;},&quot;baths&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;tsType&quot;:&quot;number&quot;},&quot;receptions&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;tsType&quot;:&quot;number&quot;},&quot;added&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;offMarket&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;hasVideo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;row&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;photo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;photoLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;property photo&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;href&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { saved: false };
+  renderVals() {
+    const p = this.props || {};
+    const offMarket = p.offMarket === true || p.offMarket === 'true';
+    const hasPhoto = !!(p.photo && String(p.photo).length);
+    const hasVideo = !(p.hasVideo === false || p.hasVideo === 'false');
+    const status = offMarket ? 'Off market' : (p.status || 'For Sale');
+    const map = {
+      'For Sale': ['var(--color-accent)', 'var(--color-on-accent)'],
+      'To Let': ['var(--color-secondary)', 'var(--color-on-primary)'],
+      'SSTC': ['var(--color-success)', 'var(--color-on-primary)'],
+      'Sold': ['var(--color-success)', 'var(--color-on-primary)'],
+      'Let Agreed': ['var(--color-success)', 'var(--color-on-primary)'],
+      'New': ['var(--color-primary)', 'var(--color-on-primary)'],
+      'Off market': ['var(--color-primary)', 'var(--color-on-primary)']
+    };
+    const pair = map[status] || map['For Sale'];
+    const n = (v) => { const x = parseInt(v, 10); return isNaN(x) ? 0 : x; };
+    const beds = n(p.beds), baths = n(p.baths), receptions = n(p.receptions);
+    const specs = [];
+    if (beds) specs.push(beds + ' bed' + (beds > 1 ? 's' : ''));
+    if (baths) specs.push(baths + ' bath' + (baths > 1 ? 's' : ''));
+    if (receptions) specs.push(receptions + ' recep' + (receptions > 1 ? 's' : ''));
+    const saved = this.state.saved;
+    const row = p.row === true || p.row === 'true';
+    return {
+      cardClass: row ? 'pc-row' : '',
+      status, statusBg: pair[0], statusFg: pair[1],
+      price: p.price || '', title: p.title || '', address: p.address || '',
+      specs, photoLabel: p.photoLabel || 'property photo', href: p.href || '#',
+      offMarket, showDetails: !offMarket,
+      showVideo: hasVideo && !offMarket,
+      showPhotoLabel: !offMarket && !hasPhoto, photo: p.photo || '', hasPhoto,
+      added: p.added || '',
+      heartFill: saved ? 'var(--color-accent)' : 'none',
+      heartStroke: saved ? 'var(--color-accent)' : 'var(--color-secondary)',
+      toggleSave: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState(s => ({ saved: !s.saved })); }
+    };
+  }
+}
+</script>
+</body>
+</html>

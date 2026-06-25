@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-profile { display: grid; grid-template-columns: 420px 1fr; gap: var(--space-16); align-items: start; }
+  .et-profile-media { position: sticky; top: 120px; }
+  .et-rest-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-header > div { padding-top: 34px !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+    .et-profile { grid-template-columns: 340px 1fr !important; gap: var(--space-10) !important; }
+    .et-rest-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 760px) {
+    .et-profile { grid-template-columns: 1fr !important; gap: var(--space-8) !important; }
+    .et-profile-media { position: static !important; top: auto !important; }
+    .et-profile-photo { aspect-ratio: 4 / 3 !important; }
+  }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-rest-grid { grid-template-columns: 1fr 1fr !important; gap: var(--space-4) !important; }
+    .et-visit { flex-direction: column !important; align-items: flex-start !important; }
+  }
+  /* ===== MOBILE STYLE GUIDE — titles + spacing ===== */
+  @media (max-width: 680px) {
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+    .et-tight-top { padding-top: var(--space-10) !important; }
+  }
+  /* mobile pass: sticky bottom CTA */
+  .et-mobile-cta { display: none; }
+  .et-cta-spacer { display: none; }
+  @media (max-width: 860px) {
+    .et-mobile-cta { display: flex !important; }
+    .et-cta-spacer { display: block; height: 80px; background: var(--color-primary); }
+  }
+  /* ===== transparent overlay header (opaque + sticky on scroll) ===== */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <!-- ============ TOPBAR ============ -->
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative;">
+            <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+              {{ branch }} branch
+              <span style="{{ branchChevronStyle }}">▾</span>
+            </button>
+            <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                  <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                    <span>{{ b.name }}</span>
+                    <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <span style="color: var(--color-border);">|</span>
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+        <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="#" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <div style="position: relative;" onMouseEnter="{{ openBuy }}" onMouseLeave="{{ closeBuy }}">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy<span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></a>
+          <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: 100%; left: 0; padding-top: 16px; z-index: 70;">
+              <div style="width: 660px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-8);">
+                <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ buyMega.kicker }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8);">
+                  <sc-for list="{{ buyMega.columns }}" as="col" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeBuy }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <a href="#" onClick="{{ closeBuy }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                    <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                    <div style="position: relative; padding: var(--space-5);">
+                      <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ buyMega.feature.tag }}</div>
+                      <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ buyMega.feature.title }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="Meet the Team.dc.html" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">About</a>
+        <a href="News Listings.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="Book a Valuation.dc.html" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+
+        <!-- DESKTOP MEGA MENU -->
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; display: flex; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="width: 600px; padding: var(--space-8); border-right: 1px solid var(--color-border); background: var(--color-bg);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ mega.kicker }}</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8); align-items: stretch;">
+                <sc-for list="{{ mega.columns }}" as="col" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <a href="#" onClick="{{ closeMenu }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 210px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                  <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                  <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                  <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                  <div style="position: relative; padding: var(--space-5);">
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ mega.feature.tag }}</div>
+                    <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ mega.feature.title }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div style="width: 280px; padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="7">
+                <a href="#" onMouseEnter="{{ it.onEnter }}" onClick="{{ it.onClick }}" style="{{ it.style }}">
+                  <span>{{ it.label }}</span>
+                  <sc-if value="{{ it.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></sc-if>
+                </a>
+              </sc-for>
+              <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+                <a href="tel:01242000000" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileItems }}" as="mi" hint-placeholder-count="7">
+          <div style="border-bottom: 1px solid var(--color-border);">
+            <sc-if value="{{ mi.simple }}" hint-placeholder-val="{{ true }}">
+              <a href="#" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+            </sc-if>
+            <sc-if value="{{ mi.dot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ mi.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; cursor: pointer; color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">
+                <span style="display: inline-flex; align-items: center; gap: 11px;">{{ mi.label }}<span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span></span>
+                <span style="font-size: var(--text-xl); color: var(--color-muted); font-family: var(--font-body);">+</span>
+              </button>
+              <sc-if value="{{ mi.open }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-5) var(--space-4);">
+                  <sc-for list="{{ mi.links }}" as="ml" hint-placeholder-count="5"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-base); color: var(--color-secondary); text-decoration: none;">{{ ml }}</a></sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+        <a href="tel:01242000000" style="color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+      </div>
+      <a href="Book a Valuation.dc.html" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL (compact breadcrumb + back) ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 42%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 132px var(--space-8) var(--space-10); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap;">
+      <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7;">Home › About › <a href="Meet the Team.dc.html" style="color: var(--color-on-primary); opacity: 0.9; text-decoration: none;">Meet the team</a> › {{ name }}</div>
+      <a href="Meet the Team.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-primary); text-decoration: none; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-full); padding: 9px 18px;" style-hover="background: rgba(255,255,255,0.2);"><span style="font-family: var(--font-heading);">←</span> Back to the team</a>
+    </div>
+  </section>
+
+  <!-- ============ TEAM-MEMBER-PROFILE ============ -->
+  <section class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-16) var(--space-8) var(--space-20);">
+    <div class="et-profile">
+
+      <!-- LEFT: photo / video + contact card -->
+      <div class="et-profile-media">
+        <div class="et-profile-photo et-ph" style="position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: var(--space-5);">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in oklch, var(--color-primary) 55%, transparent) 0%, transparent 42%);"></div>
+          <span style="position: absolute; top: var(--space-4); left: var(--space-4); font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 6px 16px;">{{ department }}</span>
+          <span style="position: absolute; top: var(--space-4); right: var(--space-4); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7;">[ {{ photoLabel }} ]</span>
+          <!-- video intro overlay (photo-or-video) -->
+          <button onClick="{{ toggleVideo }}" aria-label="Play video introduction" style="position: absolute; left: var(--space-4); bottom: var(--space-4); display: inline-flex; align-items: center; gap: 11px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-primary); background: rgba(255,255,255,0.92); border: none; border-radius: var(--radius-full); padding: 8px 18px 8px 8px; cursor: pointer; box-shadow: var(--shadow-sm);" style-hover="background: #fff;">
+            <span style="width: 34px; height: 34px; border-radius: var(--radius-full); background: var(--color-accent); color: var(--color-on-accent); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="13" height="13" viewBox="0 0 12 14" fill="currentColor"><path d="M0 0l12 7-12 7z"></path></svg></span>
+            {{ watchLabel }}
+          </button>
+        </div>
+
+        <!-- Contact card -->
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-6);">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--space-5);">Get in touch with {{ firstName }}</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-6);">
+            <a href="{{ directTel }}" style="display: flex; align-items: center; gap: var(--space-4); text-decoration: none; color: var(--color-text);">
+              <span style="width: 42px; height: 42px; border-radius: var(--radius-full); background: var(--color-surface-alt); color: var(--color-accent); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+              <span style="display: flex; flex-direction: column;">
+                <span style="font-size: var(--text-xs); color: var(--color-muted);">Direct line</span>
+                <span style="font-size: var(--text-base); font-weight: 600;">{{ directPhone }}</span>
+              </span>
+            </a>
+            <a href="{{ mailto }}" style="display: flex; align-items: center; gap: var(--space-4); text-decoration: none; color: var(--color-text); min-width: 0;">
+              <span style="width: 42px; height: 42px; border-radius: var(--radius-full); background: var(--color-surface-alt); color: var(--color-accent); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+              <span style="display: flex; flex-direction: column; min-width: 0;">
+                <span style="font-size: var(--text-xs); color: var(--color-muted);">Email</span>
+                <span style="font-size: var(--text-base); font-weight: 600; overflow: hidden; text-overflow: ellipsis;">{{ email }}</span>
+              </span>
+            </a>
+          </div>
+          <a href="Book a Valuation.dc.html" style="display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 14px; text-decoration: none; margin-bottom: var(--space-3); min-height: 48px;" style-hover="background: var(--color-accent-hover);">{{ bookLabel }}</a>
+          <a href="{{ mailto }}" style="display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-border); border-radius: var(--radius-full); padding: 13px; text-decoration: none; min-height: 48px;" style-hover="border-color: var(--color-secondary); background: var(--color-surface-alt);">{{ sendLabel }}</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: bio + details -->
+      <div style="min-width: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-4);">{{ role }} · {{ branch }} branch</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); line-height: var(--leading-tight); letter-spacing: -0.01em; margin: 0 0 var(--space-6);">{{ name }}</h1>
+
+        <!-- Quick facts strip -->
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-8); padding: var(--space-4) 0 var(--space-6); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-8);">
+          <sc-for list="{{ facts }}" as="f" hint-placeholder-count="3">
+            <div>
+              <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); line-height: 1; margin-bottom: 6px;">{{ f.value }}</div>
+              <div style="font-size: var(--text-sm); color: var(--color-muted);">{{ f.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- Bio -->
+        <div style="max-width: 64ch;">
+          <p style="font-family: var(--font-heading); font-weight: 400; font-size: var(--text-xl); line-height: var(--leading-snug, 1.4); color: var(--color-text); margin: 0 0 var(--space-6);">{{ bioLead }}</p>
+          <sc-for list="{{ bioParas }}" as="p" hint-placeholder-count="2">
+            <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-secondary); margin: 0 0 var(--space-5);">{{ p }}</p>
+          </sc-for>
+        </div>
+
+        <!-- Specialisms -->
+        <div style="margin-top: var(--space-8);">
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); margin-bottom: var(--space-4);">Specialisms</div>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+            <sc-for list="{{ specialisms }}" as="s" hint-placeholder-count="4">
+              <span style="font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 8px 16px;">{{ s }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- VISIT-BRANCH card -->
+        <div class="et-visit" style="margin-top: var(--space-10); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-6); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+          <div style="display: flex; align-items: flex-start; gap: var(--space-4); min-width: 0;">
+            <span style="width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--color-surface-alt); color: var(--color-accent); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+            <div style="min-width: 0;">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); margin-bottom: 6px;">Based at</div>
+              <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-xl); margin-bottom: 4px;">{{ branch }} branch</div>
+              <div style="font-size: var(--text-sm); color: var(--color-muted);">{{ branchAddress }} · {{ directPhone }}</div>
+            </div>
+          </div>
+          <a href="{{ branchHref }}" style="flex: none; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-primary); border-radius: var(--radius-full); padding: 13px 24px; text-decoration: none; white-space: nowrap;" style-hover="background: var(--color-primary); color: var(--color-on-primary);">Visit the branch →</a>
+        </div>
+
+        <!-- Back to team (inline) -->
+        <div style="margin-top: var(--space-10);">
+          <a href="Meet the Team.dc.html" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;"><span style="font-family: var(--font-heading);">←</span> Back to the team</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEET THE REST OF THE BRANCH ============ -->
+  <sc-if value="{{ hasColleagues }}" hint-placeholder-val="{{ true }}">
+  <section style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-16) var(--space-8);">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-8); flex-wrap: wrap;">
+        <div style="max-width: 52ch;">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">{{ branch }} branch</div>
+          <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">Meet the rest of the {{ branch }} team</h2>
+        </div>
+        <a href="Meet the Team.dc.html" style="flex: none; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">See the whole team <span style="font-family: var(--font-heading);">→</span></a>
+      </div>
+      <div class="et-rest-grid">
+        <sc-for list="{{ colleagues }}" as="m" hint-placeholder-count="4">
+          <a href="{{ m.href }}" style="display: flex; flex-direction: column; height: 100%; text-decoration: none; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, transform .2s ease;" style-hover="box-shadow: var(--shadow-md); transform: translateY(-3px);">
+            <div class="et-ph" style="position: relative; aspect-ratio: 4 / 5; overflow: hidden;">
+              <span style="position: absolute; top: var(--space-3); left: var(--space-3); font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 5px 14px;">{{ m.department }}</span>
+              <span style="position: absolute; bottom: var(--space-3); right: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); opacity: 0.8;">[ portrait ]</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); line-height: 1.2; margin: 0 0 4px;">{{ m.name }}</h3>
+              <div style="font-size: var(--text-sm); font-weight: 600; color: var(--color-accent);">{{ m.role }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ============ VIDEO MODAL ============ -->
+  <sc-if value="{{ videoOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeVideo }}" style="position: fixed; inset: 0; z-index: 200; background: color-mix(in oklch, var(--color-primary) 74%, transparent); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: var(--space-8) var(--space-6);">
+      <div onClick="{{ stop }}" style="position: relative; width: 100%; max-width: 860px; display: flex; flex-direction: column; gap: var(--space-3);">
+        <button aria-label="Close" onClick="{{ closeVideo }}" style="align-self: flex-end; width: 42px; height: 42px; border-radius: var(--radius-full); border: none; background: rgba(255,255,255,0.16); color: #fff; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;" style-hover="background: rgba(255,255,255,0.28);">✕</button>
+        <div class="et-ph-dark" style="position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(135deg, color-mix(in oklch, var(--color-primary) 80%, transparent), transparent);"></div>
+          <div style="position: relative; text-align: center; color: var(--color-on-primary);">
+            <span style="width: 76px; height: 76px; border-radius: var(--radius-full); background: var(--color-accent); color: var(--color-on-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4);"><svg width="26" height="26" viewBox="0 0 12 14" fill="currentColor"><path d="M0 0l12 7-12 7z"></path></svg></span>
+            <div style="font-family: var(--font-heading); font-size: var(--text-2xl); margin-bottom: 6px;">{{ name }} — a quick hello</div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;">[ video intro placeholder ]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Conveyancing</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Land &amp; development</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Auctions</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our branches</a>
+            <a href="Meet the Team.dc.html" style="color: var(--color-accent); opacity: 1; text-decoration: none; font-weight: 600;">Meet the team</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Reviews</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="tel:01242000000" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">01242 000 000</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="Book a Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our offices</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Complaints</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="et-cta-spacer"></div>
+  <sc-if value="{{ ctaShow }}" hint-placeholder-val="{{ true }}">
+  <div class="et-mobile-cta" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; align-items: center; gap: var(--space-3); background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -6px 24px rgba(20,24,33,0.10); padding: 10px var(--space-5);">
+    <a href="{{ directTel }}" aria-label="Call" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); text-decoration: none; font-size: var(--text-lg); flex: none;">☎</a>
+    <a href="{{ mailto }}" style="flex: 1; text-align: center; background: var(--color-accent); color: var(--color-on-accent); border-radius: var(--radius-full); padding: 15px; font-weight: 600; font-size: var(--text-base); text-decoration: none; min-height: 52px; display: flex; align-items: center; justify-content: center;">{{ emailLabel }}</a>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, activeMega: 'default', openSection: null, navBuyOpen: false, branchOpen: false, branch: 'Cheltenham', scrolled: false, videoOpen: false, member: null };
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+    try { const p = new URLSearchParams(window.location.search); const m = p.get('member'); if (m) this.setState({ member: m }); } catch (e) {}
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  get accreditations() { return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA']; }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk', address: '14 Promenade, Cheltenham GL50 1LR' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk', address: '8 High Street, Tewkesbury GL20 5JE' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk', address: '22 Westgate Street, Gloucester GL1 2NF' }
+    ];
+  }
+
+  // Shared roster — keep in sync with Meet the Team.dc.html
+  get team() {
+    return [
+      { slug: 'david-hart', name: 'David Hart', role: 'Managing Director', department: 'Management', branch: 'Cheltenham', directPhone: '01242 000 001', years: '24', specialisms: ['Strategy & growth', 'Prime & period homes', 'Land & new homes', 'Market valuations'], facts: [{ value: '24 yrs', label: 'In the local market' }, { value: '3', label: 'Branches led' }, { value: 'RICS', label: 'Qualified' }], lead: 'David founded the firm and still leads it from the front — with a straight-talking, no-inflated-valuations approach that has built the agency\u2019s reputation over more than two decades.', paras: ['Born and raised in the Cotswolds, David knows the area\u2019s streets, schools and price pockets better than almost anyone. He set up Harvell & Co with a simple belief: give people honest advice, look after them properly, and the business looks after itself.', 'Today he oversees all three branches but still personally handles a handful of the firm\u2019s most complex sales each year — from listed period homes to multi-plot land deals. If your move needs a steady, experienced pair of hands, David is the person to ask for.'] },
+      { slug: 'sarah-whitmore', name: 'Sarah Whitmore', role: 'Head of Sales', department: 'Sales', branch: 'Cheltenham', directPhone: '01242 000 002', years: '15', specialisms: ['Family homes', 'Chain management', 'Negotiation', 'Seller guidance'], facts: [{ value: '15 yrs', label: 'In estate agency' }, { value: '120+', label: 'Sales a year' }, { value: '#1', label: 'Branch by volume' }], lead: 'Sarah runs the sales floor in Cheltenham and is the calm, relentless force behind hundreds of completed moves a year.', paras: ['She built her career on a reputation for keeping chains together when they look like they might fall apart — chasing solicitors, managing both sides\u2019 expectations and keeping sellers informed every step of the way.', 'Sarah leads a close-knit team of negotiators and is hands-on with every instruction, from the valuation through to the day the keys change hands.'] },
+      { slug: 'emma-coles', name: 'Emma Coles', role: 'Valuations Manager', department: 'Valuations', branch: 'Cheltenham', directPhone: '01242 000 003', years: '11', specialisms: ['Accurate pricing', 'Probate valuations', 'Presentation advice', 'Market appraisals'], facts: [{ value: '11 yrs', label: 'Valuing locally' }, { value: '600+', label: 'Homes appraised' }, { value: '48 hr', label: 'To market' }], lead: 'Emma is who you meet first. Her valuations are realistic, evidenced and never inflated just to win the instruction.', paras: ['She combines years of local data with a sharp eye for presentation, advising sellers on the small, sensible changes that genuinely move the needle at valuation.', 'Book an appointment on a Saturday and Emma will often have you seen, advised and ready to go live by the Monday.'] },
+      { slug: 'james-pemberton', name: 'James Pemberton', role: 'Senior Sales Negotiator', department: 'Sales', branch: 'Cheltenham', directPhone: '01242 000 004', years: '8', specialisms: ['Buyer matching', 'Area knowledge', 'Viewings', 'First-time buyers'], facts: [{ value: '8 yrs', label: 'On the road' }, { value: 'Local', label: 'Born & bred' }, { value: '5\u2605', label: 'Buyer reviews' }], lead: 'James knows the Cheltenham suburbs inside out and lines up exactly the right homes for buyers to view.', paras: ['Buyers love him for saving them months of wasted weekends — he listens carefully, then only sends you what genuinely fits.', 'From first viewing to picking up the keys, James keeps people informed the whole way through.'] },
+      { slug: 'priya-anand', name: 'Priya Anand', role: 'Head of Lettings', department: 'Lettings', branch: 'Cheltenham', directPhone: '01242 000 005', years: '13', specialisms: ['Full management', 'Landlord compliance', 'Tenant find', 'Portfolio advice'], facts: [{ value: '13 yrs', label: 'In lettings' }, { value: '400+', label: 'Managed homes' }, { value: '1', label: 'Point of contact' }], lead: 'Priya heads up lettings and takes every worry off a landlord\u2019s hands — from finding the right tenant to staying on top of compliance.', paras: ['As the single point of contact for managed landlords, she makes sure rent arrives on time, repairs are handled and nothing slips through the cracks.', 'She keeps a close eye on the Renters\u2019 Rights Act and other legislation so her landlords never have to.'] },
+      { slug: 'george-adeyemi', name: 'George Adeyemi', role: 'Mortgage Adviser', department: 'Mortgages', branch: 'Cheltenham', directPhone: '01242 000 006', years: '9', specialisms: ['First-time buyers', 'Remortgages', 'Buy-to-let', 'Protection'], facts: [{ value: '9 yrs', label: 'Advising' }, { value: 'Whole', label: 'Of market' }, { value: 'CeMAP', label: 'Qualified' }], lead: 'George is our in-house mortgage adviser, helping buyers find the right deal across the whole of the market.', paras: ['He breaks down rates, deposits and terms in plain English, so you know exactly what your next move will cost each month.', 'Whether it\u2019s your first home, a remortgage or a buy-to-let, George makes the finance side feel straightforward.'] },
+      { slug: 'michael-osei', name: 'Michael Osei', role: 'Branch Manager', department: 'Management', branch: 'Tewkesbury', directPhone: '01684 000 001', years: '16', specialisms: ['Branch leadership', 'Period homes', 'Riverside property', 'Vendor care'], facts: [{ value: '16 yrs', label: 'In the trade' }, { value: 'Tewkesbury', label: 'Born & based' }, { value: 'Top', label: 'Rated branch' }], lead: 'Michael leads the Tewkesbury office and is the friendly, reassuring face of the firm in the town.', paras: ['He knows the riverside, the historic centre and the surrounding villages street by street, and his team consistently earns the firm\u2019s best client reviews.', 'Selling a period or riverside home? Michael\u2019s experience is hard to beat.'] },
+      { slug: 'charlotte-reeve', name: 'Charlotte Reeve', role: 'Senior Negotiator', department: 'Sales', branch: 'Tewkesbury', directPhone: '01684 000 002', years: '7', specialisms: ['Family homes', 'Viewings', 'Offer negotiation', 'Buyer matching'], facts: [{ value: '7 yrs', label: 'Selling homes' }, { value: '90+', label: 'Sales a year' }, { value: '5\u2605', label: 'Client reviews' }], lead: 'Charlotte is a tenacious negotiator who consistently secures prices above expectation for her sellers.', paras: ['She handles each instruction with care and energy, giving honest feedback after every viewing and talking sellers carefully through each offer.', 'Calm under pressure, she keeps deals moving when they could easily stall.'] },
+      { slug: 'daniel-brooks', name: 'Daniel Brooks', role: 'Lettings Manager', department: 'Lettings', branch: 'Tewkesbury', directPhone: '01684 000 003', years: '10', specialisms: ['Tenant find', 'Inventory & checks', 'Landlord care', 'Renewals'], facts: [{ value: '10 yrs', label: 'In lettings' }, { value: '250+', label: 'Tenancies' }, { value: 'Fast', label: 'To let' }], lead: 'Daniel runs lettings in Tewkesbury, matching good landlords with reliable, well-referenced tenants.', paras: ['He prides himself on the quality of tenant he finds and the speed at which he fills a property without cutting corners on checks.', 'Landlords value his steady communication and his eye for detail on every inventory and renewal.'] },
+      { slug: 'olivia-grant', name: 'Olivia Grant', role: 'Sales Negotiator', department: 'Sales', branch: 'Tewkesbury', directPhone: '01684 000 004', years: '4', specialisms: ['First-time buyers', 'Viewings', 'Local knowledge', 'Buyer care'], facts: [{ value: '4 yrs', label: 'On the team' }, { value: 'Local', label: 'Knowledge' }, { value: '5\u2605', label: 'Buyer reviews' }], lead: 'Olivia is the warm, patient voice many first-time buyers remember from their very first viewing.', paras: ['She takes the time to understand exactly what people are looking for and never pushes a property that doesn\u2019t fit.', 'Friendly and quick to reply, she makes the search feel a lot less daunting.'] },
+      { slug: 'rachel-nwosu', name: 'Rachel Nwosu', role: 'Branch Manager', department: 'Management', branch: 'Gloucester', directPhone: '01452 000 001', years: '14', specialisms: ['Branch leadership', 'City homes', 'Investors', 'Vendor care'], facts: [{ value: '14 yrs', label: 'In agency' }, { value: 'Gloucester', label: 'Specialist' }, { value: 'Top', label: 'Rated team' }], lead: 'Rachel heads the Gloucester branch with energy, structure and a real commitment to client care.', paras: ['She knows the city\u2019s neighbourhoods and investment hotspots intimately, and builds teams that consistently deliver for buyers and sellers alike.', 'Whether you\u2019re a first-time buyer or a portfolio investor, Rachel makes sure you\u2019re looked after.'] },
+      { slug: 'tom-fletcher', name: 'Tom Fletcher', role: 'Sales Negotiator', department: 'Sales', branch: 'Gloucester', directPhone: '01452 000 002', years: '6', specialisms: ['City homes', 'Viewings', 'Buyer matching', 'Investors'], facts: [{ value: '6 yrs', label: 'Selling' }, { value: 'Local', label: 'Born & bred' }, { value: '5\u2605', label: 'Reviews' }], lead: 'Tom is a Gloucester local who knows the city\u2019s streets and which homes suit which buyers.', paras: ['He\u2019s quick, organised and genuinely interested in getting the right result for everyone in the chain.', 'Buyers and sellers alike praise his straightforward, no-nonsense approach.'] },
+      { slug: 'sophie-bennett', name: 'Sophie Bennett', role: 'Lettings Negotiator', department: 'Lettings', branch: 'Gloucester', directPhone: '01452 000 003', years: '5', specialisms: ['Tenant find', 'Viewings', 'Referencing', 'Tenant care'], facts: [{ value: '5 yrs', label: 'In lettings' }, { value: 'Quick', label: 'To respond' }, { value: '5\u2605', label: 'Tenant reviews' }], lead: 'Sophie looks after tenants and landlords in Gloucester with a quick, friendly and fair approach.', paras: ['She makes renting feel painless — responsive, organised and always clear about what happens next.', 'Tenants regularly come back to her when it\u2019s time for their next move.'] },
+      { slug: 'hannah-clarke', name: 'Hannah Clarke', role: 'Property Manager', department: 'Lettings', branch: 'Gloucester', directPhone: '01452 000 004', years: '8', specialisms: ['Maintenance', 'Compliance', 'Deposits', 'Landlord care'], facts: [{ value: '8 yrs', label: 'Managing homes' }, { value: '300+', label: 'Properties' }, { value: '24/7', label: 'Repairs line' }], lead: 'Hannah keeps managed properties running smoothly, handling repairs, compliance and deposits without fuss.', paras: ['She\u2019s the person tenants call when something needs fixing and the person landlords trust to sort it quickly and properly.', 'Organised and unflappable, she makes full management genuinely hands-off for landlords.'] },
+      { slug: 'laura-pennington', name: 'Laura Pennington', role: 'Marketing Manager', department: 'Marketing', branch: 'Cheltenham', directPhone: '01242 000 007', years: '10', specialisms: ['Property photography', 'Brochures', 'Digital marketing', 'Brand'], facts: [{ value: '10 yrs', label: 'In marketing' }, { value: '1000s', label: 'Of listings' }, { value: '48 hr', label: 'To portals' }], lead: 'Laura makes sure every home we sell looks its absolute best across the portals and our own channels.', paras: ['She oversees the photography, brochures and digital marketing that put our listings a cut above — getting properties live and seen within 48 hours.', 'Her work is a big part of why our sellers see strong interest from day one.'] }
+    ];
+  }
+
+  renderVals() {
+    // ===== chrome: mega menus =====
+    const activeMega = this.state.activeMega || 'default';
+    const megaData = {
+      buy: { kicker: 'Buying with Harvell & Co', columns: [ { heading: 'Find a home', links: ['Property for sale', 'Property to rent', 'New homes', 'Shared ownership', 'Auctions'] }, { heading: 'Help & advice', links: ['Mortgage advice', 'Conveyancing', 'RICS surveyors', 'First-time buyers', 'Investment services'] } ], feature: { tag: 'New homes', title: 'Cotswold Gate — 3 & 4 bed homes now selling' } },
+      sell: { kicker: 'Selling with Harvell & Co', columns: [ { heading: 'Sell your home', links: ['Book a valuation', 'Instant valuation', 'Selling at auction', 'Probate valuation', 'Land & development'] }, { heading: 'Seller guides', links: ['How to sell your home', 'Preparing to sell', 'Choosing an agent', 'Our fees explained'] } ], feature: { tag: 'Free valuation', title: 'Find out what your home is worth today' } },
+      let: { kicker: 'Landlords & tenants', columns: [ { heading: 'Landlords', links: ['Let your property', 'Landlord services', 'Free rental valuation', 'Buy-to-let mortgages', 'Landlord insurance'] }, { heading: 'Tenants', links: ['Property to rent', 'Register requirements', 'Tenant guides', 'Deposit & fees'] } ], feature: { tag: 'Landlords', title: 'Full management from one point of contact' } },
+      default: { kicker: 'About Harvell & Co', columns: [ { heading: 'Our firm', links: ['About us', 'Meet the team', 'Our branches', 'Reviews', 'Careers'] }, { heading: 'Quick links', links: ['Book a valuation', 'Register requirements', 'Area guides', 'Contact us'] } ], feature: { tag: 'Meet the team', title: 'Local experts across three branches' } }
+    };
+    const itemDefs = [ { label: 'Buy', key: 'buy', dot: true }, { label: 'Sell', key: 'sell', dot: true }, { label: 'Let', key: 'let', dot: true }, { label: 'Valuations', key: null, dot: false }, { label: 'About', key: null, dot: false }, { label: 'News', key: null, dot: false }, { label: 'Contact', key: null, dot: false } ];
+    const itemBase = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 'var(--radius)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, cursor: 'pointer', transition: 'all .15s ease' };
+    const items = itemDefs.map(d => ({
+      label: d.label, dot: d.dot,
+      onEnter: () => this.setState({ activeMega: d.key || 'default' }),
+      onClick: () => this.setState({ menuOpen: false }),
+      style: Object.assign({}, itemBase, (d.key && d.key === activeMega) ? { background: 'var(--color-surface-alt)', color: 'var(--color-accent)' } : { background: 'transparent', color: 'var(--color-text)' })
+    }));
+    const mobileItems = itemDefs.map(d => ({
+      label: d.label, dot: d.dot, simple: !d.dot,
+      links: d.dot ? megaData[d.key].columns.reduce((a, c) => a.concat(c.links), []) : [],
+      open: this.state.openSection === d.key,
+      onToggle: () => this.setState(s => ({ openSection: s.openSection === d.key ? null : d.key }))
+    }));
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+
+    // ===== resolve member =====
+    const all = this.team;
+    const m = all.find(x => x.slug === this.state.member) || all[0];
+    const firstName = m.name.split(' ')[0];
+    const memBranch = branchList.find(b => b.name === m.branch) || branchList[0];
+    const emailLocal = m.name.toLowerCase().split(' ')[0];
+    const email = emailLocal + '@example.co.uk';
+    const colleagues = all.filter(x => x.branch === m.branch && x.slug !== m.slug).slice(0, 4);
+
+    return {
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      // chrome
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen, activeMega: !s.menuOpen ? 'default' : s.activeMega, openSection: null })),
+      closeMenu: () => this.setState({ menuOpen: false, openSection: null }),
+      ctaShow: !this.state.menuOpen,
+      items, mobileItems, mega: megaData[activeMega] || megaData.default,
+      buyOpen: this.state.navBuyOpen,
+      openBuy: () => this.setState({ navBuyOpen: true }),
+      closeBuy: () => this.setState({ navBuyOpen: false }),
+      buyMega: megaData.buy,
+      branch: m.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      multiBranch: branchList.length > 1,
+      singleBranch: branchList.length <= 1,
+      selectedPhone: memBranch.phone,
+      selectedEmail: memBranch.email,
+      selectedTel: telFmt(memBranch.phone),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === m.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === m.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+      accreditations: this.accreditations,
+      year: new Date().getFullYear(),
+      // profile
+      name: m.name,
+      firstName,
+      watchLabel: 'Watch ' + firstName + '\u2019s intro',
+      bookLabel: 'Book an appointment with ' + firstName,
+      sendLabel: 'Send ' + firstName + ' a message',
+      emailLabel: 'Email ' + firstName,
+      role: m.role,
+      department: m.department,
+      photoLabel: 'portrait photo',
+      directPhone: m.directPhone,
+      directTel: telFmt(m.directPhone),
+      email,
+      mailto: 'mailto:' + email,
+      facts: m.facts,
+      bioLead: m.lead,
+      bioParas: m.paras,
+      specialisms: m.specialisms,
+      branchAddress: memBranch.address,
+      branchHref: '#',
+      // video modal
+      videoOpen: this.state.videoOpen,
+      toggleVideo: () => this.setState({ videoOpen: true }),
+      closeVideo: () => this.setState({ videoOpen: false }),
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      // colleagues
+      hasColleagues: colleagues.length > 0,
+      colleagues: colleagues.map(c => ({ name: c.name, role: c.role, department: c.department, href: 'Single Team Member.dc.html?member=' + c.slug }))
+    };
+  }
+}
+</script>
+</body>
+</html>

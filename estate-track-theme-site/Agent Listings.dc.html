@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-media { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: center; }
+  @media (min-width: 861px) { .et-media-left { order: -1; } }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-header > div { padding-top: 34px !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-grid-3 { grid-template-columns: 1fr 1fr !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 860px) { .et-split { grid-template-columns: 1fr !important; gap: var(--space-8) !important; } }
+  @media (max-width: 680px) {
+    .et-grid-3 { grid-template-columns: 1fr !important; }
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-stats { grid-template-columns: 1fr !important; gap: var(--space-10) !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-hero-inner { padding: 56px 20px !important; }
+    .et-hero-title { font-size: var(--text-3xl) !important; }
+    .et-desktop-media { display: none !important; }
+    .et-mobile-media { display: block !important; }
+    .et-cta { flex-direction: column !important; align-items: flex-start !important; padding: var(--space-8) !important; }
+    .et-newsletter-form { flex-direction: column !important; }
+    .et-hero-search { flex-direction: column !important; border-radius: var(--radius-lg) !important; padding: 10px !important; gap: var(--space-2) !important; }
+    .et-hero-search button { width: 100% !important; }
+  }
+  /* horizontal swipe rows (properties, news) */
+  .et-scroll { display: flex; gap: var(--space-6); overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: var(--space-3); }
+  .et-scroll > * { flex: 0 0 340px; scroll-snap-align: start; }
+  .et-scroll::-webkit-scrollbar { height: 8px; }
+  .et-scroll::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+  .et-scroll::-webkit-scrollbar-track { background: transparent; }
+  .et-equal > * { display: flex; }
+  .et-equal > * > * { width: 100%; }
+  @media (max-width: 680px) {
+    .et-scroll > * { flex: 0 0 86%; }
+    .et-arrows { display: none !important; }
+  }
+  .et-filters-btn { display: none; }
+  @media (max-width: 768px) {
+    .et-filters-btn { display: inline-flex !important; }
+    .et-filters-body { display: none; }
+    .et-filters-body.et-open { display: block; }
+  }
+  .et-mob-only { display: none; }
+  /* ===== MOBILE STYLE GUIDE — titles + spacing (reuse on every page) ===== */
+  @media (max-width: 680px) {
+    .et-hero-title { font-size: var(--text-3xl) !important; }
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+    .et-tight-top { padding-top: var(--space-6) !important; }
+    .et-tight-bottom { padding-bottom: var(--space-12) !important; }
+    .et-cta-section { padding-top: 0 !important; }
+    .et-pagination { margin-top: var(--space-8) !important; }
+  }
+  @media (max-width: 768px) {
+    .et-search-head { flex-wrap: nowrap !important; gap: 8px !important; }
+    .et-sale-toggle button { padding: 10px 16px !important; white-space: nowrap !important; }
+    .et-filters-btn { white-space: nowrap !important; padding: 11px 16px !important; }
+    .et-results-controls { flex-wrap: nowrap !important; gap: 8px !important; }
+    .et-view button { padding: 6px 10px !important; font-size: var(--text-xs) !important; }
+    .et-sort-wrap { width: 215px !important; flex: 0 0 auto !important; min-width: 0 !important; }
+    .et-results-controls .et-view { margin-left: auto !important; }
+    .et-pagination { flex-wrap: nowrap !important; gap: 6px !important; }
+    .et-page-mid { display: none !important; }
+    .et-desk-only { display: none !important; }
+    .et-mob-only { display: flex !important; }
+  }
+  /* mobile pass: sticky bottom CTA */
+  .et-mobile-cta { display: none; }
+  .et-cta-spacer { display: none; }
+  @media (max-width: 860px) {
+    .et-mobile-cta { display: flex !important; }
+    .et-cta-spacer { display: block; height: 80px; background: var(--color-primary); }
+  }
+  /* ===== transparent overlay header (opaque + sticky on scroll) ===== */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  /* ===== map view ===== */
+  @media (max-width: 860px) {
+    .et-map { grid-template-columns: 1fr !important; }
+    .et-mockmap { min-height: 380px !important; }
+    .et-map-list { max-height: none !important; overflow: visible !important; padding-right: 0 !important; }
+  }
+  /* ===== mobile: no List view (grid + map only) ===== */
+  @media (max-width: 768px) {
+    .et-view .et-list-btn { display: none !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR (transparent over hero, opaque on scroll) ============ -->
+  <div class="et-bar {{ barClass }}">
+  <!-- ============ TOPBAR ============ -->
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative;">
+            <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+              {{ branch }} branch
+              <span style="{{ branchChevronStyle }}">▾</span>
+            </button>
+            <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                  <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                    <span>{{ b.name }}</span>
+                    <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <span style="color: var(--color-border);">|</span>
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+        <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="#" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <div style="position: relative;" onMouseEnter="{{ openBuy }}" onMouseLeave="{{ closeBuy }}">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy<span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></a>
+          <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: 100%; left: 0; padding-top: 16px; z-index: 70;">
+              <div style="width: 660px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-8);">
+                <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ buyMega.kicker }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8);">
+                  <sc-for list="{{ buyMega.columns }}" as="col" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeBuy }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <a href="#" onClick="{{ closeBuy }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                    <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                    <div style="position: relative; padding: var(--space-5);">
+                      <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ buyMega.feature.tag }}</div>
+                      <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ buyMega.feature.title }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="#" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+
+        <!-- DESKTOP MEGA MENU -->
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; display: flex; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="width: 600px; padding: var(--space-8); border-right: 1px solid var(--color-border); background: var(--color-bg);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ mega.kicker }}</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8); align-items: stretch;">
+                <sc-for list="{{ mega.columns }}" as="col" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <a href="#" onClick="{{ closeMenu }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 210px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                  <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                  <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                  <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                  <div style="position: relative; padding: var(--space-5);">
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ mega.feature.tag }}</div>
+                    <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ mega.feature.title }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div style="width: 280px; padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="7">
+                <a href="#" onMouseEnter="{{ it.onEnter }}" onClick="{{ it.onClick }}" style="{{ it.style }}">
+                  <span>{{ it.label }}</span>
+                  <sc-if value="{{ it.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></sc-if>
+                </a>
+              </sc-for>
+              <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+                <a href="tel:01242000000" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileItems }}" as="mi" hint-placeholder-count="7">
+          <div style="border-bottom: 1px solid var(--color-border);">
+            <sc-if value="{{ mi.simple }}" hint-placeholder-val="{{ true }}">
+              <a href="#" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+            </sc-if>
+            <sc-if value="{{ mi.dot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ mi.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; cursor: pointer; color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">
+                <span style="display: inline-flex; align-items: center; gap: 11px;">{{ mi.label }}<span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span></span>
+                <span style="font-size: var(--text-xl); color: var(--color-muted); font-family: var(--font-body);">+</span>
+              </button>
+              <sc-if value="{{ mi.open }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-5) var(--space-4);">
+                  <sc-for list="{{ mi.links }}" as="ml" hint-placeholder-count="5"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-base); color: var(--color-secondary); text-decoration: none;">{{ ml }}</a></sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+        <a href="tel:01242000000" style="color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+      </div>
+      <a href="#" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL (agent) ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 46%, color-mix(in oklch, var(--color-primary) 60%, transparent) 100%);"></div>
+    <div class="et-section et-hero-internal et-agent-hero" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 132px var(--space-8) var(--space-16);">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-10); flex-wrap: wrap;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7;">{{ breadcrumb }}</div>
+        <a href="Find an Agent.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-primary); text-decoration: none; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-full); padding: 9px 18px;" style-hover="background: rgba(255,255,255,0.2);"><span style="font-family: var(--font-heading);">←</span> All agents</a>
+      </div>
+      <div class="et-agent-hero-row" style="display: flex; align-items: center; gap: var(--space-10); flex-wrap: wrap;">
+        <div class="et-ph" style="position: relative; width: 168px; height: 200px; border-radius: var(--radius-lg); overflow: hidden; flex: none; box-shadow: var(--shadow-lg);">
+          <span style="position: absolute; bottom: 8px; right: 10px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); opacity: 0.85;">[ photo ]</span>
+        </div>
+        <div style="min-width: 0; flex: 1 1 360px;">
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.72; margin-bottom: var(--space-3);">{{ agentRole }} · {{ agentBranch }} branch</div>
+          <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); color: var(--color-on-primary); margin: 0 0 var(--space-4); line-height: var(--leading-tight);">{{ agentName }}</h1>
+          <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap;">
+            <span style="display: inline-flex; align-items: baseline; gap: 8px; color: var(--color-on-primary);"><span style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl);">{{ agentListingCount }}</span><span style="font-size: var(--text-sm); opacity: 0.78;">live listings</span></span>
+            <span style="width: 1px; height: 22px; background: rgba(255,255,255,0.22);"></span>
+            <a href="{{ agentTel }}" style="display: inline-flex; align-items: center; gap: 9px; font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); text-decoration: none;" style-hover="color: var(--color-accent);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>{{ agentPhone }}</a>
+            <a href="Single Team Member.dc.html?member={{ agentSlug }}" style="display: inline-flex; align-items: center; gap: 7px; font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none;">View profile <span style="font-family: var(--font-heading);">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROPERTY-SEARCH ============ -->
+  <section class="et-section et-tight-bottom et-tight-top" style="max-width: var(--container); margin: 0 auto; padding: var(--space-12) var(--space-8);">
+
+    <!-- Search box (compacts on mobile: toggle + Search filters button) -->
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-10); box-shadow: var(--shadow-sm);">
+      <div class="et-search-head" style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap;">
+          <div class="et-sale-toggle" style="display: inline-flex; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 4px;">
+            <button onClick="{{ setSale }}" style="{{ saleBtnStyle }}">For Sale</button>
+            <button onClick="{{ setRent }}" style="{{ rentBtnStyle }}">To Rent</button>
+          </div>
+          <span class="et-desk-only" style="display: inline-flex;"><button onClick="{{ toggleHideSold }}" aria-label="Hide sold" style="display: inline-flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-secondary);">
+            <span style="{{ hideSoldTrack }}"><span style="{{ hideSoldKnob }}"></span></span>
+            Hide sold/let
+          </button></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+          <div class="et-desk-only" style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-accent); background: color-mix(in oklch, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in oklch, var(--color-accent) 28%, transparent); border-radius: var(--radius-full); padding: 10px 18px; cursor: pointer;" style-hover="background: color-mix(in oklch, var(--color-accent) 18%, transparent);">Save search</button>
+            <button style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-accent); background: color-mix(in oklch, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in oklch, var(--color-accent) 28%, transparent); border-radius: var(--radius-full); padding: 10px 18px; cursor: pointer;" style-hover="background: color-mix(in oklch, var(--color-accent) 18%, transparent);">Register for alerts</button>
+          </div>
+          <button class="et-filters-btn" onClick="{{ toggleFilters }}" style="align-items: center; gap: 8px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 11px 22px; cursor: pointer; min-height: 44px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><circle cx="9" cy="7" r="2.2" fill="var(--color-on-accent)" stroke="none"></circle><line x1="4" y1="14" x2="20" y2="14"></line><circle cx="15" cy="14" r="2.2" fill="var(--color-on-accent)" stroke="none"></circle></svg> {{ filtersLabel }}</button>
+        </div>
+      </div>
+
+      <div class="et-filters-body {{ filtersBodyClass }}" style="margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--color-border);">
+        <div class="et-mob-only" style="margin-bottom: var(--space-4);">
+          <button onClick="{{ toggleHideSold }}" aria-label="Hide sold" style="display: inline-flex; align-items: center; gap: 10px; background: transparent; border: none; cursor: pointer; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-secondary);">
+            <span style="{{ hideSoldTrack }}"><span style="{{ hideSoldKnob }}"></span></span>
+            Hide sold/let
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-3);">
+          <label style="display: flex; flex-direction: column; gap: 5px; grid-column: span 2;">
+            <span style="font-size: var(--text-xs); font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em;">Location</span>
+            <input type="text" value="{{ searchLocation }}" onInput="{{ setLocation }}" placeholder="Town, area or postcode" style="width: 100%; font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 11px 14px; min-height: 44px; outline: none;" />
+          </label>
+          <dc-import name="FilterSelect" label="Radius" options="{{ optRadius }}" hint-size="100%,68px"></dc-import>
+          <dc-import name="FilterSelect" label="Min price" options="{{ optMin }}" hint-size="100%,68px"></dc-import>
+          <dc-import name="FilterSelect" label="Max price" options="{{ optMax }}" hint-size="100%,68px"></dc-import>
+          <dc-import name="FilterSelect" label="Bedrooms" options="{{ optBeds }}" hint-size="100%,68px"></dc-import>
+          <dc-import name="FilterSelect" label="Property type" options="{{ optType }}" hint-size="100%,68px"></dc-import>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: flex-start; margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--color-border);">
+          <div style="min-width: 170px; flex: 1;"><dc-import name="FilterSelect" label="Near a school" options="{{ optSchool }}" hint-size="100%,68px"></dc-import></div>
+          <div style="min-width: 170px; flex: 1;"><dc-import name="FilterSelect" label="Near a station" options="{{ optStation }}" hint-size="100%,68px"></dc-import></div>
+          <div style="flex: 2; min-width: 260px;">
+            <span style="font-size: var(--text-xs); font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em;; display: block; margin-bottom: 8px;">Must haves</span>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+              <sc-for list="{{ mustHaves }}" as="m" hint-placeholder-count="5"><button onClick="{{ m.onToggle }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div class="et-mob-only" style="gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--color-border);">
+          <button style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-accent); background: color-mix(in oklch, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in oklch, var(--color-accent) 28%, transparent); border-radius: var(--radius-full); padding: 10px 18px; cursor: pointer;" style-hover="background: color-mix(in oklch, var(--color-accent) 18%, transparent);">Save search</button>
+            <button style="display: inline-flex; align-items: center; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; color: var(--color-accent); background: color-mix(in oklch, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in oklch, var(--color-accent) 28%, transparent); border-radius: var(--radius-full); padding: 10px 18px; cursor: pointer;" style-hover="background: color-mix(in oklch, var(--color-accent) 18%, transparent);">Register for alerts</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); flex-wrap: wrap;">
+      <div style="font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: 500;">{{ resultCount }}</div>
+      <div class="et-results-controls" style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+        <div class="et-sort-wrap" style="width: 150px;"><dc-import name="FilterSelect" options="{{ optSort }}" hint-size="150px,44px" style="width: 100%;"></dc-import></div>
+        <div class="et-view" style="display: inline-flex; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 4px;">
+          <button onClick="{{ setGrid }}" style="{{ gridBtnStyle }}">Grid</button>
+          <button onClick="{{ setList }}" class="et-list-btn" style="{{ listBtnStyle }}">List</button>
+          <button onClick="{{ setMap }}" style="{{ mapBtnStyle }}">Map</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map view -->
+    <sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
+      <div class="et-map" style="display: grid; grid-template-columns: 1.25fr 1fr; gap: var(--space-5);">
+        <!-- ===== mock map ===== -->
+        <div class="et-mockmap" style="position: relative; border-radius: var(--radius-lg); min-height: 640px; border: 1px solid var(--color-border); overflow: hidden; background: oklch(0.945 0.012 145);">
+          <!-- block texture -->
+          <div style="position: absolute; inset: 0; background-image: linear-gradient(oklch(0.972 0.006 145) 1px, transparent 1px), linear-gradient(90deg, oklch(0.972 0.006 145) 1px, transparent 1px); background-size: 58px 58px;"></div>
+          <!-- parks -->
+          <div style="position: absolute; left: 7%; top: 11%; width: 150px; height: 120px; background: oklch(0.905 0.045 150); border-radius: 16px;"></div>
+          <div style="position: absolute; right: 8%; bottom: 13%; width: 185px; height: 135px; background: oklch(0.905 0.045 150); border-radius: 16px;"></div>
+          <!-- water -->
+          <div style="position: absolute; left: -8%; top: 63%; width: 120%; height: 64px; background: oklch(0.875 0.05 235); transform: rotate(-8deg);"></div>
+          <!-- roads -->
+          <div style="position: absolute; left: 0; right: 0; top: 38%; height: 11px; background: #fff;"></div>
+          <div style="position: absolute; top: 0; bottom: 0; left: 45%; width: 11px; background: #fff;"></div>
+          <div style="position: absolute; left: 8%; top: -12%; bottom: -12%; width: 7px; background: oklch(0.99 0 0); transform: rotate(22deg);"></div>
+          <div style="position: absolute; right: 14%; top: -12%; bottom: -12%; width: 7px; background: oklch(0.99 0 0); transform: rotate(-16deg);"></div>
+          <div style="position: absolute; left: 0; right: 0; top: 80%; height: 7px; background: oklch(0.99 0 0);"></div>
+
+          <!-- price pins -->
+          <sc-for list="{{ mapPins }}" as="pin" hint-placeholder-count="8">
+            <button onClick="{{ pin.onClick }}" style="{{ pin.style }}">{{ pin.label }}</button>
+          </sc-for>
+
+          <!-- popup property card -->
+          <sc-if value="{{ popupOpen }}" hint-placeholder-val="{{ true }}">
+            <div style="{{ popupStyle }}">
+              <button aria-label="Close" onClick="{{ closePopup }}" style="position: absolute; top: 9px; right: 9px; z-index: 4; width: 28px; height: 28px; border-radius: var(--radius-full); border: none; background: rgba(255,255,255,0.94); box-shadow: var(--shadow-sm); cursor: pointer; font-size: 15px; line-height: 1; color: var(--color-primary);">✕</button>
+              <dc-import name="PropertyCard" status="{{ popup.status }}" price="{{ popup.price }}" title="{{ popup.title }}" address="{{ popup.address }}" beds="{{ popup.beds }}" baths="{{ popup.baths }}" receptions="{{ popup.receptions }}" added="{{ popup.added }}" has-video="{{ popup.hasVideo }}" photo-label="{{ popup.photoLabel }}" hint-size="280px,360px"></dc-import>
+              <div style="{{ caretStyle }}"></div>
+            </div>
+          </sc-if>
+
+          <!-- zoom controls -->
+          <div style="position: absolute; top: 16px; right: 16px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-md); z-index: 3;">
+            <button aria-label="Zoom in" style="width: 40px; height: 40px; border: none; background: #fff; cursor: pointer; font-size: 20px; color: var(--color-primary); border-bottom: 1px solid var(--color-border);">+</button>
+            <button aria-label="Zoom out" style="width: 40px; height: 40px; border: none; background: #fff; cursor: pointer; font-size: 22px; color: var(--color-primary);">−</button>
+          </div>
+          <span style="position: absolute; bottom: 9px; left: 13px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); opacity: 0.7;">[ mock map — illustrative ]</span>
+        </div>
+
+        <!-- ===== results list (below map on mobile) ===== -->
+        <div class="et-map-list" style="display: flex; flex-direction: column; gap: var(--space-4); max-height: 760px; overflow-y: auto; padding-right: 4px;">
+          <sc-for list="{{ listings }}" as="c" hint-placeholder-count="6">
+            <dc-import name="PropertyCard" status="{{ c.status }}" price="{{ c.price }}" title="{{ c.title }}" address="{{ c.address }}" beds="{{ c.beds }}" baths="{{ c.baths }}" receptions="{{ c.receptions }}" added="{{ c.added }}" off-market="{{ c.offMarket }}" has-video="{{ c.hasVideo }}" photo-label="{{ c.photoLabel }}" hint-size="100%,400px"></dc-import>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Grid / List view -->
+    <sc-if value="{{ notMap }}" hint-placeholder-val="{{ true }}">
+      <div style="{{ resultsStyle }}">
+        <sc-for list="{{ cardsBefore }}" as="c" hint-placeholder-count="5">
+          <dc-import name="PropertyCard" row="{{ rowMode }}" status="{{ c.status }}" price="{{ c.price }}" title="{{ c.title }}" address="{{ c.address }}" beds="{{ c.beds }}" baths="{{ c.baths }}" receptions="{{ c.receptions }}" added="{{ c.added }}" off-market="{{ c.offMarket }}" has-video="{{ c.hasVideo }}" photo-label="{{ c.photoLabel }}" hint-size="100%,400px"></dc-import>
+        </sc-for>
+        <div style="background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; justify-content: center; color: var(--color-on-primary); position: relative; overflow: hidden; min-height: 200px;">
+          <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+          <div style="position: relative;">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-2);">Free valuation</div>
+            <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-2xl); line-height: 1.15; margin-bottom: var(--space-2);">What's your home worth?</div>
+            <p style="font-size: var(--text-sm); opacity: 0.82; margin: 0 0 var(--space-5); line-height: 1.5;">Book a free, no-obligation valuation with a local expert.</p>
+            <a href="#" style="align-self: flex-start; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 12px 24px; text-decoration: none;">Book a Valuation</a>
+          </div>
+        </div>
+        <sc-for list="{{ cardsAfter }}" as="c" hint-placeholder-count="6">
+          <dc-import name="PropertyCard" row="{{ rowMode }}" status="{{ c.status }}" price="{{ c.price }}" title="{{ c.title }}" address="{{ c.address }}" beds="{{ c.beds }}" baths="{{ c.baths }}" receptions="{{ c.receptions }}" added="{{ c.added }}" off-market="{{ c.offMarket }}" has-video="{{ c.hasVideo }}" photo-label="{{ c.photoLabel }}" hint-size="100%,400px"></dc-import>
+        </sc-for>
+      </div>
+
+      <!-- Pagination -->
+      <div class="et-pagination" style="display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin-top: var(--space-12); flex-wrap: wrap;">
+        <button onClick="{{ prevPage }}" style="height: 44px; padding: 0 22px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">Prev</button>
+        <sc-for list="{{ pages }}" as="pg" hint-placeholder-count="6"><sc-if value="{{ pg.isGap }}" hint-placeholder-val="{{ false }}"><span style="width: 30px; text-align: center; color: var(--color-muted);">…</span></sc-if><sc-if value="{{ pg.isNum }}" hint-placeholder-val="{{ true }}"><button onClick="{{ pg.on }}" class="{{ pg.cls }}" style="{{ pg.style }}">{{ pg.n }}</button></sc-if></sc-for>
+        <button onClick="{{ nextPage }}" style="height: 44px; padding: 0 22px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">Next</button>
+      </div>
+    </sc-if>
+
+  </section>
+
+  <!-- ============ CTA-BANNER ============ -->
+  <section class="et-section et-cta-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-8) var(--space-8) var(--space-12);">
+    <div class="et-cta" style="background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-16); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; overflow: hidden; position: relative;">
+      <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.5;"></div>
+      <div style="position: relative; max-width: 56ch;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Be first through the door</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); color: var(--color-on-primary); margin: 0 0 var(--space-3);">See new homes before they hit the portals</h2>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0;">Register your requirements and we'll alert you to matching properties first &mdash; often days before they appear on the major portals.</p>
+      </div>
+      <div style="position: relative; display: flex; gap: var(--space-3); flex-wrap: wrap;">
+        <a href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px 32px; text-decoration: none;">Register for alerts</a>
+        <a href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); background: transparent; border: 1.5px solid rgba(255,255,255,0.4); border-radius: var(--radius-full); padding: 16px 30px; text-decoration: none;">Create an account</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Conveyancing</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Land &amp; development</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Auctions</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our branches</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Area guides</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Sustainability</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Reviews</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="tel:01242000000" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">01242 000 000</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Book a valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our offices</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Complaints</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="et-cta-spacer"></div>
+  <sc-if value="{{ ctaShow }}" hint-placeholder-val="{{ true }}">
+  <div class="et-mobile-cta" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; align-items: center; gap: var(--space-3); background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -6px 24px rgba(20,24,33,0.10); padding: 10px var(--space-5);">
+    <div style="position: relative; flex: none;">
+      <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Call a branch" onClick="{{ togglePhonePopup }}" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: var(--text-lg); cursor: pointer;">☎</button>
+        <sc-if value="{{ phonePopup }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: calc(100% + 12px); left: 0; z-index: 80; min-width: 250px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-3);">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); padding: 4px 10px 8px;">Call a branch</div>
+            <sc-for list="{{ branchPhones }}" as="bp" hint-placeholder-count="3">
+              <a href="{{ bp.tel }}" onClick="{{ bp.onPick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; padding: 10px; border-radius: var(--radius); color: var(--color-text);" style-hover="background: var(--color-surface-alt);">
+                <span style="font-weight: 600; font-size: var(--text-sm);">{{ bp.name }}</span>
+                <span style="font-size: var(--text-sm); color: var(--color-accent); font-weight: 600;">{{ bp.phone }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ selectedTel }}" aria-label="Call us" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);">☎</a>
+      </sc-if>
+    </div>
+    <a href="#" style="flex: 1; text-align: center; background: var(--color-accent); color: var(--color-on-accent); border-radius: var(--radius-full); padding: 15px; font-weight: 600; font-size: var(--text-base); text-decoration: none; min-height: 52px; display: flex; align-items: center; justify-content: center;">Book a Valuation</a>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, activeMega: 'default', openSection: null, navBuyOpen: false, branchOpen: false, branch: 'Cheltenham', openFoot: null, phonePopup: false, saleMode: 'sale', view: 'grid', aiListening: false, page: 1, must: {}, hideSold: false, aiOpen: false, filtersOpen: false, searchLocation: '', tIndex: 0, heroMode: 'buy', scrolled: false, activePin: 0, agentSlug: null };
+  featRef = React.createRef();
+  newsRef = React.createRef();
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+    // The area is read from the link the visitor arrived on — never guessed.
+    // e.g. /properties/for-sale/in-cheltenham/  ->  ?location=Cheltenham
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const loc = params.get('location') || params.get('area');
+      if (loc) this.setState({ searchLocation: loc });
+      const ag = params.get('agent');
+      if (ag) this.setState({ agentSlug: ag });
+    } catch (e) {}
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+  _animScroll = (el, delta) => {
+    if (!el) return;
+    const start = el.scrollLeft;
+    const t0 = performance.now();
+    const dur = 320;
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.scrollLeft = start + delta * ease;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  get properties() {
+    return [
+      { status: 'For Sale', price: '£475,000', title: '4 bed detached house', address: 'Charlton Kings, Cheltenham', beds: 4, baths: 2, receptions: 2, photoLabel: 'property photo' },
+      { status: 'For Sale', price: '£625,000', title: '5 bed period home', address: 'Leckhampton, Cheltenham', beds: 5, baths: 3, receptions: 3, photoLabel: 'property photo' },
+      { status: 'To Let', price: '£1,450 pcm', title: '2 bed apartment', address: 'Montpellier, Cheltenham', beds: 2, baths: 1, receptions: 1, photoLabel: 'property photo' },
+      { status: 'SSTC', price: '£389,950', title: '3 bed semi-detached', address: 'Tewkesbury', beds: 3, baths: 1, receptions: 2, photoLabel: 'property photo' },
+      { status: 'For Sale', price: '£750,000', title: 'Barn conversion', address: 'Cotswold edge', beds: 4, baths: 3, receptions: 2, photoLabel: 'property photo' },
+      { status: 'To Let', price: '£2,200 pcm', title: '4 bed family home', address: 'Prestbury', beds: 4, baths: 2, receptions: 2, photoLabel: 'property photo' }
+    ];
+  }
+
+  get testimonials() {
+    return [
+      { quote: "All I've got to say is that they're the best estate agents I've ever dealt with. I can't recommend them highly enough.", author: 'Angela Ho', date: '4 days ago', rating: 5, source: 'Google' },
+      { quote: 'The team were professional and efficient throughout — always responsive and organised, and genuinely interested in getting the right result for everyone.', author: 'Bing Li', date: '6 days ago', rating: 5, source: 'Google' },
+      { quote: 'Sold my house in a difficult market. The whole team went above and beyond, achieved a great price and stayed supportive at every step.', author: 'Lindsey Higgins', date: '17 days ago', rating: 5, source: 'Google' },
+      { quote: 'From valuation to completion they kept us informed the whole way. Genuinely the smoothest move we have ever had.', author: 'Mark Davies', date: '1 month ago', rating: 5, source: 'Google' }
+    ];
+  }
+
+  get news() {
+    return [
+      { category: 'Guides', date: '3rd June 2026', title: 'Which home changes require planning permission (and how to get it)', excerpt: 'A clear, practical guide to what you can and cannot do to your home without applying for planning permission first.', readingTime: 5, photoLabel: 'article image' },
+      { category: 'Area guides', date: '22nd May 2026', title: 'Raising a family in a village like Leckhampton', excerpt: 'Schools, green space and community — what makes this leafy suburb such a popular spot for growing families.', readingTime: 4, photoLabel: 'article image' },
+      { category: 'Landlords', date: '11th May 2026', title: 'Tax changes landlords need to be aware of for 2026/27', excerpt: 'The key updates affecting buy-to-let investors this year, and the simple steps to stay compliant and profitable.', readingTime: 6, photoLabel: 'article image' }
+    ];
+  }
+
+  get accreditations() {
+    return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA'];
+  }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk' }
+    ];
+  }
+
+  // Agents who carry listings (subset of the team). Keep slugs in sync with Find an Agent / Meet the Team.
+  get agentsRaw() {
+    return [
+      { slug: 'sarah-whitmore', name: 'Sarah Whitmore', role: 'Head of Sales', branch: 'Cheltenham', phone: '01242 000 002', listings: 24 },
+      { slug: 'james-pemberton', name: 'James Pemberton', role: 'Senior Sales Negotiator', branch: 'Cheltenham', phone: '01242 000 004', listings: 17 },
+      { slug: 'priya-anand', name: 'Priya Anand', role: 'Head of Lettings', branch: 'Cheltenham', phone: '01242 000 005', listings: 14 },
+      { slug: 'david-hart', name: 'David Hart', role: 'Managing Director', branch: 'Cheltenham', phone: '01242 000 001', listings: 8 },
+      { slug: 'michael-osei', name: 'Michael Osei', role: 'Branch Manager', branch: 'Tewkesbury', phone: '01684 000 001', listings: 19 },
+      { slug: 'charlotte-reeve', name: 'Charlotte Reeve', role: 'Senior Negotiator', branch: 'Tewkesbury', phone: '01684 000 002', listings: 15 },
+      { slug: 'daniel-brooks', name: 'Daniel Brooks', role: 'Lettings Manager', branch: 'Tewkesbury', phone: '01684 000 003', listings: 12 },
+      { slug: 'olivia-grant', name: 'Olivia Grant', role: 'Sales Negotiator', branch: 'Tewkesbury', phone: '01684 000 004', listings: 9 },
+      { slug: 'rachel-nwosu', name: 'Rachel Nwosu', role: 'Branch Manager', branch: 'Gloucester', phone: '01452 000 001', listings: 18 },
+      { slug: 'tom-fletcher', name: 'Tom Fletcher', role: 'Sales Negotiator', branch: 'Gloucester', phone: '01452 000 002', listings: 13 },
+      { slug: 'sophie-bennett', name: 'Sophie Bennett', role: 'Lettings Negotiator', branch: 'Gloucester', phone: '01452 000 003', listings: 10 },
+      { slug: 'hannah-clarke', name: 'Hannah Clarke', role: 'Property Manager', branch: 'Gloucester', phone: '01452 000 004', listings: 8 }
+    ];
+  }
+
+  get listings() {
+    return [
+      { title: '4 bed detached house', address: 'Charlton Kings, Cheltenham', beds: 4, baths: 2, receptions: 2, added: 'Added today', salePrice: '£475,000', rentPrice: '£2,200 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: true },
+      { title: '5 bed period home', address: 'Leckhampton, Cheltenham', beds: 5, baths: 3, receptions: 3, added: 'Added today', salePrice: '£625,000', rentPrice: '£2,950 pcm', saleStatus: 'New', rentStatus: 'To Let', hasVideo: true },
+      { title: '2 bed apartment', address: 'Montpellier, Cheltenham', beds: 2, baths: 1, receptions: 1, added: 'Added yesterday', salePrice: '£285,000', rentPrice: '£1,450 pcm', saleStatus: 'For Sale', rentStatus: 'Let Agreed', hasVideo: false },
+      { title: '3 bed semi-detached', address: 'Tewkesbury', beds: 3, baths: 1, receptions: 2, added: 'Added yesterday', salePrice: '£389,950', rentPrice: '£1,500 pcm', saleStatus: 'SSTC', rentStatus: 'To Let', hasVideo: true },
+      { title: 'Off-market property', address: '', beds: 0, baths: 0, receptions: 0, added: 'Added today', offMarket: true },
+      { title: 'Barn conversion', address: 'Cotswold edge', beds: 4, baths: 3, receptions: 2, added: 'Added 3 days ago', salePrice: '£750,000', rentPrice: '£3,200 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: true },
+      { title: '1 bed flat', address: 'Gloucester Quays', beds: 1, baths: 1, receptions: 1, added: 'Added 3 days ago', salePrice: '£165,000', rentPrice: '£825 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: false },
+      { title: '4 bed family home', address: 'Prestbury', beds: 4, baths: 2, receptions: 2, added: 'Added 5 days ago', salePrice: '£560,000', rentPrice: '£2,400 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: true },
+      { title: 'Off-market property', address: '', beds: 0, baths: 0, receptions: 0, added: 'Added 1 week ago', offMarket: true },
+      { title: '3 bed townhouse', address: 'Cheltenham centre', beds: 3, baths: 2, receptions: 2, added: 'Added 1 week ago', salePrice: '£420,000', rentPrice: '£1,750 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: true },
+      { title: '6 bed manor house', address: 'Painswick', beds: 6, baths: 4, receptions: 4, added: 'Added 1 week ago', salePrice: '£1,250,000', rentPrice: '£5,500 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: true },
+      { title: '2 bed cottage', address: 'Bisley', beds: 2, baths: 1, receptions: 1, added: 'Added 2 weeks ago', salePrice: '£335,000', rentPrice: '£1,300 pcm', saleStatus: 'For Sale', rentStatus: 'To Let', hasVideo: false }
+    ];
+  }
+
+  renderVals() {
+    const t = this.testimonials;
+    // ===== resolve agent from ?agent= =====
+    const _agents = this.agentsRaw;
+    const _agent = _agents.find(a => a.slug === this.state.agentSlug) || _agents[0];
+    const _agentFirst = _agent.name.split(' ')[0];
+    const _agentTel = 'tel:' + _agent.phone.replace(/\s+/g, '');
+    const idx = ((this.state.tIndex % t.length) + t.length) % t.length;
+    const dotItems = t.map((_, i) => ({
+      on: () => this.setState({ tIndex: i }),
+      style: {
+        width: i === idx ? '26px' : '8px', height: '8px', borderRadius: 'var(--radius-full)',
+        border: 'none', padding: 0, cursor: 'pointer', transition: 'all .3s ease',
+        background: i === idx ? 'var(--color-accent)' : 'var(--color-border)'
+      }
+    }));
+
+    const buy = this.state.heroMode === 'buy';
+    const tabBase = { fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', padding: '9px 20px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer', transition: 'all .2s ease' };
+    const activeTab = Object.assign({}, tabBase, { background: 'var(--color-surface)', color: 'var(--color-primary)' });
+    const idleTab = Object.assign({}, tabBase, { background: 'transparent', color: 'var(--color-on-primary)' });
+
+    const activeMega = this.state.activeMega || 'default';
+    const megaData = {
+      buy: { kicker: 'Buying with Harvell & Co', columns: [ { heading: 'Find a home', links: ['Property for sale', 'Property to rent', 'New homes', 'Shared ownership', 'Auctions'] }, { heading: 'Help & advice', links: ['Mortgage advice', 'Conveyancing', 'RICS surveyors', 'First-time buyers', 'Investment services'] } ], feature: { tag: 'New homes', title: 'Cotswold Gate — 3 & 4 bed homes now selling' } },
+      sell: { kicker: 'Selling with Harvell & Co', columns: [ { heading: 'Sell your home', links: ['Book a valuation', 'Instant valuation', 'Selling at auction', 'Probate valuation', 'Land & development'] }, { heading: 'Seller guides', links: ['How to sell your home', 'Preparing to sell', 'Choosing an agent', 'Our fees explained'] } ], feature: { tag: 'Free valuation', title: 'Find out what your home is worth today' } },
+      let: { kicker: 'Landlords & tenants', columns: [ { heading: 'Landlords', links: ['Let your property', 'Landlord services', 'Free rental valuation', 'Buy-to-let mortgages', 'Landlord insurance'] }, { heading: 'Tenants', links: ['Property to rent', 'Register requirements', 'Tenant guides', 'Deposit & fees'] } ], feature: { tag: 'Landlords', title: 'Full management from one point of contact' } },
+      default: { kicker: 'Find your next home', columns: [ { heading: 'Popular searches', links: ['Property for sale', 'Property to rent', 'New homes', 'Auctions', 'Investment'] }, { heading: 'Quick links', links: ['Book a valuation', 'Register requirements', 'Our branches', 'Area guides'] } ], feature: { tag: 'Featured', title: 'Search every property across the county' } }
+    };
+    const itemDefs = [ { label: 'Buy', key: 'buy', dot: true }, { label: 'Sell', key: 'sell', dot: true }, { label: 'Let', key: 'let', dot: true }, { label: 'Valuations', key: null, dot: false }, { label: 'About', key: null, dot: false }, { label: 'News', key: null, dot: false }, { label: 'Contact', key: null, dot: false } ];
+    const itemBase = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 'var(--radius)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, cursor: 'pointer', transition: 'all .15s ease' };
+    const items = itemDefs.map(d => ({
+      label: d.label, dot: d.dot,
+      onEnter: () => this.setState({ activeMega: d.key || 'default' }),
+      onClick: () => this.setState({ menuOpen: false }),
+      style: Object.assign({}, itemBase, (d.key && d.key === activeMega) ? { background: 'var(--color-surface-alt)', color: 'var(--color-accent)' } : { background: 'transparent', color: 'var(--color-text)' })
+    }));
+    const mobileItems = itemDefs.map(d => ({
+      label: d.label, dot: d.dot, simple: !d.dot,
+      links: d.dot ? megaData[d.key].columns.reduce((a, c) => a.concat(c.links), []) : [],
+      open: this.state.openSection === d.key,
+      onToggle: () => this.setState(s => ({ openSection: s.openSection === d.key ? null : d.key }))
+    }));
+    const footerColumns = [
+      { key: 'services', heading: 'Services', links: [ { label: 'Buying', href: '#' }, { label: 'Selling', href: '#' }, { label: 'Lettings', href: '#' }, { label: 'Mortgages', href: '#' }, { label: 'Conveyancing', href: '#' }, { label: 'Land & development', href: '#' }, { label: 'Auctions', href: '#' } ] },
+      { key: 'company', heading: 'Company', links: [ { label: 'About us', href: '#' }, { label: 'Our branches', href: '#' }, { label: 'Area guides', href: '#' }, { label: 'News', href: '#' }, { label: 'Sustainability', href: '#' }, { label: 'Reviews', href: '#' }, { label: 'Careers', href: '#' } ] },
+      { key: 'contact', heading: 'Get in touch', links: [ { label: '01242 000 000', href: 'tel:01242000000' }, { label: 'hello@example.co.uk', href: 'mailto:hello@example.co.uk' }, { label: 'Book a valuation', href: '#' }, { label: 'Instant valuation', href: '#' }, { label: 'Register requirements', href: '#' }, { label: 'Our offices', href: '#' } ] }
+    ];
+    const footerCols = footerColumns.map(c => ({
+      heading: c.heading, links: c.links,
+      cls: this.state.openFoot === c.key ? 'et-foot-list et-foot-open' : 'et-foot-list',
+      icon: this.state.openFoot === c.key ? '\u2212' : '+',
+      onToggle: () => this.setState(s => ({ openFoot: s.openFoot === c.key ? null : c.key }))
+    }));
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+
+    const saleMode = this.state.saleMode;
+    const isSale = saleMode === 'sale';
+    // Department from the toggle/URL path; town ONLY from the ?location= URL param (seeded in componentDidMount).
+    const _saleLabel = isSale ? 'for sale' : 'to rent';
+    const _loc = (this.state.searchLocation && this.state.searchLocation.trim()) ? this.state.searchLocation.trim() : '';
+    const _pageTitle = _loc ? ('Property ' + _saleLabel + ' in ' + _loc) : ('Property ' + _saleLabel);
+    const _breadcrumb = _loc ? ('Home \u203a Property ' + _saleLabel + ' \u203a ' + _loc) : ('Home \u203a Property ' + _saleLabel);
+    const listingItems = this.listings.map(it => ({
+      title: it.title, address: it.address, beds: it.beds, baths: it.baths, receptions: it.receptions,
+      added: it.added, offMarket: !!it.offMarket, hasVideo: it.hasVideo !== false, photoLabel: 'property photo',
+      status: it.offMarket ? 'Off market' : (isSale ? (it.saleStatus || 'For Sale') : (it.rentStatus || 'To Let')),
+      price: it.offMarket ? '' : (isSale ? it.salePrice : it.rentPrice)
+    }));
+    // ===== mock map pins + popup =====
+    const coords = { 0:[22,30], 1:[38,21], 2:[51,41], 3:[29,56], 5:[64,29], 6:[57,63], 7:[73,47], 9:[44,51], 10:[79,19], 11:[16,69] };
+    const shortPrice = (p) => {
+      if (!p) return '';
+      if (/pcm/i.test(p)) return p.replace(/\s+/g, '');
+      const num = parseInt(p.replace(/[^0-9]/g, ''), 10);
+      if (isNaN(num)) return p;
+      if (num >= 1000000) return '\u00A3' + (num / 1000000).toFixed(num % 1000000 ? 2 : 1).replace(/\.0$/, '') + 'm';
+      if (num >= 1000) return '\u00A3' + Math.round(num / 1000) + 'k';
+      return p;
+    };
+    const active = this.state.activePin;
+    const pinBase = { position: 'absolute', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-xs)', padding: '7px 13px', borderRadius: 'var(--radius-full)', whiteSpace: 'nowrap', boxShadow: 'var(--shadow-md)', transition: 'background .15s ease, color .15s ease' };
+    const mapPins = this.listings.map((it, i) => ({ it, i })).filter(o => !o.it.offMarket && coords[o.i]).map(o => {
+      const c = coords[o.i];
+      const isActive = o.i === active;
+      return {
+        label: shortPrice(isSale ? o.it.salePrice : o.it.rentPrice),
+        onClick: () => this.setState(s => ({ activePin: s.activePin === o.i ? null : o.i })),
+        style: Object.assign({ left: c[0] + '%', top: c[1] + '%', zIndex: isActive ? 6 : 2,
+          transform: isActive ? 'translate(-50%,-50%) scale(1.08)' : 'translate(-50%,-50%)' }, pinBase,
+          isActive ? { background: 'var(--color-accent)', color: 'var(--color-on-accent)' }
+                   : { background: 'var(--color-surface)', color: 'var(--color-primary)' })
+      };
+    });
+    const popupOpen = active != null && coords[active] && this.listings[active] && !this.listings[active].offMarket;
+    let popup = null, popupStyle = null, caretStyle = null;
+    if (popupOpen) {
+      const it = this.listings[active], c = coords[active];
+      const below = c[1] < 42;
+      const lx = Math.max(27, Math.min(73, c[0]));
+      popup = { status: isSale ? (it.saleStatus || 'For Sale') : (it.rentStatus || 'To Let'), price: isSale ? it.salePrice : it.rentPrice, title: it.title, address: it.address, beds: it.beds, baths: it.baths, receptions: it.receptions, added: it.added, hasVideo: it.hasVideo !== false, photoLabel: 'property photo' };
+      popupStyle = { position: 'absolute', left: lx + '%', top: c[1] + '%', width: '280px', zIndex: 7,
+        transform: below ? 'translate(-50%, 26px)' : 'translate(-50%, calc(-100% - 26px))', filter: 'drop-shadow(0 18px 36px rgba(20,24,33,0.22))' };
+      caretStyle = below
+        ? { position: 'absolute', top: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '14px', height: '14px', background: 'var(--color-surface)', borderLeft: '1px solid var(--color-border)', borderTop: '1px solid var(--color-border)' }
+        : { position: 'absolute', bottom: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)', width: '14px', height: '14px', background: 'var(--color-surface)', borderRight: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' };
+    }
+    const segBase = { fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', padding: '11px 28px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer', transition: 'all .18s ease' };
+    const segOff = Object.assign({}, segBase, { background: 'transparent', color: 'var(--color-secondary)' });
+    const vBase = { fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', padding: '8px 16px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer' };
+    const vOn = Object.assign({}, vBase, { background: 'var(--color-surface)', color: 'var(--color-primary)', boxShadow: 'var(--shadow-sm)' });
+    const vOff = Object.assign({}, vBase, { background: 'transparent', color: 'var(--color-secondary)' });
+    const view = this.state.view;
+    const chipBase = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 500, padding: '8px 16px', borderRadius: 'var(--radius-full)', cursor: 'pointer', transition: 'all .15s ease' };
+    const must = this.state.must || {};
+    const mustHaves = ['Driveway', 'Garage', 'Garden', 'Open Plan', 'Parking'].map(label => ({
+      label,
+      onToggle: () => this.setState(s => ({ must: Object.assign({}, s.must, { [label]: !(s.must && s.must[label]) }) })),
+      style: Object.assign({}, chipBase, must[label] ? { background: 'var(--color-accent)', color: 'var(--color-on-accent)', border: '1px solid var(--color-accent)' } : { background: 'var(--color-surface)', color: 'var(--color-secondary)', border: '1px solid var(--color-border)' })
+    }));
+    const pageCircle = { width: '44px', height: '44px', borderRadius: 'var(--radius-full)', cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, border: '1px solid var(--color-border)' };
+    const mkPage = (n, mid) => ({ isNum: true, isGap: false, n, cls: mid ? 'et-page-mid' : '', on: () => this.setState({ page: n }),
+      style: Object.assign({}, pageCircle, n === this.state.page ? { background: 'var(--color-primary)', color: 'var(--color-on-primary)', borderColor: 'var(--color-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-primary)' }) });
+    const pages = [mkPage(1, false), mkPage(2, true), mkPage(3, true), mkPage(4, true), { isGap: true, isNum: false }, mkPage(11, false)];
+    const gridCols = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 'var(--space-5)' };
+    const listCols = { display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-4)' };
+    return {
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      mapPins, popupOpen, popup, popupStyle, caretStyle,
+      closePopup: () => this.setState({ activePin: null }),
+      saleLabel: isSale ? 'for sale' : 'to rent',
+      pageTitle: _pageTitle,
+      breadcrumb: 'Home \u203a Find an agent \u203a ' + _agent.name,
+      agentName: _agent.name,
+      agentRole: _agent.role,
+      agentBranch: _agent.branch,
+      agentSlug: _agent.slug,
+      agentPhone: _agent.phone,
+      agentTel: _agentTel,
+      agentListingCount: _agent.listings,
+      searchLocation: this.state.searchLocation,
+      setLocation: (e) => this.setState({ searchLocation: e.target.value }),
+      rowMode: this.state.view === 'list',
+      filtersOpen: this.state.filtersOpen,
+      toggleFilters: () => this.setState(s => ({ filtersOpen: !s.filtersOpen })),
+      filtersBodyClass: this.state.filtersOpen ? 'et-open' : '',
+      filtersLabel: this.state.filtersOpen ? 'Close' : 'Filters',
+      optRadius: ['This area only', '+ ¼ mile', '+ ½ mile', '+ 1 mile', '+ 3 miles', '+ 5 miles'],
+      optMin: ['No min', '£100,000', '£200,000', '£300,000', '£400,000', '£500,000', '£750,000'],
+      optMax: ['No max', '£250,000', '£400,000', '£500,000', '£750,000', '£1,000,000', '£2,000,000+'],
+      optBeds: ['Any beds', 'Studio', '1+', '2+', '3+', '4+', '5+'],
+      optType: ['Any type', 'House', 'Flat / apartment', 'Bungalow', 'Cottage', 'New home', 'Land'],
+      optSchool: ['Any school', 'Within ½ mile', 'Within 1 mile', 'Within 2 miles', 'Top-rated only'],
+      optStation: ['Any station', 'Within ½ mile', 'Within 1 mile', 'Within 2 miles'],
+      optSort: ['Most recent', 'Price (low to high)', 'Price (high to low)', 'Most bedrooms'],
+      aiOpen: this.state.aiOpen,
+      toggleAi: () => this.setState(s => ({ aiOpen: !s.aiOpen })),
+      aiChevron: { display: 'inline-block', fontSize: '9px', transition: 'transform .2s ease', transform: this.state.aiOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      setSale: () => this.setState({ saleMode: 'sale', page: 1 }),
+      setRent: () => this.setState({ saleMode: 'rent', page: 1 }),
+      saleBtnStyle: isSale ? Object.assign({}, segBase, { background: 'var(--color-accent)', color: 'var(--color-on-accent)', boxShadow: 'var(--shadow-sm)' }) : segOff,
+      rentBtnStyle: !isSale ? Object.assign({}, segBase, { background: 'var(--color-primary)', color: 'var(--color-on-primary)', boxShadow: 'var(--shadow-sm)' }) : segOff,
+      aiListening: this.state.aiListening,
+      toggleMic: () => this.setState(s => ({ aiListening: !s.aiListening })),
+      micStyle: Object.assign({ width: '44px', height: '44px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }, this.state.aiListening ? { background: 'var(--color-accent)', color: 'var(--color-on-accent)' } : { background: 'var(--color-surface-alt)', color: 'var(--color-secondary)' }),
+      aiPlaceholder: this.state.aiListening ? 'Listening…' : 'Describe your ideal home',
+      aiHint: 'Try: "3 bed near a good school with parking and a garden under £500k"',
+      mustHaves,
+      resultCount: 'Showing ' + _agent.listings + ' properties handled by ' + _agentFirst,
+      setGrid: () => this.setState({ view: 'grid' }),
+      setList: () => this.setState({ view: 'list' }),
+      setMap: () => this.setState({ view: 'map' }),
+      gridBtnStyle: view === 'grid' ? vOn : vOff,
+      listBtnStyle: view === 'list' ? vOn : vOff,
+      mapBtnStyle: view === 'map' ? vOn : vOff,
+      isMap: view === 'map',
+      notMap: view !== 'map',
+      resultsStyle: view === 'list' ? listCols : gridCols,
+      listings: listingItems,
+      cardsBefore: listingItems.slice(0, 5),
+      cardsAfter: listingItems.slice(5),
+      pages,
+      prevPage: () => this.setState(s => ({ page: Math.max(1, s.page - 1) })),
+      nextPage: () => this.setState(s => ({ page: Math.min(4, s.page + 1) })),
+      hideSold: this.state.hideSold,
+      toggleHideSold: () => this.setState(s => ({ hideSold: !s.hideSold })),
+      hideSoldTrack: { width: '40px', height: '22px', borderRadius: '999px', background: this.state.hideSold ? 'var(--color-accent)' : 'var(--color-border)', position: 'relative', transition: 'all .2s ease', display: 'inline-block', flex: 'none' },
+      hideSoldKnob: { position: 'absolute', top: '2px', left: this.state.hideSold ? '20px' : '2px', width: '18px', height: '18px', borderRadius: '999px', background: '#fff', transition: 'all .2s ease' },
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen, activeMega: !s.menuOpen ? 'default' : s.activeMega, openSection: null })),
+      closeMenu: () => this.setState({ menuOpen: false, openSection: null }),
+      ctaShow: !this.state.menuOpen,
+      items, mobileItems, footerCols, mega: megaData[activeMega] || megaData.default,
+      featPrev: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-scroll'), -360); },
+      featNext: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-scroll'), 360); },
+      newsPrev: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-scroll'), -360); },
+      newsNext: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-scroll'), 360); },
+      buyOpen: this.state.navBuyOpen,
+      openBuy: () => this.setState({ navBuyOpen: true }),
+      closeBuy: () => this.setState({ navBuyOpen: false }),
+      buyMega: megaData.buy,
+      branch: this.state.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      multiBranch: branchList.length > 1,
+      singleBranch: branchList.length <= 1,
+      selectedPhone: selectedBranch.phone,
+      selectedEmail: selectedBranch.email,
+      selectedTel: telFmt(selectedBranch.phone),
+      phonePopup: this.state.phonePopup,
+      togglePhonePopup: () => this.setState(s => ({ phonePopup: !s.phonePopup })),
+      branchPhones: branchList.map(b => ({ name: b.name, phone: b.phone, tel: telFmt(b.phone), onPick: () => this.setState({ phonePopup: false }) })),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === this.state.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === this.state.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+      year: new Date().getFullYear(),
+      properties: this.properties,
+      testimonials: t,
+      news: this.news,
+      accreditations: this.accreditations,
+      trackStyle: { display: 'flex', transition: 'transform .45s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${idx * 100}%)` },
+      prev: () => this.setState(s => ({ tIndex: (s.tIndex - 1 + t.length) % t.length })),
+      next: () => this.setState(s => ({ tIndex: (s.tIndex + 1) % t.length })),
+      dotItems,
+      setBuy: () => this.setState({ heroMode: 'buy' }),
+      setRent: () => this.setState({ heroMode: 'rent' }),
+      buyTabStyle: buy ? activeTab : idleTab,
+      rentTabStyle: buy ? idleTab : activeTab,
+      searchPlaceholder: buy ? 'Search a town or postcode to buy' : 'Search a town or postcode to rent',
+      searchBtn: 'Search',
+      noSubmit: (e) => { e.preventDefault(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

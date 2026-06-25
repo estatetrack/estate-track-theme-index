@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: oklch(0.984 0.004 95); --color-surface: oklch(1 0 0); --color-surface-alt: oklch(0.963 0.005 95);
+    --color-primary: oklch(0.31 0.018 255); --color-primary-hover: oklch(0.255 0.018 255); --color-on-primary: oklch(0.985 0.004 95);
+    --color-secondary: oklch(0.46 0.02 255); --color-accent: oklch(0.66 0.105 232); --color-accent-hover: oklch(0.60 0.105 232); --color-on-accent: oklch(0.99 0.003 232);
+    --color-text: oklch(0.24 0.012 260); --color-muted: oklch(0.53 0.012 260); --color-border: oklch(0.905 0.005 95); --color-success: oklch(0.62 0.10 155);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif; --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif; --font-mono: ui-monospace, Menlo, monospace;
+    --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem; --text-4xl: 3rem; --text-5xl: 4rem;
+    --leading-tight: 1.12; --leading-body: 1.6; --tracking-kicker: 0.16em;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    --radius-sm: 6px; --radius: 10px; --radius-lg: 18px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(20,24,33,0.06), 0 1px 3px rgba(20,24,33,0.05); --shadow-md: 0 6px 18px rgba(20,24,33,0.08); --shadow-lg: 0 22px 48px -18px rgba(20,24,33,0.22);
+    --container: 1200px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); }
+  .et-ph { background-image: repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px); background-color: var(--color-surface-alt); }
+  .et-ph-dark { background-image: repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px); background-color: var(--color-primary); }
+  .et-burger { display: none; }
+  .et-mobile-menu { display: none; }
+  .et-mobile-heart { display: none; }
+  .et-chooser { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); align-items: stretch; }
+  .et-valform { display: grid; grid-template-columns: 1.5fr 1fr; }
+  @media (max-width: 900px) {
+    .et-valform { grid-template-columns: 1fr !important; }
+    .et-valform-aside { display: none !important; }
+    .et-valform-main { padding: var(--space-8) var(--space-6) !important; }
+  }
+  @media (max-width: 560px) {
+    .et-stepper .et-step-label { display: none !important; }
+  }
+  .et-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-12); text-align: center; }
+  /* 3-up grid (desktop) → swipe carousel (mobile) */
+  .et-cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .et-cards3 > * { display: flex; }
+  .et-cards3 > * > * { width: 100%; }
+  .et-feat-arrows { display: none; }
+  .et-feat-botlink { display: none; }
+  @media (max-width: 980px) {
+    .et-nav-links { display: none !important; }
+    .et-burger { display: inline-flex !important; }
+    .et-desktop-menu { display: none !important; }
+    .et-mobile-menu { display: flex !important; }
+    .et-cta-btn { display: none !important; }
+    .et-topbar-hide { display: none !important; }
+    .et-topbar-bar { display: none !important; }
+    .et-mobile-heart { display: inline-flex !important; }
+    .et-menu-btn { width: 46px !important; height: 46px !important; padding: 0 !important; gap: 0 !important; justify-content: center; }
+    .et-menu-label { display: none !important; }
+    .et-footer-cols { grid-template-columns: 1fr 1fr !important; }
+    .et-chooser { grid-template-columns: 1fr !important; }
+    .et-hero-grid { flex-direction: column !important; align-items: flex-start !important; gap: var(--space-8) !important; }
+    .et-hero-textcol { flex-basis: 100% !important; }
+  }
+  @media (max-width: 680px) {
+    .et-footer-cols { grid-template-columns: 1fr !important; }
+    .et-section { padding-left: 20px !important; padding-right: 20px !important; padding-top: var(--space-16) !important; padding-bottom: var(--space-16) !important; }
+    .et-footer-bottom { padding-top: var(--space-6) !important; padding-bottom: var(--space-6) !important; }
+    .et-stats { grid-template-columns: 1fr !important; gap: var(--space-10) !important; }
+    .et-cta-banner { flex-direction: column !important; align-items: flex-start !important; padding: var(--space-10) var(--space-6) !important; }
+    .et-cards3 { display: flex; grid-template-columns: none; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: var(--space-4); margin: 0 -20px; padding: 0 20px var(--space-3); }
+    .et-cards3 > * { flex: 0 0 86%; scroll-snap-align: center; }
+    .et-feat-toplink { display: none !important; }
+    .et-feat-arrows { display: flex !important; }
+    .et-feat-botlink { display: flex !important; justify-content: center; margin-top: var(--space-6); }
+    .et-feat-head { margin-bottom: var(--space-6) !important; flex-wrap: nowrap !important; align-items: center !important; gap: var(--space-4) !important; }
+    .et-feat-titles { flex: 1 1 auto; min-width: 0; }
+    .et-feat-ctrls { flex: none; }
+  }
+  /* ===== MOBILE STYLE GUIDE — titles + spacing ===== */
+  @media (max-width: 680px) {
+    .et-page-title { font-size: var(--text-3xl) !important; }
+    .et-h2 { font-size: var(--text-2xl) !important; }
+    .et-hero-internal { padding-top: 112px !important; padding-bottom: var(--space-10) !important; }
+    .et-hero-grid { flex-direction: column !important; align-items: flex-start !important; gap: var(--space-8) !important; }
+    .et-hero-textcol { flex-basis: 100% !important; }
+    .et-tight-top { padding-top: var(--space-10) !important; }
+  }
+  /* mobile pass: sticky bottom CTA */
+  .et-mobile-cta { display: none; }
+  .et-cta-spacer { display: none; }
+  @media (max-width: 860px) {
+    .et-mobile-cta { display: flex !important; }
+    .et-cta-spacer { display: block; height: 80px; background: var(--color-primary); }
+  }
+  /* ===== transparent overlay header (opaque + sticky on scroll) ===== */
+  .et-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .25s ease; }
+  .et-bar .et-header { transition: background .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .et-bar.et-fixed .et-topbar-bar { display: none; }
+  .et-bar.et-fixed .et-header { box-shadow: var(--shadow-md); animation: etBarDown .3s cubic-bezier(.4,0,.2,1); }
+  @keyframes etBarDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .et-bar.et-top .et-topbar-bar, .et-bar.et-top .et-header { background: transparent !important; border-color: transparent !important; box-shadow: none !important; }
+  .et-bar.et-top .et-topbar-bar a:not(.et-pop *), .et-bar.et-top .et-topbar-bar button:not(.et-pop *) { color: rgba(255,255,255,0.84) !important; }
+  .et-bar.et-top .et-topbar-bar span:not(.et-pop *) { color: rgba(255,255,255,0.32) !important; }
+  .et-bar.et-top .et-logo { color: #fff !important; }
+  .et-bar.et-top .et-nav-links a:not(.et-pop *) { color: rgba(255,255,255,0.92) !important; }
+  .et-bar.et-top .et-menu-btn { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+  .et-bar.et-top .et-mobile-heart { background: rgba(255,255,255,0.14) !important; border-color: rgba(255,255,255,0.34) !important; color: #fff !important; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;">
+
+  <!-- ============ STICKY BAR ============ -->
+  <div class="et-bar {{ barClass }}">
+  <!-- ============ TOPBAR ============ -->
+  <div class="et-topbar-bar" style="background: var(--color-surface-alt); border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: 9px var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative;">
+            <button aria-label="Choose branch" onClick="{{ toggleBranch }}" style="display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 0;" style-hover="color: var(--color-accent);">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex: none;"><circle cx="6.5" cy="6.5" r="5" stroke="var(--color-accent)" stroke-width="1.4"></circle><circle cx="6.5" cy="6.5" r="1.7" fill="var(--color-accent)"></circle></svg>
+              {{ branch }} branch
+              <span style="{{ branchChevronStyle }}">▾</span>
+            </button>
+            <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="et-pop" style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 90; min-width: 230px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 6px;">
+                <sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+                  <button onClick="{{ b.onSelect }}" style="{{ b.style }}" style-hover="background: var(--color-surface-alt);">
+                    <span>{{ b.name }}</span>
+                    <sc-if value="{{ b.active }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;">✓</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <span style="color: var(--color-border);">|</span>
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+        <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ selectedTel }}" style="color: var(--color-secondary); text-decoration: none; font-weight: 500;">{{ selectedPhone }}</a>
+          <span class="et-topbar-hide" style="color: var(--color-border);">|</span>
+          <a href="#" class="et-topbar-hide" style="color: var(--color-secondary); text-decoration: none;">{{ selectedEmail }}</a>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-5);">
+        <a href="#" style="color: var(--color-secondary); text-decoration: none;">Register</a>
+        <a href="#" style="color: var(--color-secondary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="et-header" style="position: relative; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+    <div style="max-width: var(--container); margin: 0 auto; padding: var(--space-4) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6);">
+      <a href="Home.dc.html" style="text-decoration: none;">
+        <span class="et-logo" style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); color: var(--color-primary); letter-spacing: -0.01em;">Harvell &amp; Co</span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: var(--space-8);">
+      <nav class="et-nav-links" style="display: flex; align-items: center; gap: var(--space-6); font-size: var(--text-base); font-weight: 500;">
+        <div style="position: relative;" onMouseEnter="{{ openBuy }}" onMouseLeave="{{ closeBuy }}">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 7px; color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Buy<span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></a>
+          <sc-if value="{{ buyOpen }}" hint-placeholder-val="{{ false }}">
+            <div class="et-pop" style="position: absolute; top: 100%; left: 0; padding-top: 16px; z-index: 70;">
+              <div style="width: 660px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-8);">
+                <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ buyMega.kicker }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8);">
+                  <sc-for list="{{ buyMega.columns }}" as="col" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                        <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeBuy }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <a href="#" onClick="{{ closeBuy }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                    <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                    <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                    <div style="position: relative; padding: var(--space-5);">
+                      <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ buyMega.feature.tag }}</div>
+                      <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ buyMega.feature.title }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Sell</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Let</a>
+        <a href="#" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">Valuations</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">About</a>
+        <a href="News Listings.dc.html" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">News</a>
+        <a href="#" style="color: var(--color-text); text-decoration: none;" style-hover="color: var(--color-accent);">Contact</a>
+      </nav>
+
+      <div style="position: relative; display: flex; align-items: center; gap: var(--space-3);">
+        <a href="#book" class="et-cta-btn" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 11px 22px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;" style-hover="background: var(--color-accent-hover);">Book a Valuation</a>
+        <a href="#" aria-label="Saved" class="et-mobile-heart" style="width: 46px; height: 46px; align-items: center; justify-content: center; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg></a>
+        <button aria-label="Menu" aria-expanded="{{ menuOpen }}" onClick="{{ toggleMenu }}" class="et-menu-btn" style="display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 10px 18px; min-height: 44px; cursor: pointer;" style-hover="background: var(--color-bg); border-color: var(--color-secondary);">
+          <span style="font-size: var(--text-lg); line-height: 1;">{{ menuIcon }}</span><span class="et-menu-label">Menu</span>
+        </button>
+
+        <!-- DESKTOP MEGA MENU -->
+        <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+          <div class="et-desktop-menu et-pop" style="position: absolute; top: calc(100% + 16px); right: 0; z-index: 70; display: flex; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="width: 600px; padding: var(--space-8); border-right: 1px solid var(--color-border); background: var(--color-bg);">
+              <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-6);">{{ mega.kicker }}</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: var(--space-8); align-items: stretch;">
+                <sc-for list="{{ mega.columns }}" as="col" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-text);">{{ col.heading }}</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-muted); text-decoration: none;" style-hover="color: var(--color-accent);">{{ l }}</a></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+                <a href="#" onClick="{{ closeMenu }}" style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 210px; border-radius: var(--radius); overflow: hidden; text-decoration: none;">
+                  <div class="et-ph" style="position: absolute; inset: 0;"></div>
+                  <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--color-primary) 8%, color-mix(in oklch, var(--color-primary) 50%, transparent) 40%, transparent 72%);"></div>
+                  <span style="position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.55;">[ photo ]</span>
+                  <div style="position: relative; padding: var(--space-5);">
+                    <div style="font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 6px;">{{ mega.feature.tag }}</div>
+                    <div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); line-height: 1.2; color: var(--color-on-primary);">{{ mega.feature.title }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div style="width: 280px; padding: var(--space-5); display: flex; flex-direction: column; gap: 2px;">
+              <sc-for list="{{ items }}" as="it" hint-placeholder-count="7">
+                <a href="#" onMouseEnter="{{ it.onEnter }}" onClick="{{ it.onClick }}" style="{{ it.style }}">
+                  <span>{{ it.label }}</span>
+                  <sc-if value="{{ it.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent); display: inline-block;"></span></sc-if>
+                </a>
+              </sc-for>
+              <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); padding-left: 14px;">
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+                <a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+                <a href="tel:01242000000" style="font-size: var(--text-sm); color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="et-mobile-menu" style="position: fixed; left: 0; right: 0; bottom: 0; top: var(--header-h, 96px); z-index: 40; background: var(--color-surface); flex-direction: column; padding: var(--space-4) var(--space-6) var(--space-6); overflow-y: auto;">
+      <nav style="display: flex; flex-direction: column;">
+        <sc-for list="{{ mobileItems }}" as="mi" hint-placeholder-count="7">
+          <div style="border-bottom: 1px solid var(--color-border);">
+            <sc-if value="{{ mi.simple }}" hint-placeholder-val="{{ true }}">
+              <a href="#" onClick="{{ closeMenu }}" style="display: flex; align-items: center; justify-content: space-between; color: var(--color-text); text-decoration: none; font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">{{ mi.label }}</a>
+            </sc-if>
+            <sc-if value="{{ mi.dot }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ mi.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; cursor: pointer; color: var(--color-text); font-family: var(--font-heading); font-size: var(--text-xl); padding: var(--space-3) 0;">
+                <span style="display: inline-flex; align-items: center; gap: 11px;">{{ mi.label }}<span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-accent);"></span></span>
+                <span style="font-size: var(--text-xl); color: var(--color-muted); font-family: var(--font-body);">+</span>
+              </button>
+              <sc-if value="{{ mi.open }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-5) var(--space-4);">
+                  <sc-for list="{{ mi.links }}" as="ml" hint-placeholder-count="5"><a href="#" onClick="{{ closeMenu }}" style="font-size: var(--text-base); color: var(--color-secondary); text-decoration: none;">{{ ml }}</a></sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;">Register your requirements</a>
+        <a href="#" onClick="{{ closeMenu }}" style="color: var(--color-secondary); text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px;"><path d="M12 20s-7-4.4-9.4-8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.4 5.2C19 15.6 12 20 12 20z"></path></svg> Saved properties</a>
+        <a href="tel:01242000000" style="color: var(--color-secondary); text-decoration: none;">01242 000 000</a>
+      </div>
+      <a href="#book" onClick="{{ closeMenu }}" style="margin-top: auto; text-align: center; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px; text-decoration: none;">Book a Valuation</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO-INTERNAL ============ -->
+  <section style="background: var(--color-primary); position: relative; overflow: hidden;">
+    <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, var(--color-primary) 44%, color-mix(in oklch, var(--color-primary) 58%, transparent) 100%);"></div>
+    <span style="position: absolute; top: 120px; right: var(--space-8); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.4;">[ valuation / home image ]</span>
+    <div class="et-section et-hero-internal et-hero-grid" style="position: relative; max-width: var(--container); margin: 0 auto; padding: 150px var(--space-8) var(--space-16); display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-16); flex-wrap: wrap;">
+      <!-- Text — left -->
+      <div class="et-hero-textcol" style="flex: 0 1 640px; min-width: 0;">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.7; margin-bottom: var(--space-4);"><a href="Valuation Overview.dc.html" style="color: inherit; text-decoration: none;">Home › Valuations</a> › Book a valuation</div>
+        <h1 class="et-page-title" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-4xl); color: var(--color-on-primary); margin: 0 0 var(--space-5); line-height: var(--leading-tight); max-width: 20ch;">Book a free, no-obligation valuation</h1>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0; max-width: 56ch; line-height: var(--leading-body);">A local expert visits your home, weighs up its condition, features and the live market, and gives you a realistic figure with honest advice on how to achieve it.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-8);">
+          <div style="display: inline-flex; align-items: center; gap: 9px; font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.9;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg> 100% free &amp; no obligation
+          </div>
+          <div style="display: inline-flex; align-items: center; gap: 9px; font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.9;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg> A time that suits you
+          </div>
+          <div style="display: inline-flex; align-items: center; gap: 9px; font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.9;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg> Sales &amp; lettings valuations
+          </div>
+        </div>
+      </div>
+      <!-- Rating pill — bottom right -->
+      <div class="et-hero-pill" style="flex: 0 0 auto;">
+        <div style="display: inline-flex; align-items: center; gap: var(--space-3); background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-full); padding: 8px 16px;">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--color-surface); border-radius: var(--radius-full);"><img src="assets/google-g.svg" alt="Google" width="16" height="16" style="display: block;" /></span>
+          <span style="color: var(--color-accent); font-size: var(--text-sm); letter-spacing: 1px;">★★★★★</span>
+          <span style="color: var(--color-on-primary); font-size: var(--text-sm);"><strong>4.9/5</strong> · 451 Google reviews</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALUATION-FORM (BOOKING) ============ -->
+  <section id="book" style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); scroll-margin-top: 90px;">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8);">
+      <div style="max-width: 62ch; margin: 0 0 var(--space-10);">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Book a valuation</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0 0 var(--space-4);">Arrange your free home visit</h2>
+        <p style="font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-muted); margin: 0;">Tell us a little about your property and a local expert will be in touch to arrange a visit at a time that suits you. It's free, with no obligation.</p>
+      </div>
+
+      <div class="et-valform" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 0; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+
+        <!-- ===== FORM COLUMN ===== -->
+        <div class="et-valform-main" style="padding: var(--space-10) var(--space-12); min-width: 0;">
+
+          <!-- SUCCESS -->
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: var(--radius-full); background: var(--color-accent); color: var(--color-on-accent); margin-bottom: var(--space-5);"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+              <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-2xl); line-height: var(--leading-tight); margin: 0 0 var(--space-3);">{{ successTitle }}</h3>
+              <p style="font-size: var(--text-base); color: var(--color-muted); line-height: var(--leading-body); margin: 0 0 var(--space-6); max-width: 50ch;">{{ successMsg }}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: var(--space-8);">
+                <sc-for list="{{ summaryChips }}" as="c" hint-placeholder-count="3"><span style="font-family: var(--font-body); font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-secondary); background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 7px 15px;">{{ c }}</span></sc-for>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+                <a href="Valuation Overview.dc.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border: none; border-radius: var(--radius-full); padding: 15px 28px; min-height: 50px; text-decoration: none;" style-hover="background: var(--color-accent-hover);">Back to valuations <span style="font-family: var(--font-heading);">→</span></a>
+                <a href="Instant Valuation.dc.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-primary); background: transparent; border: 1.5px solid var(--color-primary); border-radius: var(--radius-full); padding: 15px 26px; min-height: 50px; text-decoration: none;" style-hover="background: var(--color-primary); color: var(--color-on-primary);">Get an instant estimate</a>
+              </div>
+              <button onClick="{{ startAgain }}" style="margin-top: var(--space-6); font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-secondary); background: transparent; border: none; cursor: pointer; padding: 4px;" style-hover="color: var(--color-accent);">↺ Submit another request</button>
+            </div>
+          </sc-if>
+
+          <!-- FORM -->
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-2xl); line-height: var(--leading-tight); margin: 0 0 var(--space-2);">Your property &amp; details</h3>
+              <p style="font-size: var(--text-base); color: var(--color-muted); margin: 0 0 var(--space-8); line-height: var(--leading-body);">Tell us about your property, then pick a date and time that suits you — your free visit is booked instantly.</p>
+
+              <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+
+                <!-- ADDRESS -->
+                <div>
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Property postcode</label>
+                  <div style="display: flex; align-items: stretch; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden;">
+                    <input type="text" value="{{ postcode }}" onInput="{{ onPostcode }}" placeholder="e.g. GL50 1AA" style="flex: 1; min-width: 0; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: transparent; border: none; outline: none; padding: 13px 16px; min-height: 50px; text-transform: uppercase;" />
+                    <button onClick="{{ findAddress }}" style="margin: -1px -1px -1px 0; font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); background: var(--color-primary); border: none; padding: 13px 22px; min-height: 52px; cursor: pointer; flex: none; white-space: nowrap;" style-hover="background: var(--color-primary-hover);">Find address</button>
+                  </div>
+                  <sc-if value="{{ addressesFound }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top: var(--space-4);">
+                      <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Select your address</label>
+                      <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <sc-for list="{{ addresses }}" as="a" hint-placeholder-count="5">
+                          <button onClick="{{ a.onSelect }}" style="{{ a.style }}" style-hover="border-color: var(--color-secondary);">
+                            <span>{{ a.label }}</span>
+                            <sc-if value="{{ a.selected }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-accent); font-weight: 700;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span></sc-if>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <!-- TYPE -->
+                <div>
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Property type</label>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px;"><sc-for list="{{ typeOptions }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div>
+                </div>
+
+                <!-- BEDS -->
+                <div>
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Bedrooms</label>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px;"><sc-for list="{{ bedsOptions }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div>
+                </div>
+
+                <!-- VAL TYPE -->
+                <div>
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">What's the valuation for?</label>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px;"><sc-for list="{{ valTypeOptions }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div>
+                </div>
+
+                <!-- TIMEFRAME -->
+                <div>
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Looking to move … <span style="font-weight: 400; color: var(--color-muted);">(optional)</span></label>
+                  <div style="display: flex; flex-wrap: nowrap; gap: 8px;"><sc-for list="{{ timeframeOptions }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div>
+                </div>
+
+                <!-- DIARY -->
+                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-6);">
+                  <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Choose a date</label>
+                  <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity;">
+                    <sc-for list="{{ dateOptions }}" as="d" hint-placeholder-count="8">
+                      <button onClick="{{ d.onClick }}" style="{{ d.style }}">
+                        <span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.75;">{{ d.wd }}</span>
+                        <span style="font-family: var(--font-heading); font-size: var(--text-xl); line-height: 1;">{{ d.day }}</span>
+                        <span style="font-size: var(--text-xs); opacity: 0.75;">{{ d.mon }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ timeShown }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top: var(--space-5);">
+                      <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">Pick a time <span style="font-weight: 400; color: var(--color-muted);">on {{ chosenDateLabel }}</span></label>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <sc-for list="{{ timeOptions }}" as="t" hint-placeholder-count="6"><button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <!-- CONTACT -->
+                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+                  <div>
+                    <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Full name</label>
+                    <input type="text" value="{{ vName }}" onInput="{{ onName }}" placeholder="Your name" style="width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 16px; min-height: 50px;" />
+                  </div>
+                  <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 180px;">
+                      <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Email</label>
+                      <input type="email" value="{{ vEmail }}" onInput="{{ onEmail }}" placeholder="you@email.com" style="width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 16px; min-height: 50px;" />
+                    </div>
+                    <div style="flex: 1; min-width: 180px;">
+                      <label style="display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Phone</label>
+                      <input type="tel" value="{{ vPhone }}" onInput="{{ onPhone }}" placeholder="07000 000000" style="width: 100%; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 13px 16px; min-height: 50px;" />
+                    </div>
+                  </div>
+                  <label style="display: flex; align-items: flex-start; gap: 11px; font-size: var(--text-sm); color: var(--color-secondary); line-height: var(--leading-body); cursor: pointer; margin-top: var(--space-2);">
+                    <input type="checkbox" checked="{{ consent }}" onChange="{{ onConsent }}" style="width: 18px; height: 18px; margin-top: 2px; flex: none; accent-color: var(--color-accent);" />
+                    <span>I agree to be contacted about my valuation and understand my details are handled per the privacy policy.</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: var(--space-8);">
+                <button onClick="{{ submit }}" style="{{ submitStyle }}">{{ submitLabel }} <span style="font-family: var(--font-heading);">→</span></button>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+
+        <!-- ===== ASIDE COLUMN ===== -->
+        <aside class="et-valform-aside" style="background: var(--color-primary); color: var(--color-on-primary); padding: var(--space-10); position: relative; overflow: hidden; display: flex; flex-direction: column;">
+          <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.35;"></div>
+          <div style="position: relative;">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-on-primary); opacity: 0.6; margin-bottom: var(--space-6);">What to expect</div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+              <div style="display: flex; gap: var(--space-4);">
+                <span style="flex: none; width: 34px; height: 34px; border-radius: var(--radius-full); border: 1.5px solid var(--color-accent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--text-sm);">1</span>
+                <div><div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); margin-bottom: 3px;">Share a few details</div><div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.7; line-height: var(--leading-body);">Postcode, property type and how soon you're moving.</div></div>
+              </div>
+              <div style="display: flex; gap: var(--space-4);">
+                <span style="flex: none; width: 34px; height: 34px; border-radius: var(--radius-full); border: 1.5px solid var(--color-accent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--text-sm);">2</span>
+                <div><div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); margin-bottom: 3px;">Choose your slot</div><div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.7; line-height: var(--leading-body);">Pick a date and time that suits you — booked instantly.</div></div>
+              </div>
+              <div style="display: flex; gap: var(--space-4);">
+                <span style="flex: none; width: 34px; height: 34px; border-radius: var(--radius-full); border: 1.5px solid var(--color-accent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--text-sm);">3</span>
+                <div><div style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-lg); margin-bottom: 3px;">We visit &amp; value</div><div style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.7; line-height: var(--leading-body);">A local expert visits and gives you a realistic price.</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="position: relative; margin-top: auto; padding-top: var(--space-8);">
+            <div style="display: inline-flex; align-items: center; gap: var(--space-3); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-full); padding: 8px 16px; margin-bottom: var(--space-4);">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--color-surface); border-radius: var(--radius-full);"><img src="assets/google-g.svg" alt="Google" width="15" height="15" style="display: block;" /></span>
+              <span style="color: var(--color-accent); font-size: var(--text-sm); letter-spacing: 1px;">★★★★★</span>
+              <span style="color: var(--color-on-primary); font-size: var(--text-sm);"><strong>4.9/5</strong> · 451 reviews</span>
+            </div>
+            <p style="font-size: var(--text-sm); color: var(--color-on-primary); opacity: 0.62; margin: 0; line-height: var(--leading-body);">Your details are kept private and never sold on.</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIDEO-REVIEWS ============ -->
+  <section class="et-section et-tight-top et-tight-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-24) var(--space-8) var(--space-16);">
+    <div class="et-feat-head" style="display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-10); flex-wrap: wrap;">
+      <div class="et-feat-titles">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">In their own words</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">Hear it from people we've valued</h2>
+      </div>
+      <div class="et-feat-ctrls" style="display: flex; align-items: center; gap: var(--space-3);">
+        <a class="et-feat-toplink" href="Video Testimonials.dc.html" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">View all video reviews <span style="font-family: var(--font-heading);">→</span></a>
+        <div class="et-feat-arrows" style="gap: var(--space-2);">
+          <button aria-label="Previous" onClick="{{ featPrev }}" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">←</button>
+          <button aria-label="Next" onClick="{{ featNext }}" style="width: 46px; height: 46px; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; font-size: var(--text-lg); color: var(--color-primary);" style-hover="background: var(--color-surface-alt);">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="et-cards3">
+      <sc-for list="{{ videoReviews }}" as="v" hint-placeholder-count="3">
+        <div><dc-import name="VideoTestimonialCard" client-name="{{ v.name }}" role="{{ v.role }}" quote="{{ v.quote }}" duration="{{ v.duration }}" on-play="{{ v.onPlay }}" hint-size="100%,460px"></dc-import></div>
+      </sc-for>
+    </div>
+    <a class="et-feat-botlink" href="Video Testimonials.dc.html" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-accent); text-decoration: none; align-items: center; gap: 6px;">View all video reviews <span style="font-family: var(--font-heading);">→</span></a>
+  </section>
+
+  <!-- ============ CTA-BANNER ============ -->
+  <section class="et-section" style="max-width: var(--container); margin: 0 auto; padding: 0 var(--space-8) var(--space-16);">
+    <div class="et-cta-banner" style="background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-12) var(--space-16); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; overflow: hidden; position: relative;">
+      <div class="et-ph-dark" style="position: absolute; inset: 0; opacity: 0.5;"></div>
+      <div style="position: relative; max-width: 56ch;">
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); color: var(--color-on-primary); margin: 0 0 var(--space-3);">Prefer to talk it through first?</h2>
+        <p style="font-size: var(--text-lg); color: var(--color-on-primary); opacity: 0.82; margin: 0;">Speak to your local branch for honest, no-pressure advice on selling or letting — and which valuation is right for you.</p>
+      </div>
+      <div style="position: relative; display: flex; gap: var(--space-3); flex-wrap: wrap;">
+        <a href="{{ selectedTel }}" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-accent); background: var(--color-accent); border-radius: var(--radius-full); padding: 16px 32px; text-decoration: none;" style-hover="background: var(--color-accent-hover);">Call {{ selectedPhone }}</a>
+        <a href="#" style="font-family: var(--font-body); font-size: var(--text-base); font-weight: 600; color: var(--color-on-primary); background: transparent; border: 1.5px solid rgba(255,255,255,0.4); border-radius: var(--radius-full); padding: 16px 30px; text-decoration: none; display: inline-flex; align-items: center;" style-hover="background: rgba(255,255,255,0.1);">Find your branch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ-ACCORDION ============ -->
+  <section style="background: var(--color-surface-alt); border-top: 1px solid var(--color-border);">
+    <div class="et-section" style="max-width: 840px; margin: 0 auto; padding: var(--space-20) var(--space-8);">
+      <div style="text-align: center; max-width: 56ch; margin: 0 auto var(--space-12);">
+        <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--space-3);">Good to know</div>
+        <h2 class="et-h2" style="font-family: var(--font-heading); font-weight: 500; font-size: var(--text-3xl); line-height: var(--leading-tight); margin: 0;">Valuation questions, answered</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+        <sc-for list="{{ faqItems }}" as="f" hint-placeholder-count="5">
+          <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden;">
+            <button onClick="{{ f.onToggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); text-align: left; background: transparent; border: none; cursor: pointer; padding: var(--space-5) var(--space-6); font-family: var(--font-heading); font-weight: 500; font-size: var(--text-xl); color: var(--color-text);">
+              <span>{{ f.q }}</span>
+              <span style="flex: none; width: 30px; height: 30px; border-radius: var(--radius-full); background: var(--color-surface-alt); display: inline-flex; align-items: center; justify-content: center;"><span style="{{ f.dotStyle }}"></span></span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 0 var(--space-6) var(--space-6); font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted);">{{ f.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: var(--color-primary); color: var(--color-on-primary);">
+    <div class="et-section" style="max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-8) var(--space-12);">
+      <div class="et-footer-cols" style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-12);">
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: var(--text-2xl); margin-bottom: var(--space-4);">Harvell &amp; Co</div>
+          <p style="font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-on-primary); opacity: 0.72; margin: 0 0 var(--space-5); max-width: 36ch;">Trusted estate and lettings agents helping you buy, sell, let and rent with expert local knowledge.</p>
+          <div style="display: flex; gap: var(--space-3);">
+            <a href="#" aria-label="Facebook" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); text-decoration: none; font-weight: 700;">f</a>
+            <a href="#" aria-label="Instagram" style="width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; text-decoration: none;"><img src="assets/instagram-white.svg" alt="" width="18" height="18" style="display: block;" /></a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Services</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Buying</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Selling</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Lettings</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Mortgages</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Conveyancing</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Land &amp; development</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Auctions</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">About us</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our branches</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Area guides</a>
+            <a href="News Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">News</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Sustainability</a>
+            <a href="Testimonials Listings.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Reviews</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; opacity: 0.6; margin-bottom: var(--space-5);">Get in touch</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); font-size: var(--text-base);">
+            <a href="tel:01242000000" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">01242 000 000</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">hello&#64;example.co.uk</a>
+            <a href="#book" style="color: var(--color-accent); opacity: 1; text-decoration: none; font-weight: 600;">Book a valuation</a>
+            <a href="Instant Valuation.dc.html" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Instant valuation</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Register requirements</a>
+            <a href="#" style="color: var(--color-on-primary); opacity: 0.82; text-decoration: none;">Our offices</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(255,255,255,0.14);">
+        <sc-for list="{{ accreditations }}" as="a" hint-placeholder-count="5"><span style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-on-primary); opacity: 0.7; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-sm); padding: 8px 14px;">{{ a }}</span></sc-for>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.14);">
+      <div class="et-section et-footer-bottom" style="max-width: var(--container); margin: 0 auto; padding: var(--space-6) var(--space-8); display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-on-primary);">
+        <div style="opacity: 0.66;">© {{ year }} Harvell &amp; Co. Registered office: 1 Example House, Cheltenham GL50 0AA. Company no. 00000000.</div>
+        <div style="display: flex; gap: var(--space-5); opacity: 0.82;">
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Privacy</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Terms</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Cookies</a>
+          <a href="#" style="color: var(--color-on-primary); text-decoration: none;">Complaints</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="et-cta-spacer"></div>
+  <sc-if value="{{ ctaShow }}" hint-placeholder-val="{{ true }}">
+  <div class="et-mobile-cta" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 75; align-items: center; gap: var(--space-3); background: var(--color-surface); border-top: 1px solid var(--color-border); box-shadow: 0 -6px 24px rgba(20,24,33,0.10); padding: 10px var(--space-5);">
+    <div style="position: relative; flex: none;">
+      <sc-if value="{{ multiBranch }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Call a branch" onClick="{{ togglePhonePopup }}" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: var(--text-lg); cursor: pointer;">☎</button>
+        <sc-if value="{{ phonePopup }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: calc(100% + 12px); left: 0; z-index: 80; min-width: 250px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-3);">
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: var(--tracking-kicker); text-transform: uppercase; color: var(--color-muted); padding: 4px 10px 8px;">Call a branch</div>
+            <sc-for list="{{ branchPhones }}" as="bp" hint-placeholder-count="3">
+              <a href="{{ bp.tel }}" onClick="{{ bp.onPick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; padding: 10px; border-radius: var(--radius); color: var(--color-text);" style-hover="background: var(--color-surface-alt);">
+                <span style="font-weight: 600; font-size: var(--text-sm);">{{ bp.name }}</span>
+                <span style="font-size: var(--text-sm); color: var(--color-accent); font-weight: 600;">{{ bp.phone }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ singleBranch }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ selectedTel }}" aria-label="Call us" style="width: 52px; height: 52px; border-radius: var(--radius-full); border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-primary); text-decoration: none; font-size: var(--text-lg);">☎</a>
+      </sc-if>
+    </div>
+    <a href="#book" style="flex: 1; text-align: center; background: var(--color-accent); color: var(--color-on-accent); border-radius: var(--radius-full); padding: 15px; font-weight: 600; font-size: var(--text-base); text-decoration: none; min-height: 52px; display: flex; align-items: center; justify-content: center;">Book a Valuation</a>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, activeMega: 'default', openSection: null, navBuyOpen: false, branchOpen: false, branch: 'Cheltenham', phonePopup: false, scrolled: false, openFaq: 0,
+    submitted: false, postcode: '', addresses: [], addressFound: false, selectedAddress: '', propType: '', beds: '', valType: '', timeframe: '', vName: '', vEmail: '', vPhone: '', consent: false };
+  _animScroll = (el, delta) => {
+    if (!el) return;
+    const start = el.scrollLeft;
+    const t0 = performance.now();
+    const dur = 320;
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.scrollLeft = start + delta * ease;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  _measure = () => { const el = document.querySelector('.et-header'); if (el) document.documentElement.style.setProperty('--header-h', el.offsetHeight + 'px'); };
+  _onScroll = () => { const y = window.scrollY || window.pageYOffset || 0; const s = y > 60; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+  componentDidMount() {
+    this._measure();
+    window.addEventListener('resize', this._measure);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._measure); window.removeEventListener('scroll', this._onScroll); }
+
+  get accreditations() { return ['Propertymark', 'The Property Ombudsman', 'Trading Standards', 'Tenancy Deposit Scheme', 'NRLA']; }
+
+  get videoReviews() {
+    return [
+      { name: 'James & Priya', role: 'Sold in Leckhampton', quote: "They made selling our family home feel effortless — three offers in the first week.", duration: '1:24' },
+      { name: 'Sandra Whitfield', role: 'Landlord · Cheltenham', quote: 'Full management took every worry off my hands. I genuinely never think about it.', duration: '2:06' },
+      { name: 'The Achterberg family', role: 'Bought in Tewkesbury', quote: 'They knew the area inside out and saved us months of wasted weekends viewing.', duration: '1:48' }
+    ];
+  }
+
+  get faqs() {
+    return [
+      { q: 'Is the valuation really free?', a: 'Yes — an in-person valuation is completely free and with no obligation. There is no catch and no pressure to instruct us afterwards; the figure and advice are yours to keep either way.' },
+      { q: 'How soon can someone visit?', a: 'In most areas we can arrange a visit within a day or two, and often the same week. When you submit your details we\u2019ll call to confirm a slot that genuinely suits you, including evenings and Saturdays.' },
+      { q: 'How long does the appointment take?', a: 'Around 45 minutes. The valuer assesses the condition, features and layout of your home, talks through your plans and timescale, and explains how we would market it and what price is realistically achievable.' },
+      { q: 'How should I prepare for the visit?', a: 'There\u2019s no need to do anything special — see your home as it normally is. It helps to have any paperwork to hand (extensions, new windows, boiler or lease details) and to note any questions you\u2019d like to ask about selling or letting.' },
+      { q: 'Do you visit for lettings as well as sales?', a: 'Absolutely. We carry out free rental valuations for landlords alongside sales valuations, and can advise on achievable rents, demand in your area and the level of management that would suit you.' },
+      { q: 'Will I be tied into using your agency?', a: 'Not at all. Booking a valuation is simply information to help you decide. There is no contract and no commitment — you are free to take our figure and advice away with no further obligation.' }
+    ];
+  }
+
+  get branchData() {
+    return [
+      { name: 'Cheltenham', phone: '01242 000 000', email: 'cheltenham@example.co.uk' },
+      { name: 'Tewkesbury', phone: '01684 000 000', email: 'tewkesbury@example.co.uk' },
+      { name: 'Gloucester', phone: '01452 000 000', email: 'gloucester@example.co.uk' }
+    ];
+  }
+
+  renderVals() {
+    const activeMega = this.state.activeMega || 'default';
+    const megaData = {
+      buy: { kicker: 'Buying with Harvell & Co', columns: [ { heading: 'Find a home', links: ['Property for sale', 'Property to rent', 'New homes', 'Shared ownership', 'Auctions'] }, { heading: 'Help & advice', links: ['Mortgage advice', 'Conveyancing', 'RICS surveyors', 'First-time buyers', 'Investment services'] } ], feature: { tag: 'New homes', title: 'Cotswold Gate — 3 & 4 bed homes now selling' } },
+      sell: { kicker: 'Selling with Harvell & Co', columns: [ { heading: 'Sell your home', links: ['Book a valuation', 'Instant valuation', 'Selling at auction', 'Probate valuation', 'Land & development'] }, { heading: 'Seller guides', links: ['How to sell your home', 'Preparing to sell', 'Choosing an agent', 'Our fees explained'] } ], feature: { tag: 'Free valuation', title: 'Find out what your home is worth today' } },
+      let: { kicker: 'Landlords & tenants', columns: [ { heading: 'Landlords', links: ['Let your property', 'Landlord services', 'Free rental valuation', 'Buy-to-let mortgages', 'Landlord insurance'] }, { heading: 'Tenants', links: ['Property to rent', 'Register requirements', 'Tenant guides', 'Deposit & fees'] } ], feature: { tag: 'Landlords', title: 'Full management from one point of contact' } },
+      default: { kicker: 'Find your next home', columns: [ { heading: 'Popular searches', links: ['Property for sale', 'Property to rent', 'New homes', 'Auctions', 'Investment'] }, { heading: 'Quick links', links: ['Book a valuation', 'Register requirements', 'Our branches', 'Area guides'] } ], feature: { tag: 'Featured', title: 'Search every property across the county' } }
+    };
+    const itemDefs = [ { label: 'Buy', key: 'buy', dot: true }, { label: 'Sell', key: 'sell', dot: true }, { label: 'Let', key: 'let', dot: true }, { label: 'Valuations', key: null, dot: false }, { label: 'About', key: null, dot: false }, { label: 'News', key: null, dot: false }, { label: 'Contact', key: null, dot: false } ];
+    const itemBase = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 'var(--radius)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, cursor: 'pointer', transition: 'all .15s ease' };
+    const items = itemDefs.map(d => ({
+      label: d.label, dot: d.dot,
+      onEnter: () => this.setState({ activeMega: d.key || 'default' }),
+      onClick: () => this.setState({ menuOpen: false }),
+      style: Object.assign({}, itemBase, (d.key && d.key === activeMega) ? { background: 'var(--color-surface-alt)', color: 'var(--color-accent)' } : { background: 'transparent', color: 'var(--color-text)' })
+    }));
+    const mobileItems = itemDefs.map(d => ({
+      label: d.label, dot: d.dot, simple: !d.dot,
+      links: d.dot ? megaData[d.key].columns.reduce((a, c) => a.concat(c.links), []) : [],
+      open: this.state.openSection === d.key,
+      onToggle: () => this.setState(s => ({ openSection: s.openSection === d.key ? null : d.key }))
+    }));
+    const branchList = this.branchData;
+    const selectedBranch = branchList.find(b => b.name === this.state.branch) || branchList[0];
+    const telFmt = (p) => 'tel:' + p.replace(/\s+/g, '');
+
+    // ===== BOOKING VALUATION FORM =====
+    const set = (patch) => this.setState(patch);
+    const segBase = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, padding: '10px 18px', minHeight: '44px', borderRadius: 'var(--radius-full)', cursor: 'pointer', transition: 'all .15s ease' };
+    const segStyle = (sel) => Object.assign({}, segBase, sel
+      ? { background: 'var(--color-accent)', color: 'var(--color-on-accent)', border: '1.5px solid var(--color-accent)' }
+      : { background: 'var(--color-surface)', color: 'var(--color-text)', border: '1.5px solid var(--color-border)' });
+    const mkOpts = (defs, key, pad) => defs.map(label => ({ label, style: Object.assign({}, segStyle(this.state[key] === label), pad ? { padding: pad } : {}), onClick: () => set({ [key]: label }) }));
+    const typeDefs = ['Detached', 'Semi-detached', 'Terraced', 'Flat', 'Other'];
+    const bedsDefs = ['1', '2', '3', '4', '5+'];
+    const valTypeDefs = ['Selling', 'Letting', 'Both'];
+    const timeframeDefs = ['Now', 'Within 3 months', 'Within 6 months', 'Within 12 months'];
+    const ctaBtn = (enabled) => ({ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, borderRadius: 'var(--radius-full)', padding: '15px 30px', minHeight: '52px', border: 'none', cursor: enabled ? 'pointer' : 'not-allowed', color: 'var(--color-on-accent)', background: enabled ? 'var(--color-accent)' : 'var(--color-border)', opacity: enabled ? 1 : 0.6, transition: 'all .15s ease' });
+    const mkAddresses = (pc) => { const p = (pc || 'GL50 1AA').trim().toUpperCase(); return ['12 Lansdown Crescent', '14 Lansdown Crescent', 'Flat 2, 16 Lansdown Crescent', '18 Lansdown Crescent', '20 Lansdown Crescent'].map(s => s + ', Cheltenham ' + p); };
+    const addrRowStyle = (sel) => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: sel ? 'var(--color-surface-alt)' : 'var(--color-surface)', border: sel ? '1.5px solid var(--color-accent)' : '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '13px 16px', minHeight: '48px', cursor: 'pointer', transition: 'all .15s ease' });
+    const bst = this.state;
+    const emailOk = /.+@.+\..+/.test(bst.bEmail || '');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const wdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const dateChipStyle = (sel) => ({ flex: '0 0 auto', scrollSnapAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', minWidth: '62px', padding: '10px 8px', borderRadius: 'var(--radius)', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 600, transition: 'all .15s ease', background: sel ? 'var(--color-accent)' : 'var(--color-surface)', color: sel ? 'var(--color-on-accent)' : 'var(--color-text)', border: sel ? '1.5px solid var(--color-accent)' : '1.5px solid var(--color-border)' });
+    const days = []; { const dd = new Date(); dd.setHours(0,0,0,0); let guard = 0; while (days.length < 14 && guard < 30) { dd.setDate(dd.getDate() + 1); guard++; if (dd.getDay() !== 0) days.push({ key: dd.getFullYear() + '-' + (dd.getMonth()+1) + '-' + dd.getDate(), wd: wdays[dd.getDay()], day: dd.getDate(), mon: months[dd.getMonth()], full: wdays[dd.getDay()] + ' ' + dd.getDate() + ' ' + months[dd.getMonth()] }); } }
+    const timeDefs = ['9:00', '10:30', '12:00', '13:30', '15:00', '16:30'];
+    const chosenDay = days.find(x => x.key === bst.bookDate);
+    const chosenDateLabel = chosenDay ? chosenDay.full : '';
+    const formOk = !!bst.selectedAddress && !!bst.propType && !!bst.beds && !!bst.valType && !!bst.bookDate && !!bst.bookTime && !!(bst.bName || '').trim() && emailOk && bst.consent;
+    const firstName = (bst.bName || '').trim().split(/\s+/)[0] || '';
+    const summaryChips = [chosenDay ? chosenDay.full + (bst.bookTime ? ' · ' + bst.bookTime : '') : '', bst.valType ? bst.valType + ' valuation' : '', bst.selectedAddress].filter(Boolean);
+    const successMsg = 'Thanks' + (firstName ? ' ' + firstName : '') + ' — your free valuation at ' + (bst.selectedAddress || 'your property') + ' is booked for ' + chosenDateLabel + ' at ' + bst.bookTime + '. We have emailed a confirmation and calendar invite.';
+
+    return {
+      submitted: bst.submitted, notSubmitted: !bst.submitted,
+      postcode: bst.postcode,
+      onPostcode: (e) => set({ postcode: e.target.value }),
+      findAddress: () => set({ addresses: mkAddresses(bst.postcode), addressFound: true }),
+      addressesFound: bst.addressFound,
+      addresses: (bst.addresses || []).map(a => ({ label: a, selected: bst.selectedAddress === a, style: addrRowStyle(bst.selectedAddress === a), onSelect: () => set({ selectedAddress: a }) })),
+      typeOptions: mkOpts(typeDefs, 'propType'),
+      bedsOptions: mkOpts(bedsDefs, 'beds'),
+      valTypeOptions: mkOpts(valTypeDefs, 'valType'),
+      timeframeOptions: mkOpts(timeframeDefs, 'timeframe', '10px 14px'),
+      dateOptions: days.map(d => ({ wd: d.wd, day: String(d.day), mon: d.mon, style: dateChipStyle(bst.bookDate === d.key), onClick: () => set({ bookDate: d.key, bookTime: '' }) })),
+      timeShown: !!bst.bookDate, chosenDateLabel,
+      timeOptions: timeDefs.map(label => ({ label, style: segStyle(bst.bookTime === label), onClick: () => set({ bookTime: label }) })),
+      vName: bst.bName, vEmail: bst.bEmail, vPhone: bst.bPhone,
+      onName: (e) => set({ bName: e.target.value }),
+      onEmail: (e) => set({ bEmail: e.target.value }),
+      onPhone: (e) => set({ bPhone: e.target.value }),
+      consent: bst.consent,
+      onConsent: (e) => set({ consent: e.target.checked }),
+      submitStyle: ctaBtn(formOk), submitLabel: 'Confirm booking',
+      submit: () => { if (formOk) set({ submitted: true }); },
+      startAgain: () => set({ submitted: false, postcode: '', addresses: [], addressFound: false, selectedAddress: '', propType: '', beds: '', valType: '', timeframe: '', bookDate: '', bookTime: '', bName: '', bEmail: '', bPhone: '', consent: false }),
+      successTitle: 'Booking confirmed', successMsg, summaryChips,
+      barClass: (this.state.scrolled || this.state.menuOpen) ? 'et-fixed' : 'et-top',
+      menuOpen: this.state.menuOpen,
+      menuIcon: this.state.menuOpen ? '✕' : '☰',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen, activeMega: !s.menuOpen ? 'default' : s.activeMega, openSection: null })),
+      closeMenu: () => this.setState({ menuOpen: false, openSection: null }),
+      ctaShow: !this.state.menuOpen,
+      items, mobileItems, mega: megaData[activeMega] || megaData.default,
+      buyOpen: this.state.navBuyOpen,
+      openBuy: () => this.setState({ navBuyOpen: true }),
+      closeBuy: () => this.setState({ navBuyOpen: false }),
+      buyMega: megaData.buy,
+      branch: this.state.branch,
+      branchOpen: this.state.branchOpen,
+      toggleBranch: () => this.setState(s => ({ branchOpen: !s.branchOpen })),
+      branchChevronStyle: { display: 'inline-block', fontSize: '10px', transition: 'transform .2s ease', transform: this.state.branchOpen ? 'rotate(180deg)' : 'rotate(0deg)' },
+      multiBranch: branchList.length > 1,
+      singleBranch: branchList.length <= 1,
+      selectedPhone: selectedBranch.phone,
+      selectedEmail: selectedBranch.email,
+      selectedTel: telFmt(selectedBranch.phone),
+      phonePopup: this.state.phonePopup,
+      togglePhonePopup: () => this.setState(s => ({ phonePopup: !s.phonePopup })),
+      branchPhones: branchList.map(b => ({ name: b.name, phone: b.phone, tel: telFmt(b.phone), onPick: () => this.setState({ phonePopup: false }) })),
+      branches: branchList.map(b => ({
+        name: b.name, active: b.name === this.state.branch,
+        onSelect: () => this.setState({ branch: b.name, branchOpen: false }),
+        style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', width: '100%', textAlign: 'left', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--color-text)', background: b.name === this.state.branch ? 'var(--color-surface-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', padding: '9px 12px', cursor: 'pointer' }
+      })),
+      accreditations: this.accreditations,
+      year: new Date().getFullYear(),
+      featPrev: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-cards3'), -360); },
+      featNext: (e) => { const s = e.currentTarget.closest('section'); this._animScroll(s && s.querySelector('.et-cards3'), 360); },
+      videoReviews: this.videoReviews.map(v => ({ name: v.name, role: v.role, quote: v.quote, duration: v.duration, onPlay: () => { window.location.href = 'Video Testimonials.dc.html'; } })),
+      faqItems: this.faqs.map((f, i) => {
+        const open = this.state.openFaq === i;
+        return {
+          q: f.q, a: f.a, open,
+          dotStyle: { width: '9px', height: '9px', borderRadius: 'var(--radius-full)', border: '1.5px solid var(--color-accent)', background: open ? 'var(--color-accent)' : 'transparent', display: 'block' },
+          onToggle: () => this.setState(st => ({ openFaq: st.openFaq === i ? null : i }))
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
