@@ -28,7 +28,7 @@ for (const ref of refs) {
   else if (/^cta banner-.*\.jpg$/.test(ref)) src = 'cta banner.jpg';
   else if (ref.endsWith('.webp')) src = houses.shift();
   else if (/^Stan_Smith.*\.png$/.test(ref)) src = videos.shift();
-  else if (/^news\d/.test(ref)) { src = newsSub.shift(); note = ' (placeholder — no news image supplied)'; }
+  else if (/^news(\d)/.test(ref)) { const n = ref.match(/^news(\d)/)[1]; const real = `news${n}.jpg`; if (fs.existsSync(path.join(SRC, real))) src = real; else { src = newsSub.shift(); note = ' (placeholder — no news image supplied)'; } }
   if (!src || !fs.existsSync(path.join(SRC, src))) { missing.push(ref + (src ? ` (src "${src}" not found)` : ' (no mapping)')); continue; }
   fs.copyFileSync(path.join(SRC, src), path.join(DEST, ref));
   result.push(`${src}  →  uploads/${ref}${note}`);
