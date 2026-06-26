@@ -552,7 +552,14 @@ Every section in the theme, with a thumbnail, where it appears, and its variants
 | <img src="thumbnails/about/sec-03.png" width="150" /> | `rich-text` | About, Individual Development, Legal; improvise pool | — |
 | <img src="thumbnails/services/sec-05.png" width="150" /> | `three-up-cards` | Services; improvise pool | repeatable rows |
 | <img src="thumbnails/about/sec-07.png" width="150" /> | `logo-carousel` | About (accreditations); improvise pool | logos / awards |
-| — | `tile-text-button` · `two-column` · `quote` · `image-gallery` · `video-gallery` · `guide-downloads` · `form-standard` · `form-with-image` | Improvise pool | generic content sections any page may use |
+| <img src="thumbnails/image-sections/sec-03.png" width="150" /> | `tile-text-button` | Improvise pool | icon/image tile + heading + text + button |
+| <img src="thumbnails/text-sections/sec-04.png" width="150" /> | `two-column` | Improvise pool | two columns of text or image boxes |
+| <img src="thumbnails/text-sections/sec-03.png" width="150" /> | `quote` | Improvise pool | pull-quote / statement quote, optional attribution + photo |
+| <img src="thumbnails/image-sections/sec-04.png" width="150" /> | `image-gallery` | Improvise pool | image grid / masonry / carousel with lightbox |
+| <img src="thumbnails/video-sections/sec-04.png" width="150" /> | `video-gallery` | Improvise pool | grid / wall of videos with play/lightbox (e.g. YouTube wall) |
+| — | `guide-downloads` | Improvise pool | cards of downloadable guides (thumbnail, title, download button); optionally gated by a form |
+| — | `form-standard` | Improvise pool | configurable form section; fields vary by use |
+| — | `form-with-image` | Improvise pool | form one side, supporting image / copy the other |
 
 ---
 
