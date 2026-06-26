@@ -10,8 +10,10 @@ const has = f => fs.existsSync(path.join(SITE, f));
 const resolve = base => [base + '.html', base + '.dc.html'].find(has) || null; // prefer new .html bundles
 
 const groups = [
-  ['Home', ['Home Buttons', 'Home Search', 'Home Form', 'Home with Images']],
+  ['Home', ['Home - Buttons hero', 'Home - Search hero', 'Home - Form hero', 'Home - Image hero']],
+  ['Mobile (full-screen)', ['Mobile - Buttons hero', 'Mobile - Search hero', 'Mobile - Form hero', 'Mobile - Property Listings']],
   ['Global elements', ['Promo Modal', 'Cookie Consent', 'Promo Modal & Cookie Consent']],
+  ['Section demos', ['Image Sections', 'Text Sections', 'Video Sections']],
   ['Properties & search', ['Property Listings', 'Single Property', 'Development Search', 'Individual Development']],
   ['Valuation & lead capture', ['Valuation Overview', 'Instant Valuation', 'Instant Valuation Landing', 'Book a Valuation', 'Book a Valuation with Diary', 'Virtual Valuation', 'Property & Area Report']],
   ['Appraisals', ['Pre-Val Pack', 'Post-Val Proposal']],
@@ -29,12 +31,7 @@ for (const [title, names] of groups) {
   const items = names.map(n => { const f = resolve(n); if (!f) return null; count++; return `<a href="./${f.split('/').map(enc).join('/')}">${n}</a>`; }).filter(Boolean);
   if (items.length) body += `<h2>${title}</h2>\n<div class="grid">${items.join('')}</div>\n`;
 }
-// mobile screens subfolder
-const mdir = path.join(SITE, 'Mobile Screens');
-if (fs.existsSync(mdir)) {
-  const m = fs.readdirSync(mdir).filter(f => f.endsWith('.html')).sort();
-  if (m.length) { count += m.length; body += `<h2>Mobile screens</h2>\n<div class="grid">` + m.map(f => `<a href="./Mobile%20Screens/${enc(f)}">${f.replace(/\.html$/, '')}</a>`).join('') + `</div>\n`; }
-}
+// (legacy "Mobile Screens/" phone-frame demos are no longer listed — superseded by the full-screen Mobile group above)
 
 const css = `
 :root{--bg:#fbfaf7;--surface:#fff;--ink:#1f2530;--muted:#5b6472;--border:#e7e4dd;--accent:#3f7ea6;--primary:#2b3340}

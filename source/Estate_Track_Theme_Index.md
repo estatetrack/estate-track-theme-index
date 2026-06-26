@@ -26,7 +26,7 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 **Home**
 
 ## 1 · Home
-<img src="thumbnails/home-buttons-new/page.png" width="320" alt="Home" />
+<img src="thumbnails/home-buttons-hero/page.png" width="320" alt="Home" />
 
 - **Description:** The homepage and shop window — hero (search / buttons / form variants), featured properties, count-up stats, services, video & written reviews, valuation CTA, newsletter.
 - **Sections:** `hero-home` → `image-text-split` ×2 → `stats-band` → `featured-properties` → `services-grid` → `video-testimonials` → `testimonials-slider` → `cta-banner` → `latest-news` → `newsletter`
@@ -38,7 +38,7 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 
 | A — Search bar | B — Buttons | C — Buttons + form |
 |---|---|---|
-| <img src="thumbnails/home-search-new/page.png" width="220" alt="hero search variant" /> | <img src="thumbnails/home-buttons-new/page.png" width="220" alt="hero buttons variant" /> | <img src="thumbnails/home-form-new/page.png" width="220" alt="hero form variant" /> |
+| <img src="thumbnails/home-search-hero/page.png" width="220" alt="hero search variant" /> | <img src="thumbnails/home-buttons-hero/page.png" width="220" alt="hero buttons variant" /> | <img src="thumbnails/home-form-hero/page.png" width="220" alt="hero form variant" /> |
 
 **Hero background:** image · CSS-controlled moving image · image slider · video — sits behind the content. Optional **overlay**: colour + transparency, or pattern + colour + transparency (see Appendix E).
 **New site-wide elements (shown on these screens):** a floating **modal launcher** ("Spring offer" pill) that opens the **Promo Modal**, plus the **Cookie Consent** banner — documented in Appendix A.
@@ -46,7 +46,7 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 **Properties & search**
 
 ## 2 · Property Listings
-<img src="thumbnails/property-listings/page.png" width="320" alt="Property Listings" />
+<img src="thumbnails/property-listings-new/page.png" width="320" alt="Property Listings" />
 
 - **Description:** The main search-results page — Grid / List / Map with a filter bar (location, price, beds, type, sale/let), save-search and register-for-alerts.
 - **Sections:** `hero-internal` → `property-search` → `cta-banner`
@@ -467,13 +467,13 @@ Dedicated **full-page mobile screens** (≈390px), captured top-to-bottom. **Pag
 
 | Search | Buttons | Form |
 |---|---|---|
-| <img src="thumbnails/mobile-home-search/page.png" width="200" alt="Home search mobile" /> | <img src="thumbnails/mobile-home-buttons/page.png" width="200" alt="Home buttons mobile" /> | <img src="thumbnails/mobile-home-form/page.png" width="200" alt="Home form mobile" /> |
+| <img src="thumbnails/mobile-search-hero/page.png" width="200" alt="Home search mobile" /> | <img src="thumbnails/mobile-buttons-hero/page.png" width="200" alt="Home buttons mobile" /> | <img src="thumbnails/mobile-form-hero/page.png" width="200" alt="Home form mobile" /> |
 
 **Key pages (mobile)**
 
 | Property Listings | Single Property | Instant Valuation |
 |---|---|---|
-| <img src="thumbnails/mobile-property-listings/page.png" width="200" alt="Property Listings mobile" /> | <img src="thumbnails/mobile-single-property/page.png" width="200" alt="Single Property mobile" /> | <img src="thumbnails/mobile-instant-valuation/page.png" width="200" alt="Instant Valuation mobile" /> |
+| <img src="thumbnails/mobile-property-listings-new/page.png" width="200" alt="Property Listings mobile" /> | <img src="thumbnails/mobile-single-property/page.png" width="200" alt="Single Property mobile" /> | <img src="thumbnails/mobile-instant-valuation/page.png" width="200" alt="Instant Valuation mobile" /> |
 
 | Market Data | Pre-Val Pack | Post-Val Proposal |
 |---|---|---|
@@ -485,13 +485,15 @@ Dedicated **full-page mobile screens** (≈390px), captured top-to-bottom. **Pag
 
 Every section in the theme, with a thumbnail, where it appears, and its variants/options. Global chrome (`topbar`, `header`, `footer`, `modal`) is on every page. `cta-banner` variants are catalogued in **Appendix C**.
 
+> **Section-demo pages** (on the live site) show the content blocks in context: **Image Sections** (image-led + image-text splits + galleries), **Text Sections** (rich-text, quote, stats, two-column), **Video Sections** (featured video, video wall, video-text split). Heroes now support four **background** types — image · CSS-moving image · image slider · video — each with an optional **overlay** (colour + transparency, or pattern + colour + transparency).
+
 | Thumbnail | Section | Appears on | Variants / options |
 |---|---|---|---|
 | <img src="thumbnails/home/sec-02.png" width="150" /> | `topbar` + `header` | All pages | topbar left: branch selector / contact details · header: transparent-until-scroll (default) / solid-sticky |
 | <img src="thumbnails/home/sec-13.png" width="150" /> | `footer` | All pages | optional inline newsletter |
 | <img src="thumbnails/promo-modal/page.png" width="150" /> | `modal` (Promo Modal) | All pages (site-wide) | promo / lead-capture: heading, body, email + button, image, dismiss. **Triggers:** floating launcher button · timed (after N seconds) · exit-intent · on nav-away. Per-site config |
 | <img src="thumbnails/cookie-consent/page.png" width="150" /> | `cookie-consent` | All pages (site-wide) | bottom banner: Accept cookies / Find out more / Close site; shows until accepted |
-| <img src="thumbnails/home-search-new/page.png" width="88" alt="A search" /> <img src="thumbnails/home-buttons-new/page.png" width="88" alt="B buttons" /> <img src="thumbnails/home-form-new/page.png" width="88" alt="C form" /> | `hero-home` | Home | **A** search bar / **B** up to 4 buttons / **C** 2 buttons + form. **Background:** image / CSS-moving image / image slider / video (behind content); optional **overlay** (colour + transparency, or pattern + colour + transparency); optional rating badge |
+| <img src="thumbnails/home-search-hero/page.png" width="88" alt="A search" /> <img src="thumbnails/home-buttons-hero/page.png" width="88" alt="B buttons" /> <img src="thumbnails/home-form-hero/page.png" width="88" alt="C form" /> | `hero-home` | Home | **A** search bar / **B** up to 4 buttons / **C** 2 buttons + form. **Background:** image / CSS-moving image / image slider / video (behind content); optional **overlay** (colour + transparency, or pattern + colour + transparency); optional rating badge |
 | <img src="thumbnails/about/sec-01.png" width="150" /> | `hero-internal` | Most internal pages | breadcrumb, optional CTA; **background:** image / moving image / slider / video; optional **overlay** (colour + transparency, or pattern + colour + transparency); agent-name / branch-name variants |
 | <img src="thumbnails/home/sec-06.png" width="150" /> | `featured-properties` | Home; Individual Area Guide (in-area) | slider / grid |
 | <img src="thumbnails/home/sec-05.png" width="150" /> | `stats-band` | Home, About, Valuation Overview; improvise pool | count-up climbers; stat count/labels configurable |
@@ -501,8 +503,8 @@ Every section in the theme, with a thumbnail, where it appears, and its variants
 | <img src="thumbnails/home/sec-10.png" width="150" /> | `cta-banner` | Home, Listings, Testimonials, Agent/Branch, Development, About, Services, Pricing, FAQs, hubs; improvise pool | see **Appendix C** |
 | <img src="thumbnails/home/sec-12.png" width="150" /> | `newsletter` | Home, News; footer option; improvise pool | — |
 | <img src="thumbnails/home/sec-03.png" width="150" /> | `image-text-split` | Home, About, Services; improvise pool | image left / right; text-first on mobile |
-| <img src="thumbnails/single-property/sec-04.png" width="150" /> | `property-card` | Everywhere properties show | grid card / wide list row / off-market (blurred + register) / video badge |
-| <img src="thumbnails/property-listings/sec-03.png" width="150" /> | `property-search` | Property/Agent/Branch Listings | Grid / List / Map; filter set varies; sale/let toggle (dropped on Development Search); save-search; AI search |
+| <img src="thumbnails/single-property/sec-04.png" width="150" /> | `property-card` | Everywhere properties show | grid card / wide list row / map popup / off-market (blurred + register). **Now carries a photo slider** (multi-image, "1/5"); video badge; save heart; status pill |
+| <img src="thumbnails/property-listings-new/page.png" width="150" /> | `property-search` | Property/Agent/Branch Listings | Grid / List / Map; photo-slider cards; filter set varies; sale/let toggle (dropped on Development Search); save-search; AI search |
 | <img src="thumbnails/single-property/sec-03.png" width="150" /> | `property-media` | Single Property | tabs: Video / Floorplan / Virtual Tour / Brochure / EPC (only those the listing has) |
 | <img src="thumbnails/single-property/sec-04.png" width="150" /> | `property-header` + `property-description` | Single Property | save & share; availability tag; expand/collapse description + key features |
 | <img src="thumbnails/single-property/sec-05.png" width="150" /> | `property-material-info` | Single Property | expand/collapse; fields show when present |
