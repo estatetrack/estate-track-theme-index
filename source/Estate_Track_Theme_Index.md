@@ -15,7 +15,7 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 
 **Each page card shows:** a **thumbnail**, a **description**, its **sections** (in order), its **content type**, the **data feeds** it needs, and its **CTA**. Interactive pages (forms, the report) also show a **walkthrough** — every screen the user passes through (form steps, results, thank-yous).
 
-**Content type** *(provisional — finalise in Appendix D)*: **Automated** · **Manual** · **Hybrid** · **Dashboard-driven**. Sections → **Appendix A** · Data feeds → **Appendix B** · CTAs → **Appendix C** · Style tokens → **Appendix E**.
+**Content type** *(provisional — finalise in Appendix D)*: **Automated** · **Manual** · **Hybrid** · **Dashboard-driven**. Sections → **Appendix A** · Data feeds → **Appendix B** · CTAs → **Appendix C** · Style tokens → **Appendix E** · Cards → **Appendix F**.
 
 > Source pages: `Home/site_handoff/*.dc.html`. Thumbnails: `thumbnails/<slug>/`. This is the single source doc.
 
@@ -682,3 +682,39 @@ Striped boxes via `.et-ph` (light) / `.et-ph-dark` (dark) mark where a real phot
 
 ### Re-skinning (build once, skin many)
 1. Duplicate the project. 2. Override **only** the `:root` token values with the client's palette/fonts/radius. 3. Swap logo + imagery. Layout and sections are untouched — the Estate Track v3 token-layer / theme-recipe model.
+
+---
+
+# Appendix F — Cards (actual size)
+
+The reusable card components, captured at 1:1 from the live pages. The **property card now carries a photo slider** (multi-image, "1/5") — captured from the new Property Listings page.
+
+### Property card — grid  *(377 × 425)*
+<img src="thumbnails/cards/property-card-grid.png" width="377" alt="property card grid" />
+
+Used by `featured-properties` sliders and the `property-search` grid: photo slider, status pill, Video badge, save heart, price, beds/baths/receptions.
+
+### Property card — list row  *(1148 wide)*
+<img src="thumbnails/cards/property-card-list.png" width="720" alt="property list card" />
+
+The wide row variant used by `property-search` **List** view.
+
+### Property card — map popup  *(504 wide)*
+<img src="thumbnails/cards/property-card-map.png" width="380" alt="property map card" />
+
+The card shown in `property-search` **Map** view (pin popup / map-side list).
+
+### Testimonial card  *(375 × 309)*
+<img src="thumbnails/cards/testimonial-card.png" width="340" alt="testimonial card" />
+
+Star rating, quote, author + date, review-network logo (Google / Trustpilot).
+
+### Video review card  *(375 × 622)*
+<img src="thumbnails/cards/video-review-card.png" width="320" alt="video review card" />
+
+Video poster + play, duration, client name/role, quote, "watch story" link.
+
+### News post card  *(375 × 493)*
+<img src="thumbnails/cards/news-card.png" width="320" alt="news post card" />
+
+Category pill, article image, date + reading time, title, excerpt, author.
