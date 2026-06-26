@@ -55,7 +55,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "See new homes before they hit the portals"
 
 ## 3 · Single Property
-<img src="thumbnails/single-property/page.png" width="320" alt="Single Property" />
+<img src="thumbnails/single-property-new/page.png" width="320" alt="Single Property" />
 
 - **Description:** A full listing — media tabs, key facts, description, material info, local area (schools/transport/map), stamp-duty & mortgage calculators, viewing booking, agent & branch, similar properties.
 - **Sections:** `property-media` → `property-header` → `property-description` → `property-material-info` → `property-local-area` → `property-tools` → `property-viewing` → `property-agent` → `property-branch` → `similar-properties` → `sell-prompt`
@@ -64,7 +64,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "Find out what your home is worth" *(sell-prompt)*
 
 ## 18 · Development Search
-<img src="thumbnails/development-search/page.png" width="320" alt="Development Search" />
+<img src="thumbnails/development-search-new/page.png" width="320" alt="Development Search" />
 
 - **Description:** New-homes search — like property search but sales-only, with development cards (price "from", plots available).
 - **Sections:** `hero-internal` → `development-search` → `cta-banner`
@@ -73,7 +73,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "See new homes before they hit the portals"
 
 ## 19 · Individual Development
-<img src="thumbnails/individual-development/page.png" width="320" alt="Individual Development" />
+<img src="thumbnails/individual-development-new/page.png" width="320" alt="Individual Development" />
 
 - **Description:** One development — media, price range, description, about-the-developer, plots (as property cards), enquiry form, agent & branch.
 - **Sections:** `development-media` → `development-header` → `rich-text` → `development-developer` → `development-plots` → `property-viewing` → `property-agent` → `property-branch` → `similar-developments` → `sell-prompt`
@@ -228,7 +228,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "Book an appointment" *(with this member)*
 
 ## 15 · Agent Listings
-<img src="thumbnails/agent-listings/page.png" width="320" alt="Agent Listings" />
+<img src="thumbnails/agent-listings-new/page.png" width="320" alt="Agent Listings" />
 
 - **Description:** One agent's stock — agent-branded hero + property search filtered to that agent.
 - **Sections:** `hero-internal` (agent name + photo) → `property-search` → `cta-banner`
@@ -237,7 +237,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "See new homes before they hit the portals"
 
 ## 16 · Branch Listings
-<img src="thumbnails/branch-listings/page.png" width="320" alt="Branch Listings" />
+<img src="thumbnails/branch-listings-new/page.png" width="320" alt="Branch Listings" />
 
 - **Description:** One branch's stock — branch-named hero + property search filtered to that branch.
 - **Sections:** `hero-internal` (branch name) → `property-search` → `cta-banner`
@@ -290,7 +290,7 @@ An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "H
 - **CTA:** "Find out what your home is worth"
 
 ## 23 · Individual Area Guide
-<img src="thumbnails/individual-area-guide/page.png" width="320" alt="Individual Area Guide" />
+<img src="thumbnails/individual-area-guide-new/page.png" width="320" alt="Individual Area Guide" />
 
 - **Description:** AI-written guide to living in one area (overview, transport, schools, places of interest, demographics, property market) with a conversion sidebar, in-area homes slider and FAQs.
 - **Sections:** `hero-internal` → `area-guide` → `featured-properties` (in-area) → `faq-accordion`
