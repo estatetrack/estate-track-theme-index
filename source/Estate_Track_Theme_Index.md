@@ -1,4 +1,4 @@
-# Estate Track — "Home" Theme · Index & Blueprint
+# Home - Harvell & Co · Theme Index & Blueprint
 
 > ## ⚠️ Using this to generate a NEW theme — read first
 > This is a **structure spec**: which pages exist, which sections each page has, and each section's functions, content variants, data feeds and CTAs. It is **not** a visual design to copy.
@@ -11,7 +11,7 @@
 > Build a NEW theme. The attached markdown is a STRUCTURE SPEC only — it defines which pages exist, which sections each page has, and each section's functions, content variants, data feeds and CTAs. Do NOT reproduce its visual design, layout, colours, fonts or example content — that's a previous client's skin; discard it. Treat each section description as its purpose and function, not a layout to copy. For all visual style AND section layout, use [REFERENCE-URL] as the only reference — capture it yourself with your web-capture/screenshot tools; don't ask me for screenshots. Build a fresh token layer from that site (don't reuse Appendix E's values). Work global chrome + tokens first, then page by page.
 > ```
 
-An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs: (1) a reference for adding the theme + its sections to the page builder, and (2) a blueprint to hand Claude — *"recreate every page and section in this style at a new URL"*.
+An **open, living catalogue** of **Home - Harvell & Co** — the Estate Track "Home" theme, skinned for Harvell & Co. Two jobs: (1) a reference for adding the theme + its sections to the page builder, and (2) a blueprint to hand Claude — *"recreate every page and section in this style at a new URL"*.
 
 **Each page card shows:** a **thumbnail**, a **description**, its **sections** (in order), its **content type**, the **data feeds** it needs, and its **CTA**. Interactive pages (forms, the report) also show a **walkthrough** — every screen the user passes through (form steps, results, thank-yous).
 
@@ -644,9 +644,11 @@ Set **Type** (Automated / Manual / Hybrid / Dashboard-driven), confirm the **dat
 
 # Appendix E — Style token guide
 
-The **single source of truth** is `Style Foundation.dc.html` — its `:root` block repeats near-identically in every page. **Re-skin a client by overriding only these token values; sections never hard-code colours or fonts** (they read `var(--…)`). Colours are in **OKLCH**.
+> **This is the reference token layer.** When restyling a new theme, **replace every value below** with tokens derived from your reference site — sections never hard-code colours or fonts (they read `var(--…)`), so re-skinning is just changing these values. **Every theme's style guide uses this same `Style Foundation` format.**
 
-<img src="thumbnails/style-foundation/page.png" width="320" alt="Style Foundation reference" />
+The canonical style guide is **`Style Foundation.html`** — its `:root` block repeats in every page. Colours are in **OKLCH**.
+
+<img src="thumbnails/style-foundation-new/page.png" width="320" alt="Style Foundation reference" />
 
 ### Colour
 | Token | Value | Role |
@@ -677,8 +679,13 @@ The **single source of truth** is `Style Foundation.dc.html` — its `:root` blo
 - **Shadow:** `--shadow-sm` (subtle card) · `--shadow-md` (hover/raised) · `--shadow-lg` (overlays/modals).
 - **Layout:** `--container: 1200px`. Breakpoints across pages: **980px** (nav → hamburger, 3→2 col), **860px** (splits stack), **680px** (→ single column), plus **560/640px** for card tweaks.
 
-### Placeholder imagery
-Striped boxes via `.et-ph` (light) / `.et-ph-dark` (dark) mark where a real photo/asset belongs. Review badges in `assets/`: `google-g.svg`, `trustpilot-star.svg`, `instagram-white.svg`.
+### Image fills & overlay patterns
+The diagonal-hatch fill stands in for **every image and video** across the site (either fill can hold a real image/video). Pick by background, not content:
+- **`.et-ph`** (light) — `var(--color-surface-alt)` + `repeating-linear-gradient(45deg, oklch(0.93 0.006 95) 0 9px, transparent 9px 18px)`
+- **`.et-ph-dark`** (dark / hero) — `var(--color-primary)` + `repeating-linear-gradient(45deg, oklch(0.36 0.02 255) 0 9px, transparent 9px 18px)`
+- **Dot grid** (map / texture) — `var(--color-surface-alt)` + `radial-gradient(var(--color-border) 2px, transparent 2px)`, `background-size: 18px 18px`
+
+These double as the **overlay patterns** (applied over hero/image backgrounds with a colour + transparency). An optional monospace `[ … ]` label notes what belongs there. Review badges in `assets/`: `google-g.svg`, `trustpilot-star.svg`, `instagram-white.svg`.
 
 ### Re-skinning (build once, skin many)
 1. Duplicate the project. 2. Override **only** the `:root` token values with the client's palette/fonts/radius. 3. Swap logo + imagery. Layout and sections are untouched — the Estate Track v3 token-layer / theme-recipe model.
