@@ -487,6 +487,10 @@ Every section in the theme, with a thumbnail, where it appears, and its variants
 
 > **Section-demo pages** (on the live site) show the content blocks in context: **Image Sections** (image-led + image-text splits + galleries), **Text Sections** (rich-text, quote, stats, two-column), **Video Sections** (featured video, video wall, video-text split). Heroes now support four **background** types — image · CSS-moving image · image slider · video — each with an optional **overlay** (colour + transparency, or pattern + colour + transparency).
 
+| Image Sections | Text Sections | Video Sections |
+|---|---|---|
+| <img src="thumbnails/image-sections/page.png" width="240" alt="Image Sections" /> | <img src="thumbnails/text-sections/page.png" width="240" alt="Text Sections" /> | <img src="thumbnails/video-sections/page.png" width="240" alt="Video Sections" /> |
+
 | Thumbnail | Section | Appears on | Variants / options |
 |---|---|---|---|
 | <img src="thumbnails/home/sec-02.png" width="150" /> | `topbar` + `header` | All pages | topbar left: branch selector / contact details · header: transparent-until-scroll (default) / solid-sticky |
