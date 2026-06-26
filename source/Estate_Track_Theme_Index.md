@@ -1,5 +1,16 @@
 # Estate Track — "Home" Theme · Index & Blueprint
 
+> ## ⚠️ Using this to generate a NEW theme — read first
+> This is a **structure spec**: which pages exist, which sections each page has, and each section's functions, content variants, data feeds and CTAs. It is **not** a visual design to copy.
+> - **Do NOT reproduce** the Estate Track look, layout, colours, fonts or example content — that's one client's skin.
+> - Take all **visual style _and_ section layout from your reference site**, and capture it yourself (don't ask for screenshots).
+> - Build a **fresh token layer** from the reference site — replace every value in **Appendix E**.
+>
+> **Paste-ready prompt** (swap in your URL):
+> ```
+> Build a NEW theme. The attached markdown is a STRUCTURE SPEC only — it defines which pages exist, which sections each page has, and each section's functions, content variants, data feeds and CTAs. Do NOT reproduce its visual design, layout, colours, fonts or example content — that's a previous client's skin; discard it. Treat each section description as its purpose and function, not a layout to copy. For all visual style AND section layout, use [REFERENCE-URL] as the only reference — capture it yourself with your web-capture/screenshot tools; don't ask me for screenshots. Build a fresh token layer from that site (don't reuse Appendix E's values). Work global chrome + tokens first, then page by page.
+> ```
+
 An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs: (1) a reference for adding the theme + its sections to the page builder, and (2) a blueprint to hand Claude — *"recreate every page and section in this style at a new URL"*.
 
 **Each page card shows:** a **thumbnail**, a **description**, its **sections** (in order), its **content type**, the **data feeds** it needs, and its **CTA**. Interactive pages (forms, the report) also show a **walkthrough** — every screen the user passes through (form steps, results, thank-yous).
@@ -15,7 +26,7 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 **Home**
 
 ## 1 · Home
-<img src="thumbnails/home/page.png" width="320" alt="Home" />
+<img src="thumbnails/home-buttons-new/page.png" width="320" alt="Home" />
 
 - **Description:** The homepage and shop window — hero (search / buttons / form variants), featured properties, count-up stats, services, video & written reviews, valuation CTA, newsletter.
 - **Sections:** `hero-home` → `image-text-split` ×2 → `stats-band` → `featured-properties` → `services-grid` → `video-testimonials` → `testimonials-slider` → `cta-banner` → `latest-news` → `newsletter`
@@ -27,7 +38,10 @@ An **open, living catalogue** of the Estate Track "Home" website theme. Two jobs
 
 | A — Search bar | B — Buttons | C — Buttons + form |
 |---|---|---|
-| <img src="thumbnails/home-hero-search/page.png" width="220" alt="hero search variant" /> | <img src="thumbnails/home/page.png" width="220" alt="hero buttons variant" /> | <img src="thumbnails/home-hero-form/page.png" width="220" alt="hero form variant" /> |
+| <img src="thumbnails/home-search-new/page.png" width="220" alt="hero search variant" /> | <img src="thumbnails/home-buttons-new/page.png" width="220" alt="hero buttons variant" /> | <img src="thumbnails/home-form-new/page.png" width="220" alt="hero form variant" /> |
+
+**Hero background:** image · CSS-controlled moving image · image slider · video — sits behind the content. Optional **overlay**: colour + transparency, or pattern + colour + transparency (see Appendix E).
+**New site-wide elements (shown on these screens):** a floating **modal launcher** ("Spring offer" pill) that opens the **Promo Modal**, plus the **Cookie Consent** banner — documented in Appendix A.
 
 **Properties & search**
 
@@ -475,9 +489,10 @@ Every section in the theme, with a thumbnail, where it appears, and its variants
 |---|---|---|---|
 | <img src="thumbnails/home/sec-02.png" width="150" /> | `topbar` + `header` | All pages | topbar left: branch selector / contact details · header: transparent-until-scroll (default) / solid-sticky |
 | <img src="thumbnails/home/sec-13.png" width="150" /> | `footer` | All pages | optional inline newsletter |
-| — | `modal` | All pages (site-wide) | per-site config; with/without form |
-| <img src="thumbnails/home-hero-search/page.png" width="88" alt="A search" /> <img src="thumbnails/home/page.png" width="88" alt="B buttons" /> <img src="thumbnails/home-hero-form/page.png" width="88" alt="C form" /> | `hero-home` | Home | **A** search bar / **B** up to 4 buttons / **C** 2 buttons + form (shown left→right); background image / colour / video; optional rating badge |
-| <img src="thumbnails/about/sec-01.png" width="150" /> | `hero-internal` | Most internal pages | optional bg image, breadcrumb, CTA; agent-name / branch-name variants |
+| <img src="thumbnails/promo-modal/page.png" width="150" /> | `modal` (Promo Modal) | All pages (site-wide) | promo / lead-capture: heading, body, email + button, image, dismiss. **Triggers:** floating launcher button · timed (after N seconds) · exit-intent · on nav-away. Per-site config |
+| <img src="thumbnails/cookie-consent/page.png" width="150" /> | `cookie-consent` | All pages (site-wide) | bottom banner: Accept cookies / Find out more / Close site; shows until accepted |
+| <img src="thumbnails/home-search-new/page.png" width="88" alt="A search" /> <img src="thumbnails/home-buttons-new/page.png" width="88" alt="B buttons" /> <img src="thumbnails/home-form-new/page.png" width="88" alt="C form" /> | `hero-home` | Home | **A** search bar / **B** up to 4 buttons / **C** 2 buttons + form. **Background:** image / CSS-moving image / image slider / video (behind content); optional **overlay** (colour + transparency, or pattern + colour + transparency); optional rating badge |
+| <img src="thumbnails/about/sec-01.png" width="150" /> | `hero-internal` | Most internal pages | breadcrumb, optional CTA; **background:** image / moving image / slider / video; optional **overlay** (colour + transparency, or pattern + colour + transparency); agent-name / branch-name variants |
 | <img src="thumbnails/home/sec-06.png" width="150" /> | `featured-properties` | Home; Individual Area Guide (in-area) | slider / grid |
 | <img src="thumbnails/home/sec-05.png" width="150" /> | `stats-band` | Home, About, Valuation Overview; improvise pool | count-up climbers; stat count/labels configurable |
 | <img src="thumbnails/home/sec-07.png" width="150" /> | `services-grid` | Home, Services | card count configurable; each card → an Individual Service page |

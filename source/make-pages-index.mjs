@@ -7,10 +7,11 @@ const SITE = process.argv[2];
 if (!SITE) { console.error('pass the site dir'); process.exit(1); }
 const enc = s => encodeURIComponent(s);
 const has = f => fs.existsSync(path.join(SITE, f));
-const resolve = base => [base + '.dc.html', base + '.html'].find(has) || null;
+const resolve = base => [base + '.html', base + '.dc.html'].find(has) || null; // prefer new .html bundles
 
 const groups = [
-  ['Home', ['Home', 'Home Hero Search', 'Home Hero Form', 'Home with Images']],
+  ['Home', ['Home Buttons', 'Home Search', 'Home Form', 'Home with Images']],
+  ['Global elements', ['Promo Modal', 'Cookie Consent', 'Promo Modal & Cookie Consent']],
   ['Properties & search', ['Property Listings', 'Single Property', 'Development Search', 'Individual Development']],
   ['Valuation & lead capture', ['Valuation Overview', 'Instant Valuation', 'Instant Valuation Landing', 'Book a Valuation', 'Book a Valuation with Diary', 'Virtual Valuation', 'Property & Area Report']],
   ['Appraisals', ['Pre-Val Pack', 'Post-Val Proposal']],
