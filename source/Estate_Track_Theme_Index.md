@@ -485,11 +485,7 @@ Dedicated **full-page mobile screens** (≈390px), captured top-to-bottom. **Pag
 
 Every section in the theme, with a thumbnail, where it appears, and its variants/options. Global chrome (`topbar`, `header`, `footer`, `modal`) is on every page. `cta-banner` variants are catalogued in **Appendix C**.
 
-> **Section-demo pages** (on the live site) show the content blocks in context: **Image Sections** (image-led + image-text splits + galleries), **Text Sections** (rich-text, quote, stats, two-column), **Video Sections** (featured video, video wall, video-text split). Heroes now support four **background** types — image · CSS-moving image · image slider · video — each with an optional **overlay** (colour + transparency, or pattern + colour + transparency).
-
-| Image Sections | Text Sections | Video Sections |
-|---|---|---|
-| <img src="thumbnails/image-sections/page.png" width="240" alt="Image Sections" /> | <img src="thumbnails/text-sections/page.png" width="240" alt="Text Sections" /> | <img src="thumbnails/video-sections/page.png" width="240" alt="Video Sections" /> |
+> Heroes support four **background** types — image · CSS-moving image · image slider · video — each with an optional **overlay** (colour + transparency, or pattern + colour + transparency). The generic content blocks (rows tagged *image / text / video* below) are demoed live on the **Image / Text / Video Sections** pages.
 
 | Thumbnail | Section | Appears on | Variants / options |
 |---|---|---|---|
@@ -549,15 +545,19 @@ Every section in the theme, with a thumbnail, where it appears, and its variants
 | <img src="thumbnails/general-enquiries/sec-03.png" width="150" /> | `enquiry-form` | General Enquiries | branch selector + enquiry-type dropdown; branch-linked aside; → sent |
 | <img src="thumbnails/sitemap/sec-03.png" width="150" /> | `sitemap-index` | Sitemap (HTML) | jump-to chips; grouped link lists incl. URL-friendly searches |
 | <img src="thumbnails/individual-service/sec-03.png" width="150" /> | `service-detail` | Individual Service | data-driven by service slug; intro split, marketing split, how-it-works, get-started CTAs |
-| <img src="thumbnails/about/sec-03.png" width="150" /> | `rich-text` | About, Individual Development, Legal; improvise pool | — |
-| <img src="thumbnails/services/sec-05.png" width="150" /> | `three-up-cards` | Services; improvise pool | repeatable rows |
-| <img src="thumbnails/about/sec-07.png" width="150" /> | `logo-carousel` | About (accreditations); improvise pool | logos / awards |
-| <img src="thumbnails/image-sections/sec-03.png" width="150" /> | `tile-text-button` | Improvise pool | icon/image tile + heading + text + button |
-| <img src="thumbnails/text-sections/sec-04.png" width="150" /> | `two-column` | Improvise pool | two columns of text or image boxes |
-| <img src="thumbnails/text-sections/sec-03.png" width="150" /> | `quote` | Improvise pool | pull-quote / statement quote, optional attribution + photo |
-| <img src="thumbnails/image-sections/sec-04.png" width="150" /> | `image-gallery` | Improvise pool | image grid / masonry / carousel with lightbox |
-| <img src="thumbnails/video-sections/sec-04.png" width="150" /> | `video-gallery` | Improvise pool | grid / wall of videos with play/lightbox (e.g. YouTube wall) |
-| — | `guide-downloads` | Improvise pool | cards of downloadable guides (thumbnail, title, download button); optionally gated by a form |
+| <img src="thumbnails/image-sections/sec-03.png" width="150" /> | `tile-text-button` *(image)* | Image Sections demo; improvise pool | featured image tile + heading + text + button |
+| <img src="thumbnails/image-sections/sec-04.png" width="150" /> | `image-gallery` *(image)* | Image Sections demo; improvise pool | gallery carousel / grid with lightbox |
+| <img src="thumbnails/image-sections/sec-05.png" width="150" /> | `logo-carousel` *(image)* | Image Sections demo; About (accreditations) | partner / accreditation logos row |
+| <img src="thumbnails/image-sections/sec-06.png" width="150" /> | `image-grid` *(image)* | Image Sections demo; improvise pool | masonry image grid (tall & wide tiles) |
+| <img src="thumbnails/image-sections/sec-07.png" width="150" /> | `social-feed` *(image)* | Image Sections demo; improvise pool | Instagram / social post + reel feed |
+| <img src="thumbnails/text-sections/sec-03.png" width="150" /> | `quote` *(text)* | Text Sections demo; improvise pool | pull-quote / client story, optional attribution |
+| <img src="thumbnails/text-sections/sec-04.png" width="150" /> | `rich-text` *(text)* | Text Sections demo; About, Legal, Individual Development | long-form heading + body |
+| <img src="thumbnails/text-sections/sec-05.png" width="150" /> | `three-up-cards` *(text)* | Text Sections demo; Services | repeatable rows of 3 cards |
+| <img src="thumbnails/text-sections/sec-06.png" width="150" /> | `two-column` *(text)* | Text Sections demo; improvise pool | two columns of text / image boxes |
+| <img src="thumbnails/video-sections/sec-03.png" width="150" /> | `video-feature` *(video)* | Video Sections demo; improvise pool | featured video (poster + play + duration) |
+| <img src="thumbnails/video-sections/sec-04.png" width="150" /> | `video-gallery` *(video)* | Video Sections demo; improvise pool | video wall / channel grid |
+| <img src="thumbnails/video-sections/sec-05.png" width="150" /> | `video-text-split` *(video)* | Video Sections demo; improvise pool | video one side, heading + body the other |
+| — | `guide-downloads` | Improvise pool | downloadable guide cards (thumbnail, title, download); optionally gated by a form |
 | — | `form-standard` | Improvise pool | configurable form section; fields vary by use |
 | — | `form-with-image` | Improvise pool | form one side, supporting image / copy the other |
 
