@@ -2,7 +2,7 @@
 
 > ## ⚠️ Using this to generate a NEW theme — read first
 > This is a **structure spec**: which pages exist, which sections each page has, and each section's functions, content variants, data feeds and CTAs. It is **not** a visual design to copy.
-> - **Do NOT reproduce** the Estate Track look, layout, colours, fonts or example content — that's one client's skin.
+> - **Do NOT reproduce** this theme's look — the **Home - Harvell & Co** skin shown here (its colours, fonts, imagery and layout treatments) — or its example copy. That's one client's skin; the look comes from your reference site instead. Keep the *structure* (pages + sections + functions + data), not the styling.
 > - Take all **visual style _and_ section layout from your reference site**, and capture it yourself (don't ask for screenshots).
 > - Build a **fresh token layer** from the reference site — replace every value in **Appendix E**.
 >
